@@ -50,9 +50,9 @@ export default {
     height: 40px;
     left: 0px;
     top: 0px;
-    z-index: 1;
+    z-index: 100;
 
-    background-color: grey;
+    background-color: white;
     /* filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)); */
 }
 .container {
@@ -60,7 +60,7 @@ export default {
     width: auto;
     height: 100%;
     margin: 0 auto;
-    z-index: 1;
+    z-index: 100;
 
     background-color: white;
     
@@ -74,10 +74,10 @@ li {
     padding: 0;
 }
 hr {
+    min-width: 1200px;
     bottom: 0;
-    color: grey;
+    background-color: grey;
     margin: 0;
-    width: 100%;
 }
 .nav_item {
     list-style: none;

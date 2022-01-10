@@ -1,34 +1,55 @@
 <template>
   <div id="app">
     <Header/>
+    
     <router-view></router-view>
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    
+    <Footer class="footer"/>
+
+    <!-- <img alt="Vue logo" src="./assets/logo.png">
+    <HelloWorld msg="Welcome to Your Vue.js App"/> -->
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+// import HelloWorld from './components/HelloWorld.vue'
 import Header from './components/layout/Header.vue'
+import Footer from './components/layout/Footer.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld,
-    Header
+    // HelloWorld,
+    Header,
+    Footer
   }
 }
 </script>
 
 <style>
-@import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
+@import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
 #app {
   font-family: 'Nanum Gothic', sans-serif;
  -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 40px;
+  width: 100%;
+  min-height: 100%;
+
 }
+.footer {
+  position: relative;
+  margin-top: 20px;
+  bottom: -50%;
+  z-index: 10;
+}
+
 </style>

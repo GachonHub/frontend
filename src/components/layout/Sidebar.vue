@@ -10,7 +10,7 @@
         <div class="sidebar">
             <div class="container">
                 <ul>
-                    <li class="title">랭킹 👑</li>
+                    <li class="title"><router-link to="/">랭킹 👑</router-link></li>
                 </ul>
                 <ul>
                     <hr>
@@ -83,7 +83,7 @@ input[id="menuicon"]:checked + label span:nth-child(3) {
 /* 사이드 메뉴 */
 div[class="sidebar"] {
     width: 100%;
-    height: 210px;
+    height: 200px;
     background: white;
     position: absolute;
     top: -210px; left: 0;
