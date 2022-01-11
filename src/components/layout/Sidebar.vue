@@ -112,7 +112,10 @@ li {
     
 }
 hr {
+    border: 0;
+    width: 0.1px;
     height: 90%;
+    background-color: white;
 }
 .title {
     font-weight: bold;
