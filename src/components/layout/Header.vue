@@ -19,7 +19,9 @@
                     
                 <!-- 프로필 아이콘 -->
                 <li class="nav_item profile_icon_area">
-                    <b-icon-person-circle class="nav profile"></b-icon-person-circle>
+                    <router-link to="/profile">
+                        <b-icon-person-circle class="nav profile"></b-icon-person-circle>
+                    </router-link>
                 </li>
 
                 <!-- 채팅 아이콘 -->
@@ -63,7 +65,6 @@ export default {
     z-index: 100;
 
     background-color: white;
-    
 }
 
 ul{

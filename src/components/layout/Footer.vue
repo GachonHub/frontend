@@ -26,7 +26,7 @@
     justify-content: center;
 }
 hr {
-    width: 100vw;
+    width: 100%;
     height: 0.1px;
     top: 0;
     margin: 0;

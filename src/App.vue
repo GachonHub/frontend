@@ -38,7 +38,7 @@ body {
   font-family: 'Nanum Gothic', sans-serif;
  -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  
   color: #2c3e50;
   margin-top: 40px;
   width: 100%;
@@ -47,7 +47,6 @@ body {
 }
 .footer {
   position: relative;
-  margin-top: 20px;
   bottom: -50%;
   z-index: 10;
 }
