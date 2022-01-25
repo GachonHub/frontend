@@ -1,6 +1,6 @@
 <template>
     <div class="ranking">
-        <div class="wrap">
+        <div class="container">
             <div class="title">랭킹 👑</div>
             <div class="tab_content">
                 <input type="radio" name="tabmenu" id="tab01" checked>
@@ -251,7 +251,7 @@ export default {
 </script>
 
 <style scoped>
-.wrap {
+.container {
     width: 1200px;
     margin: 0 auto;
     margin-bottom: 20px;
@@ -328,7 +328,7 @@ input[id="tab02"]:checked ~ .con2 {display: block;}
     height: 290px;
     /* float: left; */
     background-image: 
-    url(https://s3-alpha-sig.figma.com/img/6e7a/08ab/afae69a3c50dad2ff0c57dc22c41d44d?Expires=1642377600&Signature=OQNvsNjeBbZMuv8bBNYcsQ7WbYA4PU~nJkklG5qUyUQzgOOEf2Z4fYi64-c~Ck~-Qcy03EWVvlxkeKaUGCs6enu1oUGigYD-aahMUoIdzGdj7uwotglXVIad9BNiaC3xyzBO6VmOv6hnZt6eYVowkOPTOXos2y-gClpR0EoybbwhvhqUyg~Ekwdnoim3oevon7s~nx84xLF7DThcA41K04CVtoWBzeaq8MeyTQ-VRVgzYhZAQc0geoA-u6F6bkBxILz-I1OjONQ5RkbeNDk79er6TQYYYehOdlUxMEnXq4ogT50aIUJIWxEk-gNF8XUpyUncehCRJuOsIQRJrdoIWw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA);
+    url(https://images.unsplash.com/photo-1551651057-f3f83700a831?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80);
     background-size: 1200px;
     background-position: center;
     
@@ -358,6 +358,7 @@ input[id="tab02"]:checked ~ .con2 {display: block;}
     color: #27524F;
     font-weight: 800;
     line-height: 75px;
+    text-align: center;
 }
 .first_id_area {
     position: absolute;
