@@ -41,7 +41,8 @@ body {
   
   color: #2c3e50;
   margin-top: 40px;
-  width: 100%;
+  min-width: 1200px;
+  width: auto;
   min-height: 100%;
 
 }

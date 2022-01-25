@@ -69,7 +69,7 @@
                 <td></td>
             </tr>
             <tr>
-                <td>Mon</td>
+                <td>Mon&nbsp;</td>
                 <td></td>
                 <td></td>
                 <td></td>
