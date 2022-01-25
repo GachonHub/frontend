@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 
 import Ranking from "./components/views/Ranking.vue";
 import Question from "./components/views/Question.vue";
+import Profile from "./components/views/Profile.vue"
 
 Vue.use(VueRouter);
 
@@ -11,6 +12,7 @@ const router = new VueRouter({
   routes: [
     { path: "/", component: Ranking },
     { path: "/question", component: Question },
-  ],
-});
+        {path: '/profile',component: Profile}
+    ]
+})
 export default router;

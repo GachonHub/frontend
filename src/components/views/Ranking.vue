@@ -1,6 +1,6 @@
 <template>
     <div class="ranking">
-        <div class="container">
+        <div class="wrap">
             <div class="title">랭킹 👑</div>
             <div class="tab_content">
                 <input type="radio" name="tabmenu" id="tab01" checked>
@@ -251,12 +251,10 @@ export default {
 </script>
 
 <style scoped>
-.ranking {
-    width: 100%;
-}
-.container {
+.wrap {
     width: 1200px;
     margin: 0 auto;
+    margin-bottom: 20px;
 }
 
 /* 탭메뉴 */
@@ -270,6 +268,7 @@ input[type="radio"] + label {
     height: 20px;
     padding-top: 3px;
 
+    text-align: center;
     margin-bottom: 60px;
     background: #FFFFFF;
     color: #717171;
@@ -442,6 +441,7 @@ input[id="tab02"]:checked ~ .con2 {display: block;}
     font-weight: 800;
     color: white;
     line-height: 31px;
+    text-align: center;
 }
 .second_id_area {
     font-size: 16px;
