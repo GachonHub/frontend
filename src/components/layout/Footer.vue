@@ -1,22 +1,23 @@
 <template>
     <div class="footer">
-        
+        <hr>
         <div class="container">
             <h1 class="green_footer">ⓒ GachonHub</h1>
             &nbsp;
             <h1 class="black_footer">by jaeesu & tearofglass</h1>
         </div>
-        <hr>
+        
     </div>
 </template>
 
 <style scoped>
 .footer {
+    position: relative;
     width: 100%;
     height: 40px;
 }
 .container {
-    max-width: 1200px;
+    min-width: 1200px;
     width: auto;
     height: 100%;
     margin: 0 auto;
@@ -26,13 +27,13 @@
     justify-content: center;
 }
 hr {
-    width: 100%;
+    min-width: 1200px;
     height: 0.1px;
     top: 0;
     margin: 0;
     background-color: grey;
 
-    position: absolute;
+    position: relative;
 }
 h1 {
     margin:11px 0 0 0;

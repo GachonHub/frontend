@@ -9,7 +9,9 @@
 
                 <!-- 로고 -->
                 <li class="nav_item logo_area">
-                    <a href="#" class="nav logo">GACHONHUB</a>
+                    <router-link to="/">
+                        <a class="nav logo">GACHONHUB</a>
+                    </router-link>
                 </li>
 
                 <!-- 로그인 버튼 -->
