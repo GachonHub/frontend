@@ -9,22 +9,10 @@
             </div>
             <div class="repo">
                 <div class="title repository_title">메인 저장소 🗂</div>
-                <div v-bind:key="repo1" class="box box1">
-                    <div class="repo_title">{{repo1.title}}</div>
-                    <div class="repo_content">{{repo1.content}}</div>
-                    <div class="repo_lan"><div class="eclipse"></div>{{repo1.lan}}</div>
-                    <div class="repo_public">Public</div>
-                </div>
-                <div v-bind:key="repo2" class="box box2">
-                    <div class="repo_title">{{repo2.title}}</div>
-                    <div class="repo_content">{{repo2.content}}</div>
-                    <div class="repo_lan"><div class="eclipse"></div>{{repo2.lan}}</div>
-                    <div class="repo_public">Public</div>
-                </div>
-                <div v-bind:key="repo3" class="box box3">
-                    <div class="repo_title">{{repo3.title}}</div>
-                    <div class="repo_content">{{repo3.content}}</div>
-                    <div class="repo_lan"><div class="eclipse"></div>{{repo3.lan}}</div>
+                <div v-for="item in repos" v-bind:key="item" class="box">
+                    <div class="repo_title">{{item.title}}</div>
+                    <div class="repo_content">{{item.content}}</div>
+                    <div class="repo_lan"><div class="eclipse"></div>{{item.lan}}</div>
                     <div class="repo_public">Public</div>
                 </div>
             </div>
@@ -44,35 +32,35 @@ export default {
     },
     data() {
         return {
-            info: {
-                name:"Robot Ta",
-                major:"컴퓨터공학과",
-                content:"제가 바로 보안의 미래입니다. 보안의 미래"
-            },
-            repo1: {
-                title: "everything",
-                content: "테스트 코드 저장을 위한 저장소",
-                lan: "HTML"
-            },
-            repo2: {
-                title: "anything",
-                content: "데모 코드 저장을 위한 저장소",
-                lan:"HTML, CSS"
-            },
-            repo3: {
-                title: "something",
-                content: "테스트, 데모버전",
-                lan:"C"
-            }
+            info:
+                {
+                    name:"Robot Ta",
+                    major:"컴퓨터공학과",
+                    content:"제가 바로 보안의 미래입니다. 보안의 미래"
+                },
+            repos: [
+                {
+                    title: "everything",
+                    content: "테스트 코드 저장을 위한 저장소",
+                    lan: "HTML"
+                },
+                {
+                    title: "anything",
+                    content: "데모 코드 저장을 위한 저장소",
+                    lan:"HTML, CSS"
+                },
+                {
+                    title: "something",
+                    content: "테스트, 데모버전",
+                    lan:"C"
+                }
+            ]
         }
     },
 }
 </script>
 
 <style scoped>
-.profile {
-    width: 100%;
-}
 .container {
     width: 1200px;
     margin: 0 auto;
@@ -107,12 +95,14 @@ export default {
     position: relative;
     top: -88px;
     left: 306px;
+    width: 20%;
     
 }
 .profile_major {
     color: #595959;
     font-size: 16px;
     font-weight: 800;
+    width: 20%;
 
     position: relative;
     left: 305px;
@@ -122,6 +112,7 @@ export default {
     color: white;
     font-size: 22px;
     font-weight: 600;
+    width: 40%;
 
     position: relative;
     left: 610px;
@@ -129,7 +120,11 @@ export default {
 }
 
 
-
+.box {
+    position: relative;
+    top: 122px;
+    margin-left: 40px;
+}
 .title {
     font-size: 22px;
     font-weight: 700;
@@ -144,6 +139,7 @@ export default {
     position: relative;
     top: 88px;
     left: 5px;
+    width: 20%;
 }
 .repo_title {
     position: relative;
@@ -152,6 +148,9 @@ export default {
     font-size: 14px;
     font-weight: 800;
     color: #0969DA;
+
+    width: 343px;
+    margin: 0;
 }
 .repo_content {
     position: relative;
@@ -159,6 +158,9 @@ export default {
     left: 15px;
     font-size: 13px;
     font-weight: 400;
+
+    width: 343px;
+    margin: 0;
 }
 .repo_lan {
     position: relative;
@@ -166,6 +168,9 @@ export default {
     left: 19px;
     font-size: 12px;
     font-weight: 400;
+
+    width: 300px;
+    margin: 0;
 }
 .repo_public {
     width: 52px;
@@ -228,11 +233,14 @@ export default {
     position: relative;
     top: 101px;
     left: 17px;
+    width: 20%;
 }
 .commit_table {
     position: relative;
     top: 153px;
     left: 50px;
+    width: 1110px;
+    height: 177px;
 }
 
 </style>
