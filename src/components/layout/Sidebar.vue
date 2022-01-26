@@ -97,7 +97,7 @@ input[id="menuicon"]:checked + label + div[class="sidebar"] {
 .container {
     max-width: 1200px;
     width: auto;
-    height: 100%;
+    height: auto;
     margin: 0 auto;
     display: flex;
     justify-content: space-evenly;
@@ -106,6 +106,9 @@ input[id="menuicon"]:checked + label + div[class="sidebar"] {
 ul, li {
     margin: 0;
     padding: 0;
+}
+ul{
+    padding-bottom: 40px;
 }
 li {
     list-style: none;
@@ -116,6 +119,9 @@ hr {
     width: 0.1px;
     height: 90%;
     background-color: white;
+
+    position: relative;
+    top: 30px;
 }
 .title {
     font-weight: bold;
@@ -123,5 +129,6 @@ hr {
 }
 .sub_menu {
     padding-top: 10px;
+    
 }
 </style>

@@ -122,7 +122,7 @@ export default {
 
 .box {
     position: relative;
-    top: 122px;
+    top: 100px;
     margin-left: 40px;
 }
 .title {
@@ -137,7 +137,7 @@ export default {
 }
 .repository_title {
     position: relative;
-    top: 88px;
+    top: 67px;
     left: 5px;
     width: 20%;
 }
@@ -211,17 +211,17 @@ export default {
 }
 .box1{
     position: relative;
-    top: 121px;
+    top: 100px;
     left:20px;
 }
 .box2 {
     position: relative;
-    top: 121px;
+    top: 100px;
     left: 70px;
 }
 .box3 {
     position: relative;
-    top: 121px;
+    top: 100px;
     left: 120px;
 }
 
@@ -231,13 +231,13 @@ export default {
 }
 .grass_title {
     position: relative;
-    top: 101px;
+    top: 70px;
     left: 17px;
     width: 20%;
 }
 .commit_table {
     position: relative;
-    top: 153px;
+    top: 90px;
     left: 50px;
     width: 1110px;
     height: 177px;
