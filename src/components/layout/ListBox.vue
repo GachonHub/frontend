@@ -1,14 +1,18 @@
 <template>
   <div class="ranking">
     <div class="table">
-      <b-table
-        bordered
-        small
-        hover
-        fixed
-        :fields="fields"
-        :items="items"
-      ></b-table>
+      <table>
+        <th v-for="item in fields" v-bind:key="item" :class="item.thClass" class="text-vertical-center">{{item.label}}</th>
+        <tr v-for="item in items" v-bind:key="item">
+          <td class="text-center">{{item.seq}}</td>
+          <td>{{item.title}}</td>
+          <td class="text-center">{{item.user}}</td>
+          <td class="text-center">{{item.category}}</td>
+          <td class="text-center">{{item.hit}}</td>
+          <td class="text-center">{{item.good}}</td>
+        </tr>
+
+      </table>
     </div>
   </div>
 </template>
@@ -124,7 +128,7 @@ export default {
 </script>
 
 <style scope>
-table.b-table {
+table {
   border-collapse: collapse;
   border-top: 2px solid black;
   border-bottom: 2px solid black;
@@ -132,22 +136,31 @@ table.b-table {
   width: 100%;
 }
 
-table.b-table th {
+table th {
   height: 45px;
   border-bottom: 1.5px solid black;
 }
 
-table.b-table td {
+table td {
   height: 45px;
   font-size: 13px;
   vertical-align: middle;
   border-bottom: 1px solid black;
 }
 
-table.b-table thead th.w10 {
+.w10 {
   width: 10%;
 }
-table.b-table thead th.w50 {
+.w50 {
   width: 50%;
 }
+
+.text-center {
+  text-align: center;
+}
+
+.text-vertical-center {
+  line-height: 45px;
+}
+
 </style>

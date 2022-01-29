@@ -2,7 +2,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 import Ranking from "./components/views/Ranking.vue";
-import Question from "./components/views/Question.vue";
+import Question from "./components/views/QuestionList.vue";
+import QuestionView from "./components/views/QuestionView.vue";
 import Profile from "./components/views/Profile.vue"
 import Listview from "./components/views/ListView.vue"
 
@@ -15,7 +16,9 @@ const router = new VueRouter({
     { path: "/", component: Ranking },
     { path: "/question", component: Question },
         {path: '/profile',component: Profile},
-        {path: '/listview', component: Listview}
+        {path: '/listview', component: Listview},
+        {path: "/question", component: Question},
+        {path: "/question/:id", component: QuestionView}
 
     ]
 })

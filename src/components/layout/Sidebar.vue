@@ -20,7 +20,7 @@
                     <li class="sub_menu">모집중인 스터디 ⚡ </li>
                     <li class="sub_menu">모집중인 동아리 ⚡</li>
                     <li class="sub_menu">공모전 🌺</li>
-                    <li class="sub_menu">질문게시판 🎤</li>
+                    <li class="sub_menu"><router-link to="/question">질문게시판 🎤</router-link></li>
                 </ul>
                 <ul>
                     <hr>
