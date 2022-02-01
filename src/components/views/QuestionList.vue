@@ -1,27 +1,31 @@
 <template>
   <div class="app">
-    <div class="title">질문 게시판</div>
-    <hr />
+    <Title title="질문 게시판"></Title>
     <div class="category">
       <span>카테고리</span>
-      <span><select name="category">
+      <span id="category_span"><select id="category" @change="mainCategory()">
         <option
           :value="index"
           v-for="(item, index) in items"
-          v-bind:key="item" @onChange="mainCategory()">
+          v-bind:key="item">
           {{ item.val }}
         </option>
       </select></span>
-      <span><select name="category2">
+      <span id="category_span"><select id="category2">
           <option value="item" v-for="item in items2[item1Val]" v-bind:key="item">
             {{ item }}
           </option>
       </select></span>
+      <div class="search">
+        <input id="search_text" type="text">
+        <button id="search_bnt">검색</button>
+      </div>
     </div>
     <button id="show-modal" @click="modal = true">글 작성하기</button>
     <ListBox id="list"></ListBox>
     <CreatePost class="modal" v-if="modal" @close="modal = false" title="질문 게시글 작성"
       isCategory="true" isSecret="true"></CreatePost>
+    <PageButton id="pg_bnt" :page="$route.params.page" :lastPage="lastPage" baseUri="/question"></PageButton>
   </div>
   
 </template>
@@ -29,15 +33,20 @@
 <script>
 import ListBox from "../layout/ListBox.vue";
 import CreatePost from "../layout/CreatePost.vue"
+import Title from "../layout/common/Title.vue"
+import PageButton from "../layout/PageButton.vue"
 
 export default {
   name: "question",
   components: {
     ListBox,
-    CreatePost
+    CreatePost,
+    Title,
+    PageButton
   },
     data() {
     return {
+      lastPage: 3,
       modal: false,
       item1Val: 0,
       items: [
@@ -50,10 +59,8 @@ export default {
   },
   methods : {
     mainCategory : function () {
-      var s = document.getElementByName("category");
+      var s = document.getElementById("category");
       this.item1Val = s.options[s.selectedIndex].value;
-      /* eslint-disable no-console */ 
-      console.log(this.item1Val);
     }
   }
 
@@ -62,10 +69,12 @@ export default {
 
 <style scoped>
 @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
-/* 
-.nanumgothic * {
+
+.app {
   font-family: "Nanum Gothic", sans-serif;
-} */
+  max-width: 1200px;
+  margin: auto;
+}
 
 hr {
   margin: 0;
@@ -84,28 +93,51 @@ hr {
   border: 1px solid black;
   z-index: 1;
   margin: auto;
+  width: 100%;
   top: 100px;
-  height: 600px;
+  height: 630px;
 }
 
-.app {
-  font-family: "Nanum Gothic", sans-serif;
-  max-width: 1200px;
-  margin: auto;
-}
-
-.title {
-  width: calc(100%-20px);
-  height: 60px;
-
-  text-align: left;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 60px;
-  padding-left: 20px;
+#show-modal {
+  position: fixed;
+  right: 60px;
+  bottom: 80px;
+  padding: 3px;
+  border-radius: 5px;
+  background-color: #8EB094;
+  color: white;
+  border: none;
 }
 
 #list {
   margin-bottom: 20px;
 }
+
+#category_span {
+  margin-left: 5px;
+}
+
+select {
+  width: 70px;
+  text-align: center;
+}
+
+#pg_bnt {
+  text-align: center;
+}
+
+.search {
+  float: right;
+}
+
+#search_text {
+  border-radius: 20px;
+  border: 1px solid black;
+}
+
+#search_bnt {
+  margin-left: 10px;
+  height: 20px;
+}
+
 </style>

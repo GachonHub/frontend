@@ -40,8 +40,10 @@
                     <input type="text" id="password" class="form-content"/><br>
                 </div>
             </form>
-            <button @click="writeNewPost()">작성</button>
-            <button @click="$emit('close')">close</button>
+            <div class="form-button">
+                <button id="WButton" @click="writeNewPost()">작성</button>
+                <button id="CButton" @click="$emit('close')">close</button>
+            </div>
         </div>
     </transition>
 </template>
@@ -62,8 +64,14 @@ export default {
   },
   props : {
       title: String,
-      isSecret: Boolean,
-      isCategory: Boolean
+      isSecret: {
+          Type: Boolean,
+          default: false
+      },
+      isCategory: {
+          Type: Boolean,
+          default: false
+      }
   }
 };
 
@@ -85,7 +93,6 @@ img {
 }
 
 .title {
-  width: calc(100%-20px);
   height: 60px;
   text-align: center;
   font-size: 18px;
@@ -96,10 +103,9 @@ img {
 
 .form-data {
     display: grid;
-    grid-template-columns: 3fr 7fr;
-    width: 100%;
-    margin: 5px;
-    grid-template-areas: "head content";
+    grid-template-columns: 2.5fr 5fr 2.5fr;
+    margin: 10px;
+    grid-template-areas: "head content .";
 }
 
 textarea {
@@ -109,13 +115,28 @@ textarea {
 .form-head {
     /* width: 100%; */
     margin-right: 10px;
+    font-size: 14px;
     text-align: right;
     grid-area: "head";
 }
 
 .form-content {
-    width: 70%;
     grid-area: "content";
+    font-size: 14px;
+}
+
+.form-button {
+    width: calc((100% -20px)*0.5);
+    margin: auto;
+    text-align: right;
+}
+
+button {
+    margin: 10px;
+    width: 85px;
+    height: 25px;
+    line-height:25px;
+    font-size: 14px;
 }
 
 </style>
