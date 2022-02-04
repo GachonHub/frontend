@@ -1,7 +1,7 @@
 <template>
     <div class="header">
         <div class="container">
-            
+
             <ul class="nav_list">
                 <!-- 햄버거 메뉴 & 사이드바 -->
                 <li class="sidebar-bnt nav_item">
@@ -84,10 +84,21 @@ export default {
                 var style3 = getComputedStyle(icon3);
                 icon3.style = style3;
             }
-        } 
+        }
+    },
+    watch: {
+        $route(to, from) {
+            if (to.path != from.path) {
+                var check = document.getElementById("menu-bnt");
+                check.checked = false;
+                this.isChecked();
+            }
+        }
     }
     
 }
+
+
 </script>
 
 <style scoped>
