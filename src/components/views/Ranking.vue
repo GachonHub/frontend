@@ -246,8 +246,10 @@ export default {
                 {rank:15,id:'tearofglass', commits: 4558, previous:7}
                 ]
         }
-    },
+    }
 }
+
+
 </script>
 
 <style scoped>
