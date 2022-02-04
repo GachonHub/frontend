@@ -8,8 +8,6 @@ import InquiryView from "./components/views/InquiryView.vue";
 import Profile from "./components/views/Profile.vue"
 import Listview from "./components/views/ListView.vue"
 
-import Side from "./components/layout/Sidebar.vue"
-
 Vue.use(VueRouter);
 
 const router = new VueRouter({
@@ -22,8 +20,7 @@ const router = new VueRouter({
         {path: '/listview', component: Listview},
         {path: "/question/:page", component: Question},
         {path: "/question/id/:id", component: QuestionView},
-        {path: "/inquiry/id/:id", component: InquiryView},
-        {path: "/side", component: Side}
+        {path: "/inquiry/id/:id", component: InquiryView}
     ]
 })
 export default router;
