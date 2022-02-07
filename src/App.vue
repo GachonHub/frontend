@@ -1,18 +1,14 @@
 <template>
   <div id="app">
-    <Header/>
+    <Header id="header"/>
     
     <router-view></router-view>
     
     <Footer class="footer"/>
-
-    <!-- <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/> -->
   </div>
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
 import Header from './components/layout/Header.vue'
 import Footer from './components/layout/Footer.vue'
 
@@ -24,6 +20,8 @@ export default {
     Footer
   }
 }
+
+
 </script>
 
 <style>
