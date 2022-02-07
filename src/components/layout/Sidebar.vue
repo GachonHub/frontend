@@ -1,5 +1,6 @@
 <template>
     <div class="sidebar_area">
+
             <div class="container">
                 <ul>
                     <li class="title"><router-link to="/">랭킹 👑</router-link></li>
