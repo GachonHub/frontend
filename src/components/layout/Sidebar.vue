@@ -7,7 +7,7 @@
             <span></span>
         </label>
         
-        <div class="sidebar">
+        <div class="sidebar" onclick="window.scrollTo(0,0);">
             <div class="container">
                 <ul>
                     <li class="title"><router-link to="/">랭킹 👑</router-link></li>
@@ -35,6 +35,22 @@
     </div>
     
 </template>
+
+<script>
+// const sidebar = document.getElementsByClassName('sidebar');
+    
+// const moveBackToTop=()=>{
+//     if(window.pageYOffset > 0) {
+//         window.scrollTo({top:0, behavior:"smooth"});
+//     }
+// }
+// sidebar.addEventListener('click',moveBackToTop);
+// // 사이드바 제자리
+
+export default {
+    
+}
+</script>
 
 <style scoped>
 input[id="menuicon"] {
@@ -86,7 +102,7 @@ div[class="sidebar"] {
     height: 200px;
     background: white;
     position: absolute;
-    top: -210px; left: 0;
+    top: -240px; left: 0;
     z-index: -100;
     transition: all .35s;
 }

@@ -44,7 +44,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
 /* 
 .nanumgothic * {
