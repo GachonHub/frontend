@@ -4,14 +4,13 @@
     
     <router-view></router-view>
     
-    <Footer class="footer"/>
+    <Footer id="footer"/>
   </div>
 </template>
 
 <script>
 import Header from './components/layout/Header.vue'
 import Footer from './components/layout/Footer.vue'
-
 export default {
   name: 'App',
   components: {
@@ -20,7 +19,6 @@ export default {
     Footer
   }
 }
-
 
 </script>
 
@@ -44,9 +42,9 @@ body {
   min-height: 100%;
 
 }
-.footer {
-  position: relative;
-  bottom: -50%;
+#footer {
+  position: fixed;
+  bottom: 0;
   z-index: 10;
 }
 
