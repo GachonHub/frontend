@@ -22,10 +22,10 @@
       </div>
     </div>
     <button id="show-modal" @click="modal = true">글 작성하기</button>
-    <ListBox id="list"></ListBox>
+    <ListBox :items="apiRes.data" id="list"></ListBox>
     <CreatePost class="modal" v-if="modal" @close="modal = false" title="질문 게시글 작성"
       isCategory="true" isSecret="true"></CreatePost>
-    <PageButton id="pg_bnt" :page="$route.params.page" :lastPage="lastPage" baseUri="/question"></PageButton>
+    <PageButton id="pg_bnt" :page="currentPage" :lastPage="parseInt(apiRes.totalPages)" baseUri="/question"></PageButton>
   </div>
   
 </template>
@@ -35,6 +35,8 @@ import ListBox from "../layout/ListBox.vue";
 import CreatePost from "../layout/CreatePost.vue"
 import Title from "../layout/common/Title.vue"
 import PageButton from "../layout/PageButton.vue"
+
+import {apiGetRequest} from "../../api/ApiCommon.js"
 
 export default {
   name: "question",
@@ -46,7 +48,7 @@ export default {
   },
     data() {
     return {
-      lastPage: 3,
+      currentPage: (!isNaN(this.$route.params.page)) ? this.$route.params.page : 1,
       modal: false,
       item1Val: 0,
       items: [
@@ -55,13 +57,22 @@ export default {
         {num : 2 , val : "코딩"}
         ],
       items2: [["none"], ["리버싱", "포렌식"], ["c언어", "자바", "파이썬"]],
+      apiRes : []
     };
   },
   methods : {
-    mainCategory : function () {
+    mainCategory () {
       var s = document.getElementById("category");
       this.item1Val = s.options[s.selectedIndex].value;
     }
+  },
+  created() {
+    apiGetRequest("/api/posts/question?page=" + (parseInt(this.$route.params.page) - 1))
+      .then(res => {
+        /* eslint-disable no-console */
+        console.log(res.data);
+        this.apiRes = res.data;
+      })
   }
 
 };

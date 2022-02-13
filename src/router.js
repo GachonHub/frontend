@@ -9,6 +9,8 @@ import Profile from "./components/views/Profile.vue"
 import Listview from "./components/views/ListView.vue"
 import Auth from "./components/views/Auth.vue"
 
+import Test from "./components/views/Test.vue"
+
 Vue.use(VueRouter);
 
 const router = new VueRouter({
@@ -22,7 +24,8 @@ const router = new VueRouter({
     {path: '/listview', component: Listview},
     {path: "/question/:page", component: Question},
     {path: "/question/id/:id", component: QuestionView},
-    {path: "/inquiry/id/:id", component: InquiryView}
+    {path: "/inquiry/id/:id", component: InquiryView},
+    {path: "/test", component: Test}
     ]
 })
 export default router;
