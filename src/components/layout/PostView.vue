@@ -1,14 +1,14 @@
 <template>
     <div>
         <!-- {{$route.params.id}} -->
-        <div id="title">{{title}}</div>
+        <div id="title">{{question.title}}</div>
         <hr>
         <div id="post-info">
-            {{author}}
-            {{date}}
+            {{question.author}}
+            {{question.date}}
         </div>
         <hr>
-        <div id="content">{{content}}</div>
+        <div id="content">{{question.content}}</div>
         <hr>
 
     </div>
@@ -18,10 +18,7 @@
 export default {
     name : "post-view",
     props : {
-        title : String,
-        author : String,
-        date : String,
-        content : String
+        question : Array
     }
 }
 </script>

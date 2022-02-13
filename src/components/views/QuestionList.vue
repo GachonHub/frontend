@@ -48,7 +48,7 @@ export default {
   },
     data() {
     return {
-      currentPage: (!isNaN(this.$route.params.page)) ? this.$route.params.page : 1,
+      currentPage: (!isNaN(this.$route.query.page)) ? this.$route.query.page : 1,
       modal: false,
       item1Val: 0,
       items: [
@@ -67,7 +67,7 @@ export default {
     }
   },
   created() {
-    apiGetRequest("/api/posts/question?page=" + (parseInt(this.$route.params.page) - 1))
+    apiGetRequest("/api/posts/question?page=" + (parseInt(this.currentPage) - 1))
       .then(res => {
         /* eslint-disable no-console */
         console.log(res.data);
