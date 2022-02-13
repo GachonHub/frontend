@@ -1,5 +1,4 @@
-import Vue from "vue"
-import VueRouter from "vue-router"
+import {createWebHistory, createRouter} from "vue-router"
 
 import Ranking from "./components/views/Ranking.vue";
 import Question from "./components/views/QuestionList.vue";
@@ -12,11 +11,9 @@ import Auth from "./components/views/Auth.vue"
 import Test from "./components/views/Test.vue"
 import WSM from "./components/views/WantedStudyMember.vue"
 
-Vue.use(VueRouter);
-
-const router = new VueRouter({
-
+const router = createRouter({
   mode: "history",
+  history: createWebHistory(),
   routes: [
     { path: "/", component: Ranking },
     {path: "/auth", component: Auth},
