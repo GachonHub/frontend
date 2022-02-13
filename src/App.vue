@@ -43,7 +43,7 @@ body {
 
 }
 #footer {
-  position: fixed;
+  position: relative;
   bottom: 0;
   z-index: 10;
 }

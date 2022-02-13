@@ -2,7 +2,7 @@
   <div class="ranking">
     <div class="table">
       <table>
-        <th v-for="item in fields" v-bind:key="item" :class="item.thClass" class="text-vertical-center">{{item.label}}</th>
+        <th v-for="item in fields" v-bind:key="item" :class="item.thClass">{{item.label}}</th>
         <tr v-for="item in items" v-bind:key="item">
           <td class="text-center">{{item.id}}</td>
           <td><router-link :to="{path : '/question/id/' + item.id}" >{{item.title}}</router-link></td>
@@ -70,8 +70,9 @@ table td {
   text-align: center;
 }
 
-.text-vertical-center {
+table th {
   line-height: 45px;
+  text-align: center;
 }
 
 </style>

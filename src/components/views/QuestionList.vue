@@ -3,7 +3,7 @@
     <Title title="질문 게시판"></Title>
     <div class="category">
       <span>카테고리</span>
-      <span id="category_span"><select id="category" @change="mainCategory()">
+      <span id="category_span"><select class="form-select" id="category" @change="mainCategory()">
         <option
           :value="index"
           v-for="(item, index) in items"
@@ -11,21 +11,23 @@
           {{ item.val }}
         </option>
       </select></span>
-      <span id="category_span"><select id="category2">
+      <span id="category_span"><select class="form-select" id="category">
           <option value="item" v-for="item in items2[item1Val]" v-bind:key="item">
             {{ item }}
           </option>
       </select></span>
       <div class="search">
-        <input id="search_text" type="text">
-        <button id="search_bnt">검색</button>
+        <input id="search_text" class="form-control" type="text">
+        <button type="button" class="form-control">검색</button>
+        <button type="button" @click="modal = true" class="form-control">글 작성하기</button>
       </div>
     </div>
-    <button id="show-modal" @click="modal = true">글 작성하기</button>
+
     <ListBox :items="apiRes.data" id="list"></ListBox>
-    <CreatePost class="modal" v-if="modal" @close="modal = false" title="질문 게시글 작성"
-      isCategory="true" isSecret="true"></CreatePost>
+    <CreatePost id = "modal" v-if="modal" @close="modal = false" title="질문 게시판" 
+      isCategory="true" isSecret="true" isImage="true"></CreatePost>
     <PageButton id="pg_bnt" :page="currentPage" :lastPage="parseInt(apiRes.totalPages)" baseUri="/question"></PageButton>
+    
   </div>
   
 </template>
@@ -93,12 +95,25 @@ hr {
   border-top: 1px solid #b2b2b2;
 }
 
+.form-select {
+  display: inline-block;
+  font-size: 14px;
+  width: 0px;
+}
+
 .category {
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
-.modal {
+#category {
+  font-size: 13px;
+  width: 100px;
+  height: 30px;
+  text-align: center;
+}
+
+#modal {
   position: absolute;
   background-color:white;
   border: 1px solid black;
@@ -109,15 +124,18 @@ hr {
   height: 630px;
 }
 
-#show-modal {
-  position: fixed;
-  right: 60px;
-  bottom: 80px;
-  padding: 3px;
-  border-radius: 5px;
-  background-color: #8EB094;
-  color: white;
-  border: none;
+#pg_bnt {
+  text-align: center;
+  display: inline;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.form-control {
+  display: inline-block;
+  width: 100px;
+  font-size: 14px;
+  margin-left: 5px;
 }
 
 #list {
@@ -128,14 +146,6 @@ hr {
   margin-left: 5px;
 }
 
-select {
-  width: 70px;
-  text-align: center;
-}
-
-#pg_bnt {
-  text-align: center;
-}
 
 .search {
   float: right;
@@ -143,12 +153,8 @@ select {
 
 #search_text {
   border-radius: 20px;
-  border: 1px solid black;
+  width: 200px;
 }
 
-#search_bnt {
-  margin-left: 10px;
-  height: 20px;
-}
 
 </style>

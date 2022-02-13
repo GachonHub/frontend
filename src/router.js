@@ -8,6 +8,7 @@ import Profile from "./components/views/Profile.vue"
 import Listview from "./components/views/ListView.vue"
 import Auth from "./components/views/Auth.vue"
 
+
 import Test from "./components/views/Test.vue"
 import WSM from "./components/views/WantedStudyMember.vue"
 
@@ -24,7 +25,7 @@ const router = createRouter({
     {path: "/question/id/:id", component: QuestionView},
     {path: "/inquiry/id/:id", component: InquiryView},
     {path: "/test", component: Test},
-        {path: '/studymember', component: WSM}
-    ]
+    {path: '/studymember', component: WSM}
+  ]
 })
 export default router;
