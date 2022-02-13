@@ -1,5 +1,5 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
+import Vue from "vue"
+import VueRouter from "vue-router"
 
 import Ranking from "./components/views/Ranking.vue";
 import Question from "./components/views/QuestionList.vue";
@@ -10,6 +10,7 @@ import Listview from "./components/views/ListView.vue"
 import Auth from "./components/views/Auth.vue"
 
 import Test from "./components/views/Test.vue"
+import WSM from "./components/views/WantedStudyMember.vue"
 
 Vue.use(VueRouter);
 
@@ -25,7 +26,8 @@ const router = new VueRouter({
     {path: "/question/:page", component: Question},
     {path: "/question/id/:id", component: QuestionView},
     {path: "/inquiry/id/:id", component: InquiryView},
-    {path: "/test", component: Test}
+    {path: "/test", component: Test},
+        {path: '/studymember', component: WSM}
     ]
 })
 export default router;
