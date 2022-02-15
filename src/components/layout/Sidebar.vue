@@ -10,9 +10,9 @@
                 </ul>
                 <ul>
                     <li class="title">커뮤니티</li>
-                    <li class="sub_menu">모집중인 스터디 ⚡ </li>
-                    <li class="sub_menu">모집중인 동아리 ⚡</li>
-                    <li class="sub_menu">공모전 🌺</li>
+                    <li class="sub_menu"> <router-link to="/listview"> 모집중인 스터디 ⚡ </router-link></li>
+                    <li class="sub_menu"><router-link to="/listview">모집중인 동아리 ⚡</router-link></li>
+                    <li class="sub_menu"><router-link to="/listview">공모전 🌺</router-link></li>
                     <li class="sub_menu"><router-link to="/question">질문게시판 🎤</router-link></li>
                 </ul>
                 <ul>

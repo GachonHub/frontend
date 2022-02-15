@@ -1,102 +1,26 @@
 <template>
-    <div class="commit_table">
-        <table>
-            <thead>
-                <tr>
-                    <th>&nbsp;</th>
-                    <th v-for="item in days" v-bind:key="item">{{item}}</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th>Jan</th>
-                    <div v-for="item in 5" v-bind:key="item">
-                        <td v-for="item in 7" v-bind:key="item"></td>
-                    </div>
-                    <!-- 5*7-31 = 4 -->
-                </tr>
-                <tr>
-                    <th>Feb</th>
-                    <div v-for="item in 4" v-bind:key="item">
-                        <td v-for="item in 7" v-bind:key="item"></td>
-                    </div>
-                    <!-- 4*7-(28-4) = 4 -->
-                </tr>
-                <tr>
-                    <th>Mar</th>
-                    <div v-for="item in 4" v-bind:key="item">
-                        <td v-for="item in 7" v-bind:key="item"></td>
-                    </div>
-                    <!-- 4*7-(31-4) = 1 -->
-                </tr>
-                <tr>
-                    <th>Apr</th>
-                    <div v-for="item in 5" v-bind:key="item">
-                        <td v-for="item in 7" v-bind:key="item"></td>
-                    </div>
-                    <!-- 5*7-(30-1) = 6 -->
-                </tr>
-                <tr>
-                    <th>May</th>
-                    <div v-for="item in 4" v-bind:key="item">
-                        <td v-for="item in 7" v-bind:key="item"></td>
-                    </div>
-                    <!-- 4*7-(31-6) = 3 -->
-                </tr>
-                <tr>
-                    <th>Jun</th>
-                    <div v-for="item in 4" v-bind:key="item">
-                        <td v-for="item in 7" v-bind:key="item"></td>
-                    </div>
-                    <!-- 4*7-(30-3) = 1 -->
-                </tr>
-                <tr>
-                    <th>Jul</th>
-                    <div v-for="item in 5" v-bind:key="item">
-                        <td v-for="item in 7" v-bind:key="item"></td>
-                    </div>
-                    <!-- 5*7-(31-1) = 5 -->
-                </tr>
-                <tr>
-                    <th>Aug</th>
-                    <div v-for="item in 4" v-bind:key="item">
-                        <td v-for="item in 7" v-bind:key="item"></td>
-                    </div>
-                    <!-- 4*7-(31-5) = 2 -->
-                </tr>
-                <tr>
-                    <th>Sep</th>
-                    <div v-for="item in 4" v-bind:key="item">
-                        <td v-for="item in 7" v-bind:key="item"></td>
-                    </div>
-                    <!-- 4*7-(30-2) = 0 -->
-                </tr>
-                <tr>
-                    <th>Oct</th>
-                    <div v-for="item in 5" v-bind:key="item">
-                        <td v-for="item in 7" v-bind:key="item"></td>
-                    </div>
-                    <!-- 5*7-(31-2) = 6 -->
-                </tr>
-                <tr>
-                    <th>Nov</th>
-                    <div v-for="item in 4" v-bind:key="item">
-                        <td v-for="item in 7" v-bind:key="item"></td>
-                    </div>
-                    <!-- 4*7-(30-6) = 4 -->
-                </tr>
-                <tr>
-                    <th>Dec</th>
-                    <div v-for="item in 4" v-bind:key="item">
-                        <td v-for="item in 7" v-bind:key="item"></td>
-                    </div>
-                    <div>
-                        <td></td>
-                    </div>
-                    <!-- 4*7-(31-4) = 1 -->
-                </tr>
-            </tbody>
+    <div>
+        <table cellspacing="0" cellpadding="0">
+            <tr>
+                <th id="head" v-for="item in week" :key="item">
+                    <div id="div-th">{{item}}</div>
+                </th>
+                
+            </tr>
             
+            <template v-for="item in commits">
+                <tr v-for="weeks in item.length" :key="weeks"> <!--주-->
+                    <td class="items" v-for="day in week.length" :key="day"> <!--일-->
+                        <div id="div-td" v-for="items in item.commit" :key="items">{{items}}</div>
+                    </td> 
+                    <th class="head1" style="vertical-align:top;" :rowspan="commits.length">
+                        <div id="head" style="width:20px; height:20px;">{{item.name}}</div>
+                    </th>
+                </tr>
+
+            </template>
+
+            <!-- month, month.name month.date -->
         </table>
     </div>
 </template>
@@ -105,70 +29,110 @@
 export default {
     data() {
         return {
-            days: ['SUN','MON','TUE','WED','THU','FRI','SAT'],
-            month: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+            week : ["SUN", "SAT", "FRI", "THU", "WED", "THU", "MON", " "],
+            commits: [
+                {
+                    month : "1",
+                    commit : [
+                        {
+                            week : "1",
+                            data : [1,2,1,2,1,2,0]
+                        },
+                        {
+                            week : "2",
+                            data : [1,2,1,2,1,2,0]
+                        },
+                        {
+                            week : "3",
+                            data : [1,2,1,2,1,2,0]
+                        },
+                        {
+                            week : "4",
+                            data : [1,2,1,2,1,2,0]
+                        },
+                        {
+                            week : "5",
+                            data : [1,2,1,2,1,2,0]
+                        },
+                    ]
+                },
 
+                {
+                    month : "2",
+                    commit : [
+                        {
+                            week : "1",
+                            data : [1,2,1,2,1,2,0]
+                        },
+                        {
+                            week : "2",
+                            data : [1,2,1,2,1,2,0]
+                        },
+                        {
+                            week : "3",
+                            data : [1,2,1,2,1,2,0]
+                        },
+                        {
+                            week : "4",
+                            data : [1,2,1,2,1,2,0]
+                        }
+                    ]
+                }
+                
+            ]
         }
-    },
+    }
 }
 </script>
 
 <style scoped>
-/* :root {
-    --zero-percent:#EBEDF0;
-    --zero-border: #DFE1E4;
-    --twentyf-percent:#B1D7B4;
-    --twentyf-border:#9CCA9F;
-    --fifty-percent:#79B081;
-    --fifty-border:#669F6E;
-    --seventyf-percent:#698D6E;
-    --seventyf-border:#4A7D51;
-    --hundred-percent:#336B3E;
-    --hundred-border: #32683D;
-}
-.title > th, tr>td:nth-child(1){
-    font-size: 14px;
-    font-weight: 700;
-
-    text-align: left;
-
-    background-color: white;
+table {
+    width: 150px;
+    height: 500px;
+    transform: rotate(-90deg);
+    font-size: 5px;
     border: 0;
-    border-radius: 0;
-}*/
-table{
-    display:flex;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    overflow-x: auto;
-    overflow-y: hidden;
-    font-size: 14px;
-    font-weight: 700;
-
-    text-align: left;
+    margin: 100px auto auto 500px;
+    margin-top: -330px;
 }
 
-tbody {display:flex;}
+#head {
+    writing-mode: vertical-rl;
+    border: 0;
+}
 
-th{display:block;}
-
-td {
-    display:block;
-    width: 20px;
-    height: 20px;
-    background-color: #EBEDF0;
+.items {
+    background: #EBEDF0;
     border: 2px solid #DFE1E4;
-    box-sizing: border-box;
-    border-radius: 5px;
+    line-height: 15px;
+    width: 15px;
+    height: 15px;
+    font-size: 5px;
 }
 
-div {
-    display: inline-block;
+#div-td {
+    width: 15px;
+    height: 15px;
+    margin: 0;
+    padding: 0;
 }
-/*
-.disabled {
-    background-color: transparent;
+
+#div-th {
+    font-size: 5px;
+    width: 15px;
+    margin: 0;
+}
+
+table tr th {
+    line-height: 20px;
+    font-size: 5px;
     border: 0;
-} */
+}
+
+#head1 {
+    height: 20px;
+}
+
+
 
 </style>
