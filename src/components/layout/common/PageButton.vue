@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import {FRONT_BASE_URL} from "../../constants.js"
+import {FRONT_BASE_URL} from "../../../constants.js"
 
 export default {
     name: "page-button",
