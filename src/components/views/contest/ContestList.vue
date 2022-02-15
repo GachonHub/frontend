@@ -1,21 +1,34 @@
 <template>
     <div class="list_view">
-        <div class="list_title"><a>모집중인 스터디 ⚡</a></div>
+        <Title title="공모전 ⚡"></Title>
+        <div style="display: inline-block; margin-top:10px;">
+            <span style="font-size:14px;">카테고리</span>
+            <Category style="display:inline-block;" :items = "categoryList" :items2 = "categoryList2"></Category>
+        </div>
         <hr>
-        <list_component v-for="item in items" v-bind:key="item" 
-        :field="item.field" :sympathy="item.sympathy" :title="item.title" :content="item.content" :writer="item.writer" :img="item.img"/>
-        
+        <ListComponent v-for="item in items" v-bind:key="item" :data="item"/>
     </div>
 </template>
 
 <script>
-import list_component from '../layout/ListComponent.vue'
+import ListComponent from '../../layout/ListComponent.vue'
+import Title from '../../layout/common/Title.vue'
+import Category from '../../layout/common/SecondaryCategory.vue'
+
 export default {
     components: {
-        list_component
+        ListComponent,
+        Title,
+        Category
     },
     data() {
         return {
+            categoryList: [
+                {num : 0, val: "선택"},
+                {num : 1 , val: "정보보안"},
+                {num : 2 , val : "코딩"}
+                ],
+            categoryList2: [["선택"], ["리버싱", "포렌식", "전체"], ["c언어", "자바", "파이썬", "전체"]],
             items: [
                 {
                     field: "정보보안",

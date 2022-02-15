@@ -12,8 +12,8 @@
 
 <script>
 
-import PostView from "../layout/PostView.vue"
-import Title from "../layout/common/Title.vue"
+import PostView from "../../layout/PostView.vue"
+import Title from "../../layout/common/Title.vue"
 
 export default {
     name: "question-view",

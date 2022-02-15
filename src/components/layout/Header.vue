@@ -28,13 +28,13 @@
                 <!-- 프로필 아이콘 -->
                 <li class="nav_item profile_icon_area">
                     <router-link to="/profile">
-                        <b-icon-person-circle class="nav profile"></b-icon-person-circle>
+                        <i class="nav profile bi bi-person-circle"></i>
                     </router-link>
                 </li>
 
                 <!-- 채팅 아이콘 -->
                 <li class="nav_item telegram_icon_area">
-                    <b-icon-bell-fill class="nav telegram"></b-icon-bell-fill>
+                    <i class="nav telegram bi bi-chat-dots"></i>
                 </li>
             </ul>
         </div>

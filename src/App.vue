@@ -2,7 +2,9 @@
   <div id="app">
     <Header id="header"/>
     
-    <router-view></router-view>
+    <div id="content"> 
+      <router-view></router-view>
+    </div>
     
     <Footer id="footer"/>
   </div>
@@ -22,7 +24,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 body {
   margin: 0;
   padding: 0;
@@ -42,10 +44,17 @@ body {
   min-height: 100%;
 
 }
+
 #footer {
-  position: relative;
-  bottom: 0;
+  padding-top: calc(100vh - 40px);
+  padding: 0;
+  position: absolute;
   z-index: 10;
+}
+
+#content {
+  min-height: calc(100vh - 80px);
+  margin-bottom: 40px;
 }
 
 </style>

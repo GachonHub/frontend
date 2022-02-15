@@ -1,71 +1,46 @@
 <template>
   <div class="app">
-    <Title title="질문 게시판"></Title>
-    <div style="display: inline-block; margin-top:10px;">
-      <span style="font-size:14px;">카테고리</span>
-      <Category style="display:inline-block;" :items = "items" :items2 = "items2"></Category>
-    </div>
-
+    <Title title="문의사항"></Title>
     <div class="search">
       <input id="search_text" class="form-control" type="text">
       <button type="button" class="form-control">검색</button>
-      <button type="button" @click="modal = true" class="form-control">글 작성하기</button>
+      <button v-if="role=='admin'" type="button" @click="modal = true" class="form-control">글 작성하기</button>
     </div>
 
     <ListBox :items="apiRes.data" id="list"></ListBox>
-    <PostQuestion id = "modal" v-if="modal" @close="modal = false"></PostQuestion>
-    <PageButton id="pg_bnt" :page="currentPage" :lastPage="parseInt(apiRes.totalPages)" baseUri="/question"></PageButton>
+    <PostInquiry id = "modal" v-if="modal" @close="modal = false" title="문의사항 작성"></PostInquiry>
+    <PageButton id="pg_bnt" :page="currentPage" :lastPage="currentPage" baseUri="/question"></PageButton>
     
   </div>
   
 </template>
 
 <script>
-import ListBox from "../layout/ListBox.vue";
-import PostQuestion from "../layout/post/PostQuestion.vue"
-import Title from "../layout/common/Title.vue"
-import PageButton from "../layout/common/PageButton.vue"
-import Category from "../layout/common/SecondaryCategory.vue"
+import ListBox from "../../layout/ListBox.vue";
+import PostInquiry from "../../layout/post/Post.vue"
+import Title from "../../layout/common/Title.vue"
+import PageButton from "../../layout/common/PageButton.vue"
 
-import {apiGetRequest} from "../../api/ApiCommon.js"
+import {apiGetRequest} from "../../../api/ApiCommon.js"
 
 export default {
   name: "question",
   components: {
     ListBox,
-    PostQuestion,
+    PostInquiry,
     Title,
-    PageButton,
-    Category
+    PageButton
   },
     data() {
     return {
-      main: "",
-      sub: "",
+      role: localStorage.getItem("role"),
       currentPage: (!isNaN(this.$route.query.page)) ? this.$route.query.page : 1,
       modal: false,
-      item1Val: 0,
-      items: [
-        {num : 0, val: "선택"},
-        {num : 1 , val: "정보보안"},
-        {num : 2 , val : "코딩"}
-        ],
-      items2: [["선택"], ["리버싱", "포렌식", "전체"], ["c언어", "자바", "파이썬", "전체"]],
       apiRes : []
     };
   },
-  methods : {
-    mainF(item) {
-      this.main = item;
-      console.log(this.main);
-    }, 
-    subF(sub) {
-      this.sub = sub;
-      console.log(this.sub);
-    }
-  },
   created() {
-    apiGetRequest("/api/posts/question?page=" + (parseInt(this.currentPage) - 1))
+    apiGetRequest("/api/posts/notice?page=" + (parseInt(this.currentPage) - 1))
       .then(res => {
         /* eslint-disable no-console */
         console.log(res.data);

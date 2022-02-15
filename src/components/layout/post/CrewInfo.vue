@@ -1,35 +1,18 @@
 <template>
     <transition name="modal" appear>
         <div class="app">
-            <div class="title">{{title}}</div>
+            <div class="title">스터디 추가</div>
             <form class="form">
                 <div class="form-data">
                     <label for="f-title" class="form-head">제목</label>
                     <input type="text" id="f-title" class="form-control form-content"/><br>
                 </div>
-
-                <div class="form-data" v-if="isCategory">
-                    <label for="category1" class="form-head">카테고리</label>
-                    <div class="form-content">
-                        <select class="form-select" id="category1">
-                            <option :value="index" v-for="(item, index) in items" v-bind:key="item">
-                                {{ item }}
-                            </option>
-                        </select>
-                        
-                        <select class="form-select" id="category2">
-                            <option value="item" v-for="item in items2[0]" v-bind:key="item">
-                                {{ item }}
-                            </option>
-                        </select><br>
-                    </div>
-                </div>
+                <Category v-if="isCategory" :items = "items" :items2 = "items2"></Category>
 
                 <div class="form-data">
                     <label for="content" class="form-head" style="height: 200px">내용</label>
                     <input type="text" id="content" class="form-control form-content"/><br>
                 </div>
-
                 <div class="form-data" v-if="isImage">
                     <label for="image" class="form-head">이미지</label>
                     <input type="file" id="image" class="form-control form-content"><br>
@@ -53,8 +36,13 @@
 </template>
 
 <script>
+import Category from "../common/SecondaryCategory.vue"
+
 export default {
   name: "post-creation",
+  components: {
+      Category
+  },
   methods: {
       writeNewPost: function () {
           alert("New post");
