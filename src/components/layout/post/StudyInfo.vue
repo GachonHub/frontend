@@ -1,33 +1,36 @@
 <template>
     <transition name="modal" appear>
         <div class="app">
-            <div class="title">스터디 추가</div>
-            <form class="form">
-                <div class="form-data">
-                    <label for="f-title" class="form-head">그룹 이름</label>
-                    <input type="text" id="f-title" class="form-control form-content"/><br>
+            <div class="form">
+                <div class="title">스터디 추가</div>
+                <form>
+                    <div class="form-data">
+                        <label for="f-title" class="form-head">그룹 이름</label>
+                        <input type="text" id="f-title" class="form-control form-content"/><br>
+                    </div>
+                    <div class="form-data">
+                        <label for="field" class="form-head">공부 분야</label>
+                        <input type="text" id="field" class="form-control form-content"/><br>
+                    </div>
+                    <div class="form-data">
+                        <label for="people" class="form-head">인원</label>
+                        <input type="text" id="people" class="form-control form-content"  style="width: 50px;"/><br>
+                    </div>
+                    <div class="form-data">
+                        <label for="addr" class="form-head">대표 레포지토리 주소</label>
+                        <input type="text" id="addr" class="form-control form-content"  placeholder="master 브랜치의 READMD.md와 연동됩니다." /><br>
+                    </div>
+                    <div class="form-data">
+                        <label for="image" class="form-head">대표 이미지</label>
+                        <input type="file" id="image" class="form-control form-content"><br>
+                    </div>
+                </form>
+                <div class="form-button">
+                    <button class="form-control" id="custom-bnt" @click="$emit('close')">취소</button>
+                    <button class="form-control" id="custom-bnt" @click="writeNewPost()">작성</button>
                 </div>
-                <div class="form-data">
-                    <label for="field" class="form-head">공부 분야</label>
-                    <input type="text" id="field" class="form-control form-content"/><br>
-                </div>
-                <div class="form-data">
-                    <label for="people" class="form-head">인원</label>
-                    <input type="text" id="people" class="form-control form-content"  style="width: 50px;"/><br>
-                </div>
-                <div class="form-data">
-                    <label for="addr" class="form-head">대표 레포지토리 주소</label>
-                    <input type="text" id="addr" class="form-control form-content"/><br>
-                </div>
-                <div class="form-data">
-                    <label for="image" class="form-head">대표 이미지</label>
-                    <input type="file" id="image" class="form-control form-content"><br>
-                </div>
-            </form>
-            <div class="form-button">
-                <button class="form-control" id="custom-bnt" @click="$emit('close')">취소</button>
-                <button class="form-control" id="custom-bnt" @click="writeNewPost()">작성</button>
             </div>
+
         </div>
     </transition>
 </template>
@@ -70,6 +73,12 @@ export default {
 .app {
   width: 100%;
   height: 100%;
+  align-items: center;
+}
+
+.form {
+    height: 80%;
+    margin-top: 10%;
 }
 
 .form-select {
@@ -93,21 +102,16 @@ export default {
     grid-template-areas: "head content .";
 }
 
-textarea {
-    resize: none !important;
+input::placeholder {
+    font-size: 10px;
 }
-
-.form-check{
-    padding: 0;
-    margin: 0;
-}
-
 
 .form-head {
     margin-right: 10px;
     font-size: 14px;
     text-align: right;
     grid-area: "head";
+    line-height: 35px;
 }
 
 .form-content {
@@ -118,12 +122,12 @@ textarea {
 .form-button {
     width: calc((100% -20px)*0.5);
     margin: auto;
-    /* text-align: right; */
 }
 
 #custom-bnt {
     float: right;
     margin-left: 5px;
+    margin-right: 5px;
     display: inline-block;
     width: 80px;
 }

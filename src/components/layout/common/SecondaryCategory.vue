@@ -54,7 +54,7 @@ export default {
 <style scoped>
 
 #category_span {
-  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .search {
