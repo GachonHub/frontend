@@ -1,31 +1,19 @@
 <template>
   <div class="app">
     <Title title="질문 게시판"></Title>
-    <div class="category">
-      <span>카테고리</span>
-      <span id="category_span"><select class="form-select" id="category" @change="mainCategory()">
-        <option
-          :value="index"
-          v-for="(item, index) in items"
-          v-bind:key="item">
-          {{ item.val }}
-        </option>
-      </select></span>
-      <span id="category_span"><select class="form-select" id="category">
-          <option value="item" v-for="item in items2[item1Val]" v-bind:key="item">
-            {{ item }}
-          </option>
-      </select></span>
-      <div class="search">
-        <input id="search_text" class="form-control" type="text">
-        <button type="button" class="form-control">검색</button>
-        <button type="button" @click="modal = true" class="form-control">글 작성하기</button>
-      </div>
+    <div style="display: inline-block; margin-top:10px;">
+      <span style="font-size:14px;">카테고리</span>
+      <Category style="display:inline-block;" :items = "items" :items2 = "items2"></Category>
+    </div>
+
+    <div class="search">
+      <input id="search_text" class="form-control" type="text">
+      <button type="button" class="form-control">검색</button>
+      <button type="button" @click="modal = true" class="form-control">글 작성하기</button>
     </div>
 
     <ListBox :items="apiRes.data" id="list"></ListBox>
-    <CreatePost id = "modal" v-if="modal" @close="modal = false" title="질문 게시판" 
-      isCategory="true" isSecret="true" isImage="true"></CreatePost>
+    <PostQuestion id = "modal" v-if="modal" @close="modal = false"></PostQuestion>
     <PageButton id="pg_bnt" :page="currentPage" :lastPage="parseInt(apiRes.totalPages)" baseUri="/question"></PageButton>
     
   </div>
@@ -34,9 +22,10 @@
 
 <script>
 import ListBox from "../layout/ListBox.vue";
-import CreatePost from "../layout/CreatePost.vue"
+import PostQuestion from "../layout/post/PostQuestion.vue"
 import Title from "../layout/common/Title.vue"
-import PageButton from "../layout/PageButton.vue"
+import PageButton from "../layout/common/PageButton.vue"
+import Category from "../layout/common/SecondaryCategory.vue"
 
 import {apiGetRequest} from "../../api/ApiCommon.js"
 
@@ -44,12 +33,15 @@ export default {
   name: "question",
   components: {
     ListBox,
-    CreatePost,
+    PostQuestion,
     Title,
-    PageButton
+    PageButton,
+    Category
   },
     data() {
     return {
+      main: "",
+      sub: "",
       currentPage: (!isNaN(this.$route.query.page)) ? this.$route.query.page : 1,
       modal: false,
       item1Val: 0,
@@ -58,14 +50,18 @@ export default {
         {num : 1 , val: "정보보안"},
         {num : 2 , val : "코딩"}
         ],
-      items2: [["none"], ["리버싱", "포렌식"], ["c언어", "자바", "파이썬"]],
+      items2: [["선택"], ["리버싱", "포렌식", "전체"], ["c언어", "자바", "파이썬", "전체"]],
       apiRes : []
     };
   },
   methods : {
-    mainCategory () {
-      var s = document.getElementById("category");
-      this.item1Val = s.options[s.selectedIndex].value;
+    mainF(item) {
+      this.main = item;
+      console.log(this.main);
+    }, 
+    subF(sub) {
+      this.sub = sub;
+      console.log(this.sub);
     }
   },
   created() {
@@ -74,9 +70,8 @@ export default {
         /* eslint-disable no-console */
         console.log(res.data);
         this.apiRes = res.data;
-      })
+    })
   }
-
 };
 </script>
 
@@ -95,29 +90,11 @@ hr {
   border-top: 1px solid #b2b2b2;
 }
 
-.form-select {
-  display: inline-block;
-  font-size: 14px;
-  width: 0px;
-}
-
-.category {
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-#category {
-  font-size: 13px;
-  width: 100px;
-  height: 30px;
-  text-align: center;
-}
-
 #modal {
   position: absolute;
   background-color:white;
   border: 1px solid black;
-  z-index: 1;
+  z-index: 20;
   margin: auto;
   width: 100%;
   top: 100px;
@@ -142,12 +119,10 @@ hr {
   margin-bottom: 20px;
 }
 
-#category_span {
-  margin-left: 5px;
-}
-
-
 .search {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: inline-block;
   float: right;
 }
 
