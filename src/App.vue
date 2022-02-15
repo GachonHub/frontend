@@ -41,12 +41,11 @@ body {
   margin-top: 40px;
   min-width: 1200px;
   width: auto;
-  min-height: 100%;
 
 }
 
 #footer {
-  padding-top: calc(100vh - 40px);
+  padding-top: calc(100vh-80px);
   padding: 0;
   position: absolute;
   z-index: 10;
@@ -54,7 +53,7 @@ body {
 
 #content {
   min-height: calc(100vh - 80px);
-  margin-bottom: 40px;
+  padding-bottom: 40px;
 }
 
 </style>
