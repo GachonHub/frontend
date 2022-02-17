@@ -1,103 +1,28 @@
 <template>
-    <div class="commit_table">
-        <table>
-            <thead>
-                <tr>
-                    <th>&nbsp;</th>
-                    <th v-for="item in days" v-bind:key="item">{{item}}</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th>Jan</th>
-                    <div v-for="item in 5" v-bind:key="item">
-                        <td v-for="item in 7" v-bind:key="item"></td>
-                    </div>
-                    <!-- 5*7-31 = 4 -->
-                </tr>
-                <tr>
-                    <th>Feb</th>
-                    <div v-for="item in 4" v-bind:key="item">
-                        <td v-for="item in 7" v-bind:key="item"></td>
-                    </div>
-                    <!-- 4*7-(28-4) = 4 -->
-                </tr>
-                <tr>
-                    <th>Mar</th>
-                    <div v-for="item in 4" v-bind:key="item">
-                        <td v-for="item in 7" v-bind:key="item"></td>
-                    </div>
-                    <!-- 4*7-(31-4) = 1 -->
-                </tr>
-                <tr>
-                    <th>Apr</th>
-                    <div v-for="item in 5" v-bind:key="item">
-                        <td v-for="item in 7" v-bind:key="item"></td>
-                    </div>
-                    <!-- 5*7-(30-1) = 6 -->
-                </tr>
-                <tr>
-                    <th>May</th>
-                    <div v-for="item in 4" v-bind:key="item">
-                        <td v-for="item in 7" v-bind:key="item"></td>
-                    </div>
-                    <!-- 4*7-(31-6) = 3 -->
-                </tr>
-                <tr>
-                    <th>Jun</th>
-                    <div v-for="item in 4" v-bind:key="item">
-                        <td v-for="item in 7" v-bind:key="item"></td>
-                    </div>
-                    <!-- 4*7-(30-3) = 1 -->
-                </tr>
-                <tr>
-                    <th>Jul</th>
-                    <div v-for="item in 5" v-bind:key="item">
-                        <td v-for="item in 7" v-bind:key="item"></td>
-                    </div>
-                    <!-- 5*7-(31-1) = 5 -->
-                </tr>
-                <tr>
-                    <th>Aug</th>
-                    <div v-for="item in 4" v-bind:key="item">
-                        <td v-for="item in 7" v-bind:key="item"></td>
-                    </div>
-                    <!-- 4*7-(31-5) = 2 -->
-                </tr>
-                <tr>
-                    <th>Sep</th>
-                    <div v-for="item in 4" v-bind:key="item">
-                        <td v-for="item in 7" v-bind:key="item"></td>
-                    </div>
-                    <!-- 4*7-(30-2) = 0 -->
-                </tr>
-                <tr>
-                    <th>Oct</th>
-                    <div v-for="item in 5" v-bind:key="item">
-                        <td v-for="item in 7" v-bind:key="item"></td>
-                    </div>
-                    <!-- 5*7-(31-2) = 6 -->
-                </tr>
-                <tr>
-                    <th>Nov</th>
-                    <div v-for="item in 4" v-bind:key="item">
-                        <td v-for="item in 7" v-bind:key="item"></td>
-                    </div>
-                    <!-- 4*7-(30-6) = 4 -->
-                </tr>
-                <tr>
-                    <th>Dec</th>
-                    <div v-for="item in 4" v-bind:key="item">
-                        <td v-for="item in 7" v-bind:key="item"></td>
-                    </div>
-                    <div>
-                        <td></td>
-                    </div>
-                    <!-- 4*7-(31-4) = 1 -->
-                </tr>
-            </tbody>
+    <div>
+            <table cellspacing="0" cellpadding="0">
+            <tr>
+                <th id="head" v-for="item in week" :key="item">
+                    <div id="div-th">{{item}}</div>
+                </th>
+                
+            </tr>
             
+            <template v-for="item in commit">
+                <tr v-for="(data, index) in item.data" :key="data">
+
+                    <td id="head1 items" v-for="idx in 7" :key="idx" 
+                    :class="[ data.commits[idx-1]==0 ? 'no items' : (data.commits[idx-1]<=2 ? 'zero items' : (data.commits[idx-1]<=4 ? 'twofive items' : ( data.commits[idx-1]<=6 ? 'fifty items' : ( data.commits[idx-1]<=8 ? 'sevenfive items':( data.commits[idx-1]<=10 ? 'hundred items' : 'items'))))) ]">
+                        <!-- {{data.commits[idx-1]}} -->
+                    </td>
+                    <th id="month-head" v-if="index==0" :rowspan="item.data.length" :key="index">
+                        {{item.month}}
+                    </th>
+                </tr>
+            </template>
+
         </table>
+
     </div>
 </template>
 
@@ -105,70 +30,413 @@
 export default {
     data() {
         return {
-            days: ['SUN','MON','TUE','WED','THU','FRI','SAT'],
-            month: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+            week : ["SAT","FRI","THU","WED","TUE","MON","SUN"," "],
+            month : ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL"],
+            commit: [
+                {
+                    month : "JAN",
+                    data: [
+                        {
+                            "week" : 1,
+                            commits: [10]
+                        },
+                        
+                        {
+                            "week" : 2,
+                            commits: [1,4,6,1,7,9,10]
+                        },
+                        
+                        {
+                            "week" : 3,
+                            commits: [1,1,3,4,5,6,10]
+                        },
+                        
+                        {
+                            "week" : 4,
+                            commits: [1,1,3,4,5,6,10]
+                        },
+                        
+                        {
+                            "week" : 5,
+                            commits: [1,1,3,4,5,6,10]
+                        },
+                        {
+                            "week" : 6,
+                            commits: [1,3,5,7,8,9,10]
+                        }
+                    ]
+                },
+                {
+                    month : "FEB",
+                    data: [
+                        {
+                            "week" : 1,
+                            commits: [1,1,3,4,5,6,10]
+                        },
+                        
+                        {
+                            "week" : 2,
+                            commits: [1,4,6,1,7,9,10]
+                        },
+                        
+                        {
+                            "week" : 3,
+                            commits: [1,1,3,4,5,6,10]
+                        },
+                        
+                        {
+                            "week" : 4,
+                            commits: [1,1,3,4,5,6,10]
+                        }
+                    ]
+                },
+                {
+                    month : "Mar",
+                    data: [
+                        {
+                            "week" : 1,
+                            commits: [1,1,3,4,5,6,10]
+                        },
+                        
+                        {
+                            "week" : 2,
+                            commits: [1,4,6,1,7,9,10]
+                        },
+                        
+                        {
+                            "week" : 3,
+                            commits: [1,1,3,4,5,6,10]
+                        },
+                        
+                        {
+                            "week" : 4,
+                            commits: [1,1,3,4,5,6,10]
+                        }
+                    ]
+                },
+                {
+                    month : "APR",
+                    data: [
+                        {
+                            "week" : 1,
+                            commits: [1,1,3,4,5,6,10]
+                        },
+                        
+                        {
+                            "week" : 2,
+                            commits: [1,4,6,1,7,9,10]
+                        },
+                        
+                        {
+                            "week" : 3,
+                            commits: [1,1,3,4,5,6,10]
+                        },
+                        
+                        {
+                            "week" : 4,
+                            commits: [1,1,3,4,5,6,10]
+                        }
+                    ]
+                },
+                {
+                    month : "MAY",
+                    data: [
+                        {
+                            "week" : 1,
+                            commits: [1,1,3,4,5,6,10]
+                        },
+                        
+                        {
+                            "week" : 2,
+                            commits: [1,4,6,1,7,9,10]
+                        },
+                        
+                        {
+                            "week" : 3,
+                            commits: [1,1,3,4,5,6,10]
+                        },
+                        
+                        {
+                            "week" : 4,
+                            commits: [1,1,3,4,5,6,10]
+                        },
+                        {
+                            "week" : 5,
+                            commits: [1,6,6,7,8,8,10]
+                        }
+                    ]
+                },
+                {
+                    month : "JUN",
+                    data: [
+                        {
+                            "week" : 1,
+                            commits: [1,1,3,4,5,6,10]
+                        },
+                        
+                        {
+                            "week" : 2,
+                            commits: [1,4,6,1,7,9,10]
+                        },
+                        
+                        {
+                            "week" : 3,
+                            commits: [1,1,3,4,5,6,10]
+                        },
+                        
+                        {
+                            "week" : 4,
+                            commits: [1,1,3,4,5,6,10]
+                        }
+                    ]
+                },
+                {
+                    month : "JUL",
+                    data: [
+                        {
+                            "week" : 1,
+                            commits: [1,1,3,4,5,6,10]
+                        },
+                        
+                        {
+                            "week" : 2,
+                            commits: [1,4,6,1,7,9,10]
+                        },
+                        
+                        {
+                            "week" : 3,
+                            commits: [1,1,3,4,5,6,10]
+                        },
+                        
+                        {
+                            "week" : 4,
+                            commits: [1,1,3,4,5,6,10]
+                        },
+                        {
+                            "week" : 5,
+                            commits: [1,6,6,7,8,8,10]
+                        }
+                    ]
+                },
+                {
+                    month : "AUG",
+                    data: [
+                        {
+                            "week" : 1,
+                            commits: [1,1,3,4,5,6,10]
+                        },
+                        
+                        {
+                            "week" : 2,
+                            commits: [1,4,6,1,7,9,10]
+                        },
+                        
+                        {
+                            "week" : 3,
+                            commits: [1,1,3,4,5,6,10]
+                        },
+                        
+                        {
+                            "week" : 4,
+                            commits: [1,1,3,4,5,6,10]
+                        }
+                    ]
+                },
+                {
+                    month : "SEP",
+                    data: [
+                        {
+                            "week" : 1,
+                            commits: [1,1,3,4,5,6,10]
+                        },
+                        
+                        {
+                            "week" : 2,
+                            commits: [1,4,6,1,7,9,10]
+                        },
+                        
+                        {
+                            "week" : 3,
+                            commits: [1,1,3,4,5,6,10]
+                        },
+                        
+                        {
+                            "week" : 4,
+                            commits: [1,1,3,4,5,6,10]
+                        }
+                    ]
+                },
+                {
+                    month : "OCT",
+                    data: [
+                        {
+                            "week" : 1,
+                            commits: [1,1,3,4,5,6,10]
+                        },
+                        
+                        {
+                            "week" : 2,
+                            commits: [1,4,6,1,7,9,10]
+                        },
+                        
+                        {
+                            "week" : 3,
+                            commits: [1,1,3,4,5,6,10]
+                        },
+                        
+                        {
+                            "week" : 4,
+                            commits: [1,1,3,4,5,6,10]
+                        },
+                        {
+                            "week" : 5,
+                            commits: [1,6,6,7,8,8,10]
+                        }
+                    ]
+                },
+                {
+                    month : "NOV",
+                    data: [
+                        {
+                            "week" : 1,
+                            commits: [1,1,3,4,5,6,10]
+                        },
+                        
+                        {
+                            "week" : 2,
+                            commits: [1,4,6,1,7,9,10]
+                        },
+                        
+                        {
+                            "week" : 3,
+                            commits: [1,1,3,4,5,6,10]
+                        },
+                        
+                        {
+                            "week" : 4,
+                            commits: [1,1,3,4,5,6,10]
+                        }
+                    ]
+                },
+                {
+                    month : "DEC",
+                    data: [
+                        {
+                            "week" : 1,
+                            commits: [1,1,3,4,5,6,10]
+                        },
+                        
+                        {
+                            "week" : 2,
+                            commits: [1,4,6,1,7,9,10]
+                        },
+                        
+                        {
+                            "week" : 3,
+                            commits: [1,1,3,4,5,6,10]
+                        },
+                        
+                        {
+                            "week" : 4,
+                            commits: [1,1,3,4,5,6,10]
+                        }
+                    ]
+                }
 
+            ]
         }
-    },
+    }
 }
 </script>
 
 <style scoped>
-/* :root {
-    --zero-percent:#EBEDF0;
-    --zero-border: #DFE1E4;
-    --twentyf-percent:#B1D7B4;
-    --twentyf-border:#9CCA9F;
-    --fifty-percent:#79B081;
-    --fifty-border:#669F6E;
-    --seventyf-percent:#698D6E;
-    --seventyf-border:#4A7D51;
-    --hundred-percent:#336B3E;
-    --hundred-border: #32683D;
-}
-.title > th, tr>td:nth-child(1){
-    font-size: 14px;
-    font-weight: 700;
-
-    text-align: left;
-
-    background-color: white;
+table {
+    width: 150px;
+    height: 500px;
+    transform: rotate(-90deg);
+    font-size: 5px;
     border: 0;
-    border-radius: 0;
-}*/
-table{
-    display:flex;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    overflow-x: auto;
-    overflow-y: hidden;
-    font-size: 14px;
-    font-weight: 700;
+    margin: -500px auto auto 500px;
+    border-collapse: separate;
+    border-spacing: 5px;
+}
 
+#head {
+    transform: rotate(90deg);
+    border: 0;
+}
+
+#month-head {
+    writing-mode: vertical-rl;
     text-align: left;
 }
 
-tbody {display:flex;}
+.items {
+    line-height: 15px;
+    border: 0;
+    width: 15px;
+    height: 15px;
+}
 
-th{display:block;}
+#div-td {
+    width: 15px;
+    height: 15px;
+    margin: 0;
+    padding: 0;
+}
 
-td {
-    display:block;
-    width: 20px;
+#div-th {
+    font-size: 5px;
+    width: 15px;
+    margin: 0;
+}
+
+table tr th {
+    line-height: 20px;
+    font-size: 5px;
+    border: 0;
+}
+
+#head1 {
+    transform: rotate(90deg);
     height: 20px;
-    background-color: #EBEDF0;
-    border: 2px solid #DFE1E4;
+    width: 20px;
+}
+
+/* 테이블 색상 */
+.no {
+    border: 0;
+    background: transparent;
+}
+.zero {
+    background: #EBEDF0;
+     border: 2px solid #DFE1E4;
+    box-sizing: border-box;
+    border-radius: 5px; 
+}
+.twofive {
+    background: #B1D7B4;
+    border: 2px solid #9CCA9F;
     box-sizing: border-box;
     border-radius: 5px;
 }
-
-div {
-    display: inline-block;
+.fifty {
+    background: #79B081;
+    border: 2px solid #669F6E;
+    box-sizing: border-box;
+    border-radius: 5px;
 }
-/*
-.disabled {
-    background-color: transparent;
-    border: 0;
-} */
+.sevenfive {
+    background: #698D6E;
+    border: 2px solid #4A7D51;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+.hundred {
+    background: #336B3E;
+    border: 2px solid #32683D;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
 
 </style>

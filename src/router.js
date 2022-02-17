@@ -2,6 +2,7 @@ import {createWebHistory, createRouter} from "vue-router"
 
 import Ranking from "./components/views/Ranking.vue";
 import Profile from "./components/views/Profile.vue"
+import test1 from "./components/layout/CommitTableDemo.vue"
 import Auth from "./components/views/Auth.vue"
 
 import QuestionList from "./components/views/QuestionList.vue";
@@ -55,7 +56,8 @@ const router = createRouter({
     {path: "/inquiry/:page", component: InquiryList},
     {path: "/inquiry/id/:id", component: InquiryView},
 
-    {path: "/test", component: Test}
+    {path: "/test", component: Test},
+    {path : "/test1", component: test1}
   ]
 })
 export default router;

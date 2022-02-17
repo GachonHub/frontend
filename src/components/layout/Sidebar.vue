@@ -52,7 +52,6 @@ ul{
 }
 li {
     list-style: none;
-    
 }
 hr {
     border: 0;

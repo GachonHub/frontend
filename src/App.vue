@@ -45,7 +45,7 @@ body {
 }
 
 #footer {
-  padding-top: calc(100vh-80px);
+  padding-top: calc(100vh - 80px);
   padding: 0;
   position: absolute;
   z-index: 10;
