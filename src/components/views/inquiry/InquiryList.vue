@@ -4,7 +4,7 @@
     <div class="search">
       <input id="search_text" class="form-control" type="text">
       <button type="button" class="form-control">검색</button>
-      <button v-if="role=='admin'" type="button" @click="modal = true" class="form-control">글 작성하기</button>
+      <button type="button" @click="modal = true" class="form-control">글 작성하기</button>
     </div>
 
     <ListBox :items="apiRes.data" id="list"></ListBox>
@@ -33,7 +33,6 @@ export default {
   },
     data() {
     return {
-      role: localStorage.getItem("role"),
       currentPage: (!isNaN(this.$route.query.page)) ? this.$route.query.page : 1,
       modal: false,
       apiRes : []

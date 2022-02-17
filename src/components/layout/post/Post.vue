@@ -1,25 +1,27 @@
 <template>
     <transition name="modal" appear>
         <div class="app">
-            <div class="title">{{title}}</div>
-            <form class="form">
-                <div class="form-data">
-                    <label for="f-title" class="form-head">제목</label>
-                    <input type="text" id="f-title" class="form-control form-content"/><br>
-                </div>
+            <div class="form">
+                <div class="title">{{title}}</div>
+                <form>
+                    <div class="form-data">
+                        <label for="f-title" class="form-head">제목</label>
+                        <input type="text" id="f-title" class="form-control form-content"/><br>
+                    </div>
 
-                <div class="form-data">
-                    <label for="content" class="form-head" style="height: 200px">내용</label>
-                    <input type="text" id="content" class="form-control form-content"/><br>
+                    <div class="form-data">
+                        <label for="content" class="form-head" style="height: 200px">내용</label>
+                        <input type="text" id="content" class="form-control form-content"/><br>
+                    </div>
+                    <div class="form-data">
+                        <label for="file" class="form-head">첨부파일</label>
+                        <input type="file" id="file" class="form-control form-content"><br>
+                    </div>
+                </form>
+                <div class="form-button">
+                    <button class="form-control" id="custom-bnt" @click="$emit('close')">취소</button>
+                    <button class="form-control" id="custom-bnt" @click="writeNewPost()">작성</button>
                 </div>
-                <div class="form-data">
-                    <label for="file" class="form-head">첨부파일</label>
-                    <input type="file" id="file" class="form-control form-content"><br>
-                </div>
-            </form>
-            <div class="form-button">
-                <button class="form-control" id="custom-bnt" @click="$emit('close')">취소</button>
-                <button class="form-control" id="custom-bnt" @click="writeNewPost()">작성</button>
             </div>
         </div>
     </transition>
@@ -58,6 +60,11 @@ export default {
   height: 100%;
 }
 
+.form {
+    height: 70%;
+    margin-top: 5%;
+}
+
 .form-select {
     display: inline-block;
     width: 100px;
@@ -83,17 +90,12 @@ textarea {
     resize: none !important;
 }
 
-.form-check{
-    padding: 0;
-    margin: 0;
-}
-
-
 .form-head {
     margin-right: 10px;
     font-size: 14px;
     text-align: right;
     grid-area: "head";
+    line-height: 35px;
 }
 
 .form-content {

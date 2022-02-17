@@ -2,7 +2,7 @@
   <div class="app">
     <Title title="질문 게시판"></Title>
     <div style="display: inline-block; margin-top:10px;">
-      <span style="font-size:14px;">카테고리</span>
+      <span style="font-size:14px;">카테고리 </span>
       <Category style="display:inline-block;" :items = "items" :items2 = "items2"></Category>
     </div>
 

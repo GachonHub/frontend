@@ -1,25 +1,23 @@
 <template>
     <div class="profile">
-        <div class="container">
-            <div class="info">
-                <div class="profile_image"></div>
-                <div v-bind:key="info" class="profile_name">{{info.name}}</div>
-                <div v-bind:key="info" class="profile_major">{{info.major}}</div>
-                <div v-bind:key="info" class="profile_content">{{info.content}}</div>
+        <div class="info">
+            <div class="profile_image"></div>
+            <div v-bind:key="info" class="profile_name">{{info.name}}</div>
+            <div v-bind:key="info" class="profile_major">{{info.major}}</div>
+            <div v-bind:key="info" class="profile_content">{{info.content}}</div>
+        </div>
+        <div class="repo">
+            <div class="title repository_title">메인 저장소 🗂</div>
+            <div v-for="item in repos" v-bind:key="item" class="box">
+                <div class="repo_title">{{item.title}}</div>
+                <div class="repo_content">{{item.content}}</div>
+                <div class="repo_lan"><div class="eclipse"></div>{{item.lan}}</div>
+                <div class="repo_public">Public</div>
             </div>
-            <div class="repo">
-                <div class="title repository_title">메인 저장소 🗂</div>
-                <div v-for="item in repos" v-bind:key="item" class="box">
-                    <div class="repo_title">{{item.title}}</div>
-                    <div class="repo_content">{{item.content}}</div>
-                    <div class="repo_lan"><div class="eclipse"></div>{{item.lan}}</div>
-                    <div class="repo_public">Public</div>
-                </div>
-            </div>
-            <div class="grass">
-                <div class="title grass_title">잔디 🌿</div>
-                <CommitTable class="commit_table"/>
-            </div>
+        </div>
+        <div class="grass">
+            <div class="title grass_title">잔디 🌿</div>
+            <CommitTable class="commit_table"/>
         </div>
     </div>
 </template>
@@ -61,12 +59,16 @@ export default {
 </script>
 
 <style scoped>
-.container {
-    width: 1200px;
-    margin: 0 auto;
+
+.profile {
+    max-width: 1200px;
+    min-width: 1200px;
+    padding: 0;
+    margin: auto;
 }
+
 .info {
-    width: 100%;
+    max-width: 100%;
     height: 250px;
     background-image: 
     url(https://images.unsplash.com/photo-1622547748225-3fc4abd2cca0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2532&q=80);
