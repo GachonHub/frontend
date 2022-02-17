@@ -1,56 +1,48 @@
 <template>
     <transition name="modal" appear>
         <div class="app">
-            <div class="title">{{title}}</div>
+            <div class="title">스터디 추가</div>
             <form class="form">
                 <div class="form-data">
                     <label for="f-title" class="form-head">제목</label>
-                    <input type="text" id="f-title" class="form-content"/><br>
+                    <input type="text" id="f-title" class="form-control form-content"/><br>
                 </div>
-
-                <div class="form-data" v-if="isCategory">
-                    <label for="category1" class="form-head">카테고리</label>
-                    <div class="form-content">
-                        <select id="category1">
-                            <option :value="index" v-for="(item, index) in items" v-bind:key="item">
-                                {{ item }}
-                            </option>
-                        </select>
-                        
-                        <select id="category2">
-                            <option value="item" v-for="item in items2[0]" v-bind:key="item">
-                                {{ item }}
-                            </option>
-                        </select><br>
-                    </div>
-                </div>
+                <Category v-if="isCategory" :items = "items" :items2 = "items2"></Category>
 
                 <div class="form-data">
                     <label for="content" class="form-head" style="height: 200px">내용</label>
-                    <input type="text" id="content" class="form-content"/><br>
+                    <input type="text" id="content" class="form-control form-content"/><br>
+                </div>
+                <div class="form-data" v-if="isImage">
+                    <label for="image" class="form-head">이미지</label>
+                    <input type="file" id="image" class="form-control form-content"><br>
                 </div>
 
-                <div class="form-data" v-if="isSecret">
+                <div class="form-check form-switch form-data" v-if="isSecret">
                     <label for="isSecret" class="form-head">비밀글 여부</label>
-                    <input type="text" id="isSecret" class="form-content"/><br>
+                    <input type="checkbox" id="isSecret" role="switch" class="form-check-input form-content" style="margin-left:6px;">
                 </div>
-
                 <div class="form-data" v-if="isSecret">
                     <label for="password" class="form-head">비밀번호</label>
-                    <input type="text" id="password" class="form-content"/><br>
+                    <input type="text" id="password" class="form-control form-content"/><br>
                 </div>
             </form>
             <div class="form-button">
-                <button id="WButton" @click="writeNewPost()">작성</button>
-                <button id="CButton" @click="$emit('close')">close</button>
+                <button class="form-control" id="custom-bnt" @click="$emit('close')">취소</button>
+                <button class="form-control" id="custom-bnt" @click="writeNewPost()">작성</button>
             </div>
         </div>
     </transition>
 </template>
 
 <script>
+import Category from "../common/SecondaryCategory.vue"
+
 export default {
   name: "post-creation",
+  components: {
+      Category
+  },
   methods: {
       writeNewPost: function () {
           alert("New post");
@@ -63,7 +55,11 @@ export default {
     };
   },
   props : {
-      title: String,
+      title: String,      
+      isImage: {
+          Type: Boolean,
+          default: false
+      },
       isSecret: {
           Type: Boolean,
           default: false
@@ -84,21 +80,18 @@ export default {
   height: 100%;
 }
 
-img {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    right: 10px;
-    top: 10px;
+.form-select {
+    display: inline-block;
+    width: 100px;
+    margin-right: 5px;
 }
 
 .title {
-  height: 60px;
-  text-align: center;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 60px;
-  padding-left: 20px;
+    height: 60px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 60px;
 }
 
 .form-data {
@@ -112,8 +105,13 @@ textarea {
     resize: none !important;
 }
 
+.form-check{
+    padding: 0;
+    margin: 0;
+}
+
+
 .form-head {
-    /* width: 100%; */
     margin-right: 10px;
     font-size: 14px;
     text-align: right;
@@ -128,15 +126,14 @@ textarea {
 .form-button {
     width: calc((100% -20px)*0.5);
     margin: auto;
-    text-align: right;
+    /* text-align: right; */
 }
 
-button {
-    margin: 10px;
-    width: 85px;
-    height: 25px;
-    line-height:25px;
-    font-size: 14px;
+#custom-bnt {
+    float: right;
+    margin-left: 5px;
+    display: inline-block;
+    width: 80px;
 }
 
 </style>

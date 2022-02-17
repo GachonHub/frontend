@@ -246,13 +246,16 @@ export default {
                 {rank:15,id:'tearofglass', commits: 4558, previous:7}
                 ]
         }
-    },
+    }
 }
+
+
 </script>
 
 <style scoped>
 .container {
-    width: 1200px;
+    max-width: 1200px;
+    min-width: 1200px;
     margin: 0 auto;
     margin-bottom: 20px;
 }

@@ -2,16 +2,17 @@
   <div id="app">
     <Header id="header"/>
     
-    <router-view></router-view>
+    <div id="content"> 
+      <router-view></router-view>
+    </div>
     
-    <Footer class="footer"/>
+    <Footer id="footer"/>
   </div>
 </template>
 
 <script>
 import Header from './components/layout/Header.vue'
 import Footer from './components/layout/Footer.vue'
-
 export default {
   name: 'App',
   components: {
@@ -21,10 +22,9 @@ export default {
   }
 }
 
-
 </script>
 
-<style>
+<style scoped>
 body {
   margin: 0;
   padding: 0;
@@ -41,13 +41,19 @@ body {
   margin-top: 40px;
   min-width: 1200px;
   width: auto;
-  min-height: 100%;
 
 }
-.footer {
-  position: relative;
-  bottom: -50%;
+
+#footer {
+  padding-top: calc(100vh - 80px);
+  padding: 0;
+  position: absolute;
   z-index: 10;
+}
+
+#content {
+  min-height: calc(100vh - 80px);
+  margin-bottom: 40px;
 }
 
 </style>

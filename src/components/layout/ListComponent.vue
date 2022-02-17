@@ -1,14 +1,12 @@
 <template>
     <div class="list_component">
-        
-        <div class="field">{{field}}</div>
-        <a class="sympathy">공감</a><div class="sympathy">{{sympathy}}</div>
-        <div class="study_name">{{title}}</div>
-        <div class="study_content">{{content}}</div>
-        <a class="writer">작성자 - </a><div class="writer">{{writer}}</div>
-        <div class="study_image" :src='img' ></div>
+        <div class="field">{{data.field}}</div>
+        <a class="sympathy">공감</a><div class="sympathy">{{data.sympathy}}</div>
+        <div class="study_name">{{data.title}}</div>
+        <div class="study_content">{{data.content}}</div>
+        <a class="writer">작성자 - </a><div class="writer">{{data.writer}}</div>
+        <div class="study_image" :src='data.img' ></div>
         <hr>
-        
     </div>
 </template>
 
@@ -16,12 +14,7 @@
 export default {
     props: 
         {
-            field: String,
-            sympathy: Number,
-            title: String,
-            content: String,
-            writer: String,
-            study_image: String
+            data: Array
         }
 }
 </script>
