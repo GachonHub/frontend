@@ -1,13 +1,34 @@
 <template>
     <div class="profile">
-        <div class="info">
-            <div class="profile_image"><img id="profileImage" :src="this.info.avatarUrl" alt=""></div>
-            <div class="profile_name">{{this.info.name}}</div>
-            <div class="profile_major">{{this.info.major}}</div>
-            <div class="profile_content">{{this.info.description}}</div>
+        <div id="user" :style="{backgroundImage : `url(${back})`}">
+            <div class="user-img">
+                <img class="profile_image" :src="this.info.avatarUrl" alt="">
+            </div>
+            <div class="user-info">
+                <div>
+                    <p class="profile_name">{{this.info.nickname}}</p>
+                    <p class="profile-etc" v-if="this.info.major">{{this.info.major}}</p>
+                    <p class="profile-etc" v-if="this.info.company">{{this.info.company}}</p>
+                    <p class="profile-etc" v-if="this.info.graduate">{{this.info.graduate}}</p>
+                </div>
+                
+            </div>
+
+            <div class="user-description">
+                <div class="profile_content">{{this.info.description}}</div>
+            </div>
         </div>
+
         <div class="repo">
             <div class="title repository_title">메인 저장소 🗂</div>
+            <div v-if="repos.length == 0" style="padding-left:40px; padding-top:50px;">
+                <div id="repo-blank">
+                    <div>
+                        등록할 레포지토리가 없습니다.<br>
+                        github에서 첫 레포지토리를 만들어보세요.
+                    </div>
+                </div>
+            </div>
             <div v-for="item in repos" v-bind:key="item" class="box">
                 <div class="repo_title">{{item.title}}</div>
                 <div class="repo_content">{{item.content}}</div>
@@ -32,15 +53,34 @@ export default {
     },
     data() {
         return {
+            back : "https://images.unsplash.com/photo-1622547748225-3fc4abd2cca0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2532&q=80",
             info : Array,
-            repos : Array
+            repos: []
+            // repos: [
+            //     {
+            //         title: "everything",
+            //         content: "테스트 코드 저장을 위한 저장소",
+            //         lan: "HTML"
+            //     },
+            //     {
+            //         title: "anything",
+            //         content: "데모 코드 저장을 위한 저장소",
+            //         lan:"HTML, CSS"
+            //     },
+            //     {
+            //         title: "something",
+            //         content: "테스트, 데모버전",
+            //         lan:"C"
+            //     }
+            // ]
         }
     },
     created() {
         apiGetRequest("/api/me?id=" + this.$route.params.id)
             .then(res => {
                 this.info = res.data;
-                this.repos = res.data.repos;
+                this.info.graduate = (this.info.graduate) ? "졸업" : "재학";
+                // this.repos = res.data.repos;
             })
             .catch(err => {
                 if (err.response.status == 400) {
@@ -61,75 +101,79 @@ export default {
     margin: auto;
 }
 
-.info {
-    max-width: 100%;
+#user {
+    width: 100%;
     height: 250px;
-    background-image: 
-    url(https://images.unsplash.com/photo-1622547748225-3fc4abd2cca0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2532&q=80);
+
     background-size: 1200px;
     background-position: center;
+
+    display: grid;
+    grid-template-columns: 2.25fr 2.25fr 5fr;
+    grid-template-areas: "img info * description";
 }
-/* 
+
+.user-img {
+    grid-area: "img";
+    text-align: center;
+    line-height: 250px;
+}
+
+p {
+    margin: 0;
+}
+
+.user-info {
+    grid-area: "info";
+    text-align: left;
+    padding-left: 20px;
+    display: flex;
+    align-items: center;
+
+}
+
+.user-description {
+    grid-area: "description";
+    text-align: center;
+    line-height: 250px;
+}
+
 .profile_image {
     width: 183px;
     height: 183px;
     border-radius: 100%;
     transform: scaleX(-1);
-
-    background-image: 
-    url(https://images.unsplash.com/photo-1638957319391-9b81b996afca?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2592&q=80);
     background-size: 250px;
     background-position: center;
-    
-    position: relative;
-    top: 33px;
-    left: 51px;
-} */
-
-
-#profileImage {
-    width: 183px;
-    height: 183px;
-    border-radius: 100%;
-    transform: scaleX(-1);
-    background-size: 250px;
-    background-position: center;
-    position: relative;
-    top: 33px;
-    left: 51px;
 }
 
 .profile_name {
     color: white;
     font-size: 18px;
     font-weight: 800;
-    position: relative;
-    top: -88px;
-    left: 306px;
-    width: 20%;
     
 }
-.profile_major {
+.profile-etc {
     color: #595959;
     font-size: 16px;
     font-weight: 800;
-    width: 20%;
-
-    position: relative;
-    left: 305px;
-    top: -82px;
 }
+
 .profile_content {
     color: white;
     font-size: 22px;
     font-weight: 600;
-    width: 40%;
-
-    position: relative;
-    left: 610px;
-    top: -114px;
 }
 
+#repo-blank {
+    height:120px;
+    width:1160px;
+    border: 1px solid lightgray;
+    border-radius: 20px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
 
 .box {
     position: relative;
@@ -144,42 +188,39 @@ export default {
 .repo {
     width: 100%;
     height: 260px;
+    padding-top: 65px;
+    padding-left: 5px;
     background-color: white;
 }
 .repository_title {
-    position: relative;
-    top: 67px;
-    left: 5px;
     width: 20%;
 }
 .repo_title {
     position: relative;
-    top: 16px;
+    top: 14px;
     left: 15px;
     font-size: 14px;
     font-weight: 800;
     color: #0969DA;
-
     width: 343px;
     margin: 0;
 }
 .repo_content {
     position: relative;
-    top: 28px;
+    top: 22px;
     left: 15px;
     font-size: 13px;
     font-weight: 400;
-
     width: 343px;
     margin: 0;
 }
+
 .repo_lan {
     position: relative;
-    top: 37px;
+    top: 30px;
     left: 19px;
     font-size: 12px;
     font-weight: 400;
-
     width: 300px;
     margin: 0;
 }
@@ -191,9 +232,8 @@ export default {
     box-sizing: border-box;
     border-radius: 30px;
     position: relative;
-    top: -38px;
+    top: -46px;
     left: 291px;
-
     text-align: center;
     line-height: 20px;
     font-size: 12px;
@@ -238,12 +278,10 @@ export default {
 
 .grass {
     width: 100%;
-    height: 407px;
+    padding-top: 70px;
+    height: 400px;
 }
 .grass_title {
-    position: relative;
-    top: 70px;
-    left: 17px;
     width: 20%;
 }
 .commit_table {
