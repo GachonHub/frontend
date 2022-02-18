@@ -26,7 +26,7 @@
                     
                 <!-- 프로필 아이콘 -->
                 <li class="nav_item profile_icon_area">
-                    <router-link to="/profile">
+                    <router-link :to="{path : '/profile/' + userId}">
                         <i class="nav profile bi bi-person-circle"></i>
                     </router-link>
                 </li>
@@ -54,7 +54,8 @@ export default {
     data () {
         return {
             GITHUB_OAUTH_URI: GITHUB_OAUTH_URI,
-            isOpenSidebar: false
+            isOpenSidebar: false,
+            userId: localStorage.getItem('user')
         }
     },
     methods : {

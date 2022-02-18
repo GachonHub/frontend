@@ -1,10 +1,10 @@
 <template>
     <div class="profile">
         <div class="info">
-            <div class="profile_image"></div>
-            <div v-bind:key="info" class="profile_name">{{info.name}}</div>
-            <div v-bind:key="info" class="profile_major">{{info.major}}</div>
-            <div v-bind:key="info" class="profile_content">{{info.content}}</div>
+            <div class="profile_image"><img id="profileImage" :src="this.info.avatarUrl" alt=""></div>
+            <div class="profile_name">{{this.info.name}}</div>
+            <div class="profile_major">{{this.info.major}}</div>
+            <div class="profile_content">{{this.info.description}}</div>
         </div>
         <div class="repo">
             <div class="title repository_title">메인 저장소 🗂</div>
@@ -24,37 +24,31 @@
 
 <script>
 import CommitTable from '../layout/CommitTable.vue'
+import {apiGetRequest} from "../../api/ApiCommon.js"
+
 export default {
     components:{
         CommitTable
     },
     data() {
         return {
-            info:
-                {
-                    name:"Robot Ta",
-                    major:"컴퓨터공학과",
-                    content:"제가 바로 보안의 미래입니다. 보안의 미래"
-                },
-            repos: [
-                {
-                    title: "everything",
-                    content: "테스트 코드 저장을 위한 저장소",
-                    lan: "HTML"
-                },
-                {
-                    title: "anything",
-                    content: "데모 코드 저장을 위한 저장소",
-                    lan:"HTML, CSS"
-                },
-                {
-                    title: "something",
-                    content: "테스트, 데모버전",
-                    lan:"C"
-                }
-            ]
+            info : Array,
+            repos : Array
         }
     },
+    created() {
+        apiGetRequest("/api/me?id=" + this.$route.params.id)
+            .then(res => {
+                this.info = res.data;
+                this.repos = res.data.repos;
+            })
+            .catch(err => {
+                if (err.response.status == 400) {
+                    alert("로그인을 해주세요.");
+                    this.$router.push("/");
+                }
+            })
+    }
 }
 </script>
 
@@ -75,6 +69,7 @@ export default {
     background-size: 1200px;
     background-position: center;
 }
+/* 
 .profile_image {
     width: 183px;
     height: 183px;
@@ -89,7 +84,21 @@ export default {
     position: relative;
     top: 33px;
     left: 51px;
+} */
+
+
+#profileImage {
+    width: 183px;
+    height: 183px;
+    border-radius: 100%;
+    transform: scaleX(-1);
+    background-size: 250px;
+    background-position: center;
+    position: relative;
+    top: 33px;
+    left: 51px;
 }
+
 .profile_name {
     color: white;
     font-size: 18px;

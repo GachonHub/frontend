@@ -34,7 +34,7 @@ body {
 @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
 #app {
   font-family: 'Nanum Gothic', sans-serif;
- -webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   
   color: #2c3e50;

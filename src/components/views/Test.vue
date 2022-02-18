@@ -1,6 +1,6 @@
 <template>
     <div>
-        <table cellspacing="0" cellpadding="0">
+            <table cellspacing="0" cellpadding="0">
             <tr>
                 <th id="head" v-for="item in week" :key="item">
                     <div id="div-th">{{item}}</div>
@@ -8,20 +8,19 @@
                 
             </tr>
             
-            <template v-for="item in month">
-                <tr v-for="(index,data) in parseInt(item.date)" :key="data">
-                    <td class="items" v-for="idx in 7" :key="idx">
-                        <div id="div-td">{{idx}}</div>
+            <template v-for="item in commit">
+                <tr v-for="(data, index) in item.data" :key="data">
+                    <td id="head1" v-for="idx in 7" :key="idx">
+                        {{data.commits[idx-1]}}
                     </td>
-                    <th class="head1" style="vertical-align:top;" v-if="index==1" :rowspan="parseInt(item.date)">
-                        <div id="head" style="width:20px; height:20px;">jan</div>
+                    <th id="head" v-if="index==0" :rowspan="item.data.length" :key="index">
+                        {{item.month}}
                     </th>
                 </tr>
-
             </template>
 
-            <!-- month, month.name month.date -->
         </table>
+
     </div>
 </template>
 
@@ -29,31 +28,61 @@
 export default {
     data() {
         return {
-            week : ["SUN", "SAT", "FRI", "THU", "WED", "THU", "MON", " "],
-            month : [
+            week : ["SUN", "STA", "FRI", "THU", "WED", "TUE", "MON", " "],
+            month : ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL"],
+            commit: [
                 {
-                    name : 'jan',
-                    date : '4'
+                    month : "JAN",
+                    data: [
+                        {
+                            "week" : 1,
+                            commits: [10]
+                        },
+                        
+                        {
+                            "week" : 2,
+                            commits: [1,4,6,1,7,9,10]
+                        },
+                        
+                        {
+                            "week" : 3,
+                            commits: [1,1,3,4,5,6,10]
+                        },
+                        
+                        {
+                            "week" : 4,
+                            commits: [1,1,3,4,5,6,10]
+                        },
+                        
+                        {
+                            "week" : 5,
+                            commits: [1,1,3,4,5,6,10]
+                        }
+                    ]
                 },
                 {
-                    name : 'feb',
-                    date : '4'
-                },
-                {
-                    name : 'mar',
-                    date : '4'
-                },
-                {
-                    name : 'apr',
-                    date : '4'
-                },
-                {
-                    name : 'may',
-                    date : '4'
-                },
-                {
-                    name : 'jun',
-                    date : '4'
+                    month : "FEB",
+                    data: [
+                        {
+                            "week" : 1,
+                            commits: [1,1,3,4,5,6,10]
+                        },
+                        
+                        {
+                            "week" : 2,
+                            commits: [1,4,6,1,7,9,10]
+                        },
+                        
+                        {
+                            "week" : 3,
+                            commits: [1,1,3,4,5,6,10]
+                        },
+                        
+                        {
+                            "week" : 4,
+                            commits: [1,1,3,4,5,6,10]
+                        }
+                    ]
                 }
             ]
         }
@@ -72,7 +101,7 @@ table {
 }
 
 #head {
-    writing-mode: vertical-rl;
+    transform: rotate(90deg);
     border: 0;
 }
 
@@ -105,7 +134,8 @@ table tr th {
 }
 
 #head1 {
-    height: 20px;
+    /* height: 20px; */
+    transform: rotate(90deg);
 }
 
 

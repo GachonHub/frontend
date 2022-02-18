@@ -35,7 +35,7 @@ const router = createRouter({
     {path: "/", component: Ranking },
     {path: "/auth", component: Auth},
 
-    {path: '/profile',component: Profile},
+    {path: '/profile/:id',component: Profile},
 
     {path: '/study/:page', component: StudyList},
     {path: '/study/id/:id', component: StudyView},
