@@ -8,15 +8,16 @@
             <div class="user-info">
                 <div>
                     <p class="profile_name">{{this.info.nickname}}
-                        <button id="profile-bnt" @click="modal = true"></button>
+                        <button class="profile-bnt" @click="modal = true"></button>
                     </p>
                     <p class="profile-etc" v-if="this.info.major">{{this.info.major}}</p>
                     <p class="profile-etc" v-if="this.info.company">{{this.info.company}}</p>
                     <p class="profile-etc" v-if="this.info.graduate">{{this.info.graduate}}</p>
                 </div>
             </div>
-            
-            <ProfileInfo v-if="modal" id="info-modal" title="프로필 수정"  @close="modal=false"></ProfileInfo>
+            <div  v-if="modal" id="modal_background">
+                <ProfileInfo id="info-modal" title="프로필 수정"  @close="modal=false"></ProfileInfo>
+            </div>
 
             <div class="user-description">
                 <div class="profile_content">{{this.info.description}}</div>
@@ -25,7 +26,13 @@
         </div>
 
         <div class="repo">
-            <div class="title repository_title">메인 저장소 🗂</div>
+            <div class="title repository_title">
+                <div>
+                <p>메인 저장소 🗂</p>
+                    <button class="profile-bnt" id="repos-bnt" @click="reposModal = true"></button>
+                </div>
+            </div>
+            
             <div v-if="repos.length == 0" style="padding-left:40px; padding-top:50px;">
                 <div id="repo-blank">
                     <div>
@@ -40,7 +47,12 @@
                 <div class="repo_lan"><div class="eclipse"></div>{{item.lan}}</div>
                 <div class="repo_public">Public</div>
             </div>
+            
+            <div  v-if="reposModal" id="modal_background">
+                <MainRepos id="mainRepos-selection" @close="reposModal = false"></MainRepos>
+            </div>
         </div>
+        
         <div class="grass">
             <div class="title grass_title">잔디 🌿</div>
             <CommitTable class="commit_table"/>
@@ -52,17 +64,21 @@
 import CommitTable from '../layout/CommitTable.vue'
 import Snsbar from "../layout/profile/Snsbar.vue"
 import ProfileInfo from "../layout/profile/ProfileInfo.vue"
+import MainRepos from "../layout/profile/MainRepos.vue"
+
 import {apiGetRequest} from "../../api/ApiCommon.js"
 
 export default {
     components:{
         CommitTable,
         Snsbar,
-        ProfileInfo
+        ProfileInfo,
+        MainRepos
     },
     data() {
         return {
             modal : false,
+            reposModal : false,
             back : "https://images.unsplash.com/photo-1622547748225-3fc4abd2cca0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2532&q=80",
             info : Array,
             repos: [
@@ -110,20 +126,43 @@ export default {
     margin: auto;
 }
 
+#modal_background {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    z-index: 20;
+    top: 0px;
+    left: 0px;
+    background-color:rgba(0,0,0,.4);
+}
+
 #info-modal {
-    position: absolute;
+    position: absolute !important;
     top: 120px;
     border: 1px solid #cccccc;
-    box-shadow: 5px 5px 5px 5px lightgray;
+    /* box-shadow: 5px 5px 5px 5px lightgray; */
     border-radius: 10px;
     height: 250px;
     width: 600px;
-    z-index: 20;
+    z-index: 30;
     left: 34%;
     background-color: white;
 }
 
-#profile-bnt {
+.profile-bnt {
+    background: url("../../assets/profile/pencil-square.svg");
+    background-size: 100%;
+    width:16px;
+    height:16px;
+    border: none;
+    margin: auto
+}
+
+#repos-bnt {
+    position: relative;
+    bottom: 33px;
+    left: 145px;
+    z-index: 40;
     background: url("../../assets/profile/pencil-square.svg");
     background-size: 100%;
     width:16px;
@@ -133,18 +172,35 @@ export default {
 }
 
 #sns-bar {
-    position: fixed;
+    position: absolute;
     left: calc(50% + 620px);
     
+}
+
+#mainRepos-selection {
+    position : fixed !important;
+    background-color:white;
+    z-index: 90;
+    width: 400px;
+    height: 520px;
+    left: 50%;
+    margin-left: -200px;
+    top: 50%;
+    margin-top: -260px;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    border-radius: 4px;
+}
+
+#mainRepos-selection::-webkit-scrollbar {
+    display: none;
 }
 
 #user {
     width: 100%;
     height: 250px;
-
     background-size: 1200px;
     background-position: center;
-
     display: grid;
     grid-template-columns: 2.25fr 2.25fr 5fr;
     grid-template-areas: "img info * description";
