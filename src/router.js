@@ -38,7 +38,7 @@ const router = createRouter({
 
     {path: '/study/:page', component: StudyList},
     {path: '/study/id/:id', component: StudyView},
-    {path: '/study/info/:name', component: StudyInfo},
+    {path: '/study/info/:id', component: StudyInfo},
 
     {path: '/crew/:page', component: CrewList},
     {path: '/crew/id/:id', component: CrewView},
