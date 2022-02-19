@@ -1,8 +1,14 @@
 <template>
     <div>
-        <div id="title">
-            <p style="font-size : 18px;"><b>메인 레포지토리</b></p>
-            <p style="font-size : 10px;">*메인 레포지토리는 최대 3개까지 선택 가능*</p>
+        <div>
+            <div id="title">
+                <div style="font-size : 18px;"><b>메인 레포지토리</b></div>
+                <div style="font-size : 10px;">*메인 레포지토리는 최대 3개까지 선택 가능*</div>
+            </div>
+            <div class="btns">
+                <button class="repo-btn" @click="save()">저장</button>
+                <button class="repo-btn" @click="exit()">취소</button>
+            </div>
         </div>
         <div>
             <ul class="list-group">
@@ -80,6 +86,12 @@ export default {
         }
     },
     methods : {
+        save() {
+            
+        },
+        exit() {
+
+        },
         check(index) {
             var doc = document.getElementById(index + "-id");
             if (doc.checked) {
@@ -110,6 +122,10 @@ export default {
 </script>
 
 <style scoped>
+.title, .btns{
+    display: inline-flex;
+}
+
 li {
     cursor: pointer;
     height: 100px;
