@@ -10,8 +10,8 @@
 
 <script>
 
-import PostView from "../layout/PostView.vue"
-import Title from "../layout/common/Title.vue"
+import PostView from "../../layout/PostView.vue"
+import Title from "../../layout/common/Title.vue"
 // import {apiGetRequest} from "../../api/ApiCommon.js"
 
 export default {

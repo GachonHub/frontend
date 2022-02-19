@@ -4,8 +4,8 @@ import Ranking from "./components/views/Ranking.vue";
 import Profile from "./components/views/Profile.vue"
 import Auth from "./components/views/Auth.vue"
 
-import QuestionList from "./components/views/QuestionList.vue";
-import QuestionView from "./components/views/QuestionView.vue";
+import QuestionList from "./components/views/question/QuestionList.vue";
+import QuestionView from "./components/views/question/QuestionView.vue";
 
 import StudyList from "./components/views/study/StudyList.vue"
 import StudyView from "./components/views/study/StudyView.vue"

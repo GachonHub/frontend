@@ -21,13 +21,13 @@
 </template>
 
 <script>
-import ListBox from "../layout/ListBox.vue";
-import PostQuestion from "../layout/post/PostQuestion.vue"
-import Title from "../layout/common/Title.vue"
-import PageButton from "../layout/common/PageButton.vue"
-import Category from "../layout/common/SecondaryCategory.vue"
+import ListBox from "../../layout/ListBox.vue";
+import PostQuestion from "../../layout/post/PostQuestion.vue"
+import Title from "../../layout/common/Title.vue"
+import PageButton from "../../layout/common/PageButton.vue"
+import Category from "../../layout/common/SecondaryCategory.vue"
 
-import {apiGetRequest} from "../../api/ApiCommon.js"
+import {apiGetRequest} from "../../../api/ApiCommon.js"
 
 export default {
   name: "question",
