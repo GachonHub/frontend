@@ -1,5 +1,6 @@
 <template>
     <div class="profile">
+        <Snsbar id="sns-bar"></Snsbar>
         <div id="user" :style="{backgroundImage : `url(${back})`}">
             <div class="user-img">
                 <img class="profile_image" :src="this.info.avatarUrl" alt="">
@@ -45,34 +46,35 @@
 
 <script>
 import CommitTable from '../layout/CommitTable.vue'
+import Snsbar from "../layout/profile/Snsbar.vue"
 import {apiGetRequest} from "../../api/ApiCommon.js"
 
 export default {
     components:{
-        CommitTable
+        CommitTable,
+        Snsbar
     },
     data() {
         return {
             back : "https://images.unsplash.com/photo-1622547748225-3fc4abd2cca0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2532&q=80",
             info : Array,
-            repos: []
-            // repos: [
-            //     {
-            //         title: "everything",
-            //         content: "테스트 코드 저장을 위한 저장소",
-            //         lan: "HTML"
-            //     },
-            //     {
-            //         title: "anything",
-            //         content: "데모 코드 저장을 위한 저장소",
-            //         lan:"HTML, CSS"
-            //     },
-            //     {
-            //         title: "something",
-            //         content: "테스트, 데모버전",
-            //         lan:"C"
-            //     }
-            // ]
+            repos: [
+                {
+                    title: "everything",
+                    content: "테스트 코드 저장을 위한 저장소",
+                    lan: "HTML"
+                },
+                {
+                    title: "anything",
+                    content: "데모 코드 저장을 위한 저장소",
+                    lan:"HTML, CSS"
+                },
+                {
+                    title: "something",
+                    content: "테스트, 데모버전",
+                    lan:"C"
+                }
+            ]
         }
     },
     created() {
@@ -99,6 +101,12 @@ export default {
     min-width: 1200px;
     padding: 0;
     margin: auto;
+}
+
+#sns-bar {
+    position: fixed;
+    left: calc(50% + 620px);
+    
 }
 
 #user {
