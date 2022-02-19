@@ -25,9 +25,6 @@ export async function apiGetRequest(url) {
     .then(res => {
         return res.data;
     })
-    .catch(err => {
-        console.log(err);
-    })
 
 }
 
