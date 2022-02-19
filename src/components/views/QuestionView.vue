@@ -26,7 +26,7 @@ export default {
                 title : "고수님들 리눅스 질문좀요ㅠㅠㅠㅠ",
                 author : "jaeesu",
                 date : "2021.01.01",
-                category: "linux",
+                category: "linux",   
                 content : "리눅스 포트 확인 중인데, 열려있는데 닫혀있다고 이중으로 뜨네요."+
                 "개발 환경은 ubuntu linux 20.04 lts입니다."+
                 "제발 살려주세요ㅠㅠㅠㅠ",

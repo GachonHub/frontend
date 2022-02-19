@@ -1,7 +1,6 @@
 <template>
     <div class="header">
         <div class="container">
-
             <ul class="nav_list">
                 <!-- 햄버거 메뉴 & 사이드바 -->
                 <li class="sidebar-bnt nav_item">
@@ -38,9 +37,7 @@
                 </li>
             </ul>
         </div>
-        <hr>
 
-        
         <Sidebar v-if="isOpenSidebar" class="sidebar"></Sidebar>
     </div>
 </template>
@@ -117,9 +114,9 @@ export default {
 label {
     display: block;    
     position: relative;
-    width: 100%;
-    height: 100%;
-    z-index: 2;
+    width: 30px;
+    height: 20px;
+    z-index: 222;
     cursor: pointer;
 }
 
@@ -132,7 +129,7 @@ label {
 }
 
 #icon-1 {
-    top: 0;
+    top: 5%;
 }
 #icon-2 {
     top: 45%;
@@ -143,10 +140,9 @@ label {
 }
 
 .sidebar {
-    max-width: 1200px;
-    margin: auto;
-    top: 300px;
-    left: 300px;
+    top: 40px;
+    width: 1200px;
+    margin: 0 auto 0 auto;
 }
 
 
@@ -157,7 +153,8 @@ label {
     left: 0px;
     top: 0px;
     z-index: 100;
-
+    border-bottom: 1px solid lightgray;
+    box-sizing: border-box;
     background-color: white;
     /* filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)); */
 }
@@ -167,6 +164,8 @@ label {
     height: 100%;
     margin: 0 auto;
     z-index: 100;
+    padding-left: 0;
+    padding-right: 0;
 
     background-color: white;
 }
@@ -178,12 +177,7 @@ ul{
 li {
     padding: 0;
 }
-hr {
-    min-width: 1200px;
-    bottom: 0;
-    background-color: grey;
-    margin: 0;
-}
+
 .nav_item {
     list-style: none;
 }
@@ -194,7 +188,6 @@ a {
     text-decoration-line: none;
     font-size: 17px;
 }
-
 
 .logo_area {
     padding-top: 10px;
@@ -207,8 +200,7 @@ a {
     float: right;
 }
 .login_area {
-    padding-top: 10px;
-    padding-right: 20px;
+    line-height: 40px;
     float: right;
 }
 </style>

@@ -2,13 +2,13 @@
     <div class="app">
         <Title title="모집중인 스터디 ⚡"></Title>
         <div style="display: inline-block; margin-top:10px;">
-            <span style="font-size:14px;">카테고리</span>
+            <span style="font-size:14px;">카테고리 </span>
             <Category style="display:inline-block;" :items = "categoryList" :items2 = "categoryList2"></Category>
         </div>
         <div class="search">
             <input id="search_text" class="form-control" type="text">
             <button type="button" class="form-control">검색</button>
-            <button type="button" @click="modal = true" class="form-control">글 작성하기</button>
+            <button type="button" @click="modal = true" class="form-control">스터디 추가</button>
         </div>
         <hr>
         <ListComponent v-for="item in items" v-bind:key="item" :data="item"/>

@@ -53,7 +53,7 @@ body {
 
 #content {
   min-height: calc(100vh - 80px);
-  margin-bottom: 40px;
+  padding-bottom: 40px;
 }
 
 </style>
