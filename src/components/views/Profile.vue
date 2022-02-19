@@ -12,7 +12,7 @@
                     </p>
                     <p class="profile-etc" v-if="this.info.major">{{this.info.major}}</p>
                     <p class="profile-etc" v-if="this.info.company">{{this.info.company}}</p>
-                    <p class="profile-etc" v-if="this.info.graduate">{{this.info.graduate}}</p>
+                    <p class="profile-etc" v-if="this.info.graduate">{{(this.info.graduate) ? "졸업" : "재학"}}</p>
                 </div>
             </div>
             <div  v-if="modal" id="modal_background">
@@ -104,7 +104,8 @@ export default {
         apiGetRequest("/api/me?id=" + this.$route.params.id)
             .then(res => {
                 this.info = res.data;
-                this.info.graduate = (this.info.graduate) ? "졸업" : "재학";
+                this.info.graduate = 
+                this.back = (this.info.back) ? this.info.back : this.back;
                 // this.repos = res.data.repos;
             })
             .catch(err => {
