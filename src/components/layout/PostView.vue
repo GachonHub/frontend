@@ -5,26 +5,18 @@
             <table>
                 <td></td>
                 <td id="wth80">작성자</td>
-                <td id="wth100">{{question.author}}</td>
+                <td id="wth100">{{question.user}}</td>
                 <td id="wth80">작성일</td>
-                <td id="wth100">{{question.date}}</td>
+                <td id="wth100">{{question.writeAt}}</td>
             </table>
         </div>
         <div id="content">
             {{question.content}}
-            <img class="p-4" :src="question.img" alt="">
+            <img v-if="question.fileList" class="p-4" :src="question.fileList[0]" alt="">
         </div>
         <hr>
         <template v-for="item in reply" :key="item">
-        <!-- 문의 사항 댓글 -->
-        <!-- <div class="form-control" id="reply" style="background-color:#EBEDF0;">
-            <div id="reply-title">
-                re: {{question.title}} {{reply.date}}
-            </div>
-            <div id="reply-content">
-                {{reply.content}}
-            </div>
-        </div> -->
+
             <div class="form-control" :id="(item.author === question.author) ? 'reply1' : 'reply'">
                 <div id="reply-title">
                     {{item.author}}&nbsp;&nbsp;&nbsp;{{item.date}}

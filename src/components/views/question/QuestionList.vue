@@ -68,7 +68,6 @@ export default {
     apiGetRequest("/api/posts/question?page=" + (parseInt(this.currentPage) - 1))
       .then(res => {
         /* eslint-disable no-console */
-        console.log(res.data);
         this.apiRes = res.data;
     })
   }

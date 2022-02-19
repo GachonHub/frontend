@@ -39,3 +39,31 @@ export async function apiPostRequest(url, params) {
     })
 
 }
+
+
+export async function apiPutRequest(url, params) {
+
+    return await axios.put(API_BASE_URL + url, headers(), params)
+    .then(res => {
+        return res.data;
+    })
+    .catch(err => {
+        console.log(err);
+    })
+
+}
+
+
+
+export async function apiDeleteRequest(url) {
+
+    return await axios.delete(API_BASE_URL + url, headers())
+    .then(res => {
+        return res.data;
+    })
+    .catch(err => {
+        console.log(err);
+    })
+
+}
+
