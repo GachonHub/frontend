@@ -268,12 +268,12 @@ p {
     display: table-cell;
     vertical-align: middle;
 }
-
+/* 
 .box {
     position: relative;
     top: 60px;
     margin-left: 40px;
-}
+} */
 .title {
     font-size: 22px;
     font-weight: 700;
