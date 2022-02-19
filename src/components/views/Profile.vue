@@ -7,17 +7,21 @@
             </div>
             <div class="user-info">
                 <div>
-                    <p class="profile_name">{{this.info.nickname}}</p>
+                    <p class="profile_name">{{this.info.nickname}}
+                        <button id="profile-bnt" @click="modal = true"></button>
+                    </p>
                     <p class="profile-etc" v-if="this.info.major">{{this.info.major}}</p>
                     <p class="profile-etc" v-if="this.info.company">{{this.info.company}}</p>
                     <p class="profile-etc" v-if="this.info.graduate">{{this.info.graduate}}</p>
                 </div>
-                
             </div>
+            
+            <ProfileInfo v-if="modal" id="info-modal" title="프로필 수정"  @close="modal=false"></ProfileInfo>
 
             <div class="user-description">
                 <div class="profile_content">{{this.info.description}}</div>
             </div>
+            
         </div>
 
         <div class="repo">
@@ -47,15 +51,18 @@
 <script>
 import CommitTable from '../layout/CommitTable.vue'
 import Snsbar from "../layout/profile/Snsbar.vue"
+import ProfileInfo from "../layout/profile/ProfileInfo.vue"
 import {apiGetRequest} from "../../api/ApiCommon.js"
 
 export default {
     components:{
         CommitTable,
-        Snsbar
+        Snsbar,
+        ProfileInfo
     },
     data() {
         return {
+            modal : false,
             back : "https://images.unsplash.com/photo-1622547748225-3fc4abd2cca0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2532&q=80",
             info : Array,
             repos: [
@@ -101,6 +108,28 @@ export default {
     min-width: 1200px;
     padding: 0;
     margin: auto;
+}
+
+#info-modal {
+    position: absolute;
+    top: 120px;
+    border: 1px solid #cccccc;
+    box-shadow: 5px 5px 5px 5px lightgray;
+    border-radius: 10px;
+    height: 250px;
+    width: 600px;
+    z-index: 20;
+    left: 34%;
+    background-color: white;
+}
+
+#profile-bnt {
+    background: url("../../assets/profile/pencil-square.svg");
+    background-size: 100%;
+    width:16px;
+    height:16px;
+    border: none;
+    margin: auto
 }
 
 #sns-bar {
@@ -185,7 +214,7 @@ p {
 
 .box {
     position: relative;
-    top: 100px;
+    top: 60px;
     margin-left: 40px;
 }
 .title {
