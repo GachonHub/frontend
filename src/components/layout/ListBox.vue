@@ -5,13 +5,12 @@
         <th v-for="item in fields" v-bind:key="item" :class="item.thClass">{{item.label}}</th>
         <tr v-for="item in items" v-bind:key="item">
           <td class="text-center">{{item.id}}</td>
-          <td><router-link :to="{path : '/question/id/' + item.id}" >{{item.title}}</router-link></td>
+          <td><router-link :to="{path : '/' +baseUri + '/id/' + item.id}" >{{item.title}}</router-link></td>
           <td class="text-center">{{item.user}}</td>
           <td class="text-center">{{item.category}}</td>
           <td class="text-center">{{item.hit}}</td>
           <td class="text-center">{{item.likes}}</td>
         </tr>
-
       </table>
     </div>
   </div>
@@ -21,7 +20,8 @@ export default {
   name: "table-rank",
   props: {
     msg: String,
-    items: Array
+    items: Array,
+    baseUri: String
   },
   data() {
     return {

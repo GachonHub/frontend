@@ -12,7 +12,7 @@
       <button type="button" @click="modal = true" class="form-control">글 작성하기</button>
     </div>
 
-    <ListBox :items="apiRes.data" id="list"></ListBox>
+    <ListBox :items="apiRes.data" id="list" baseUri="question"></ListBox>
     <PostQuestion id = "modal" v-if="modal" @close="modal = false"></PostQuestion>
     <PageButton id="pg_bnt" :page="currentPage" :lastPage="parseInt(apiRes.totalPages)" baseUri="/question"></PageButton>
     
@@ -21,13 +21,13 @@
 </template>
 
 <script>
-import ListBox from "../layout/ListBox.vue";
-import PostQuestion from "../layout/post/PostQuestion.vue"
-import Title from "../layout/common/Title.vue"
-import PageButton from "../layout/common/PageButton.vue"
-import Category from "../layout/common/SecondaryCategory.vue"
+import ListBox from "../../layout/ListBox.vue";
+import PostQuestion from "../../layout/post/PostQuestion.vue"
+import Title from "../../layout/common/Title.vue"
+import PageButton from "../../layout/common/PageButton.vue"
+import Category from "../../layout/common/SecondaryCategory.vue"
 
-import {apiGetRequest} from "../../api/ApiCommon.js"
+import {apiRequest} from "../../../api/ApiCommon.js"
 
 export default {
   name: "question",
@@ -65,10 +65,8 @@ export default {
     }
   },
   created() {
-    apiGetRequest("/api/posts/question?page=" + (parseInt(this.currentPage) - 1))
+    apiRequest("GET", "/api/posts/question?page=" + (parseInt(this.currentPage) - 1))
       .then(res => {
-        /* eslint-disable no-console */
-        console.log(res.data);
         this.apiRes = res.data;
     })
   }

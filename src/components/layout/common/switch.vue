@@ -1,7 +1,13 @@
 <template>
-    <div id="switch">
-        <div id="sphere"></div>
+    <div>
+        <input id="checkbox" type="checkbox" @change="check">
+        <label for="checkbox">
+            <div id="switch">
+                <div id="sphere"></div>
+            </div>
+        </label>
     </div>
+
 </template>
 
 <script>
@@ -10,32 +16,38 @@ export default {
         recruit:Boolean
     },
     methods: {
-        switch(recruit) {
+        check() {
+            var recruit = document.getElementById("checkbox").checked;
             if (recruit) {
-                document.getElementById("switch").style.background="#F2D522";
+                document.getElementById("switch").style.background="#75b798";
+                document.getElementById("sphere").style.transform = "translate(17px)";
             }
             // on
             else {
-                document.getElementById("sphere").style.transform = "translate(17px)";
+                document.getElementById("switch").style.background="lightgray";
+                document.getElementById("sphere").style.transform = "translate(0px)";
+
             }
             // off
         }
     },
-
-    //created, mounted, destroyed
     mounted() {
-        this.switch(this.recruit);
+        this.check(this.recruit);
     }
 }
 </script>
 
 <style scoped>
+#checkbox {
+    display: none;
+}
+
 #switch {
     width: 35px;
     height: 18px;
     border-radius: 20px;
     background-color: lightgray;
-    box-shadow: inset 1px 5px 1px #999;
+    box-shadow: inset 1px 5px 1px rgba(0,0,0,0.25);
 }
 #sphere {
     width: 10px;

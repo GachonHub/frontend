@@ -6,13 +6,14 @@
                 <form>
                     <div class="form-data">
                         <label for="f-title" class="form-head">제목</label>
-                        <input type="text" id="f-title" class="form-control form-content"/><br>
+                        <input type="text" id="f-title" v-model="form.title" class="form-control form-content"/><br>
                     </div>
 
                     <div class="form-data">
                         <label for="content" class="form-head" style="height: 200px">내용</label>
-                        <input type="text" id="content" class="form-control form-content"/><br>
+                        <input type="text" id="content" v-model="form.content" class="form-control form-content"/><br>
                     </div>
+
                     <div class="form-data">
                         <label for="file" class="form-head">첨부파일</label>
                         <input type="file" id="file" class="form-control form-content"><br>
@@ -20,7 +21,7 @@
                 </form>
                 <div class="form-button">
                     <button class="form-control" id="custom-bnt" @click="$emit('close')">취소</button>
-                    <button class="form-control" id="custom-bnt" @click="writeNewPost()">작성</button>
+                    <button class="form-control" id="custom-bnt" @click="create()">작성</button>
                 </div>
             </div>
         </div>
@@ -31,16 +32,13 @@
 
 export default {
   name: "post-creation",
-  methods: {
-      writeNewPost: function () {
-          alert("New post");
-      }
-  },
   props : {
-      title: String
+      title: String,
+      baseUri : String
   },
   data() {
     return {
+        form:[],
       items: [
         {num : 0, val: "선택"},
         {num : 1 , val: "정보보안"},
@@ -48,6 +46,16 @@ export default {
         ],
       items2: [["none"], ["리버싱", "포렌식"], ["c언어", "자바", "파이썬"]],
     };
+  },
+  methods: {
+      create() {
+          const rm = new FormData();
+        //   const file = document.getElementById("file").files;
+        //   rm.append
+          rm.append("title", this.form.title);
+          rm.append("content", this.form.content);
+
+      }
   }
 };
 

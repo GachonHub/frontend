@@ -1,15 +1,20 @@
 <template>
     <div class="container" style="padding-top: 32px;">
         <div class="profile" >
-            <img class="profile-img" :src="study.img">
-            <div class="profile-name">{{study.name}}</div>
+            <img class="profile-img" :src="apiRes.mainImage">
+            <div class="profile-name">{{apiRes.name}}</div>
+            <div class="memberChange" v-show="study.authorId==userId">
+                <div class="m-eclipse"></div>
+                <div class="m-eclipse"></div>
+                <div class="m-eclipse"></div>
+            </div>
         </div>
         <div class="description">
-            <div class="sub-title green">동아리 소개</div>
+            <div class="sub-title green">{{type}} 소개</div>
             <div class="gray-bd" v-html="toContent"></div>
             <ul>
-                <li class="gray-bd list">공부 분야 : {{study.fields}}</li>
-                <li class="gray-bd list">현재 인원 : {{study.member}}명</li>
+                <li class="gray-bd list">공부 분야 : {{apiRes.field}}</li>
+                <li class="gray-bd list">현재 인원 : {{apiRes.people}}명</li>
             </ul>
         </div>
 
@@ -41,8 +46,8 @@
 
 
         <div class="recruit">
-            <div class="sub-title black ib">모집 여부</div>
-            <Switch class="switch ib" :recruit="study.recruit"></Switch>
+            <div class="sub-title black ib">{{type}}원 모집</div>
+            <Switch v-if="apiRes.authorId == userId" class="switch ib" :recruit="apiRes.recruiting"></Switch>
             <div class="recruit-content" v-html="toRecruit"></div>
         </div>
     </div>
@@ -52,6 +57,7 @@
 import MainRepos from "../../layout/profile/MainRepos.vue"
 import Switch from "../../layout/common/switch.vue"
 
+import {getGroup} from "../../../api/ApiGroups.js"
 
 export default {
     components: {
@@ -60,10 +66,14 @@ export default {
     },
     data() {
         return {
+            apiRes : {},
+            type : (this.$route.params.type == "study") ? "스터디" : "동아리",
+            userId: localStorage.getItem("user"),
             reposModal : false,
             study: {
-                img: require("/Users/ljiun/frontend/src/assets/pay1oad.jpeg"),
+                img: require("@/assets/pay1oad.jpeg"),
                 name: "Pay1oad",
+                authorId : "50683915",
                 content: "가천대학교 정보 * 보안 동아리입니다.\n"+
                         "동아리실은 학생회관 1층 101호에 위치하고 있습니다.",
                 fields: "정보보안",
@@ -89,16 +99,26 @@ export default {
                     content: "테스트, 데모버전",
                     lan:"C"
                 }
+            ],
+            members : [
+                {id : "50683915", name : "jiiunlee19"},
             ]
         }
     },
     computed: {
-            toContent() {
+        toContent() {
             return this.study.content.replaceAll("\n", "<br/>")
-            },
-            toRecruit() {
-                return this.study.recruitContent.replaceAll("\n", "<br/>")
-            }
+        },
+        toRecruit() {
+            return this.study.recruitContent.replaceAll("\n", "<br/>")
+        }
+    },
+    created() {
+        getGroup(this.$route.params.id)
+            .then(res => {
+                console.log(res.data);
+                this.apiRes = res.data;
+            })
     }
 }
 </script>
@@ -141,6 +161,25 @@ export default {
     line-height: 180px;
     position: relative;
     left: 60px;
+}
+.memberChange {
+    display: inline-flex;
+    position: relative;
+    vertical-align: middle;
+    left: 900px;
+}
+.m-eclipse {
+    width: 20px;
+    height: 20px;
+    border-radius: 70%;
+    background:gray;
+}
+.m-eclipse:nth-child(2) {
+    position: absolute;
+    
+}
+.m-eclipse:nth-child(3) {
+    position: absolute;
 }
 /* description */
 .content {

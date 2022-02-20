@@ -1,11 +1,12 @@
 <template>
-     <div class="container">
-       <Title title="문의 사항" isSecondaryExists="False"></Title>
+    <div class="container">
+        <Title title="문의 사항"></Title>
         <div class="view">
-        <PostView :question="question"></PostView>
-        <Reply :reply="reply"></Reply>    
+        <PostView :title="question.title" :author="question.author"
+            :date="question.date" :content="question.content"></PostView>
+            
         </div>
-    </div> 
+    </div>
 </template>
 
 
@@ -13,14 +14,12 @@
 
 import PostView from "../../layout/PostView.vue"
 import Title from "../../layout/common/Title.vue"
-import Reply from "../../layout/Reply/ReplyInquiry.vue"
 
 export default {
     name: "question-view",
     components: {
         PostView,
-        Title,
-        Reply
+        Title
     },
     data() {
         return {
@@ -39,7 +38,7 @@ export default {
 </script>
 
 <style scoped>
- .container {
+.container {
     margin: auto;
     max-width: 1200px;
 }
@@ -51,5 +50,5 @@ export default {
   font-weight: 700;
   line-height: 60px;
   padding-left: 20px;
-} 
+}
 </style>

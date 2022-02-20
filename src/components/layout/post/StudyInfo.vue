@@ -2,32 +2,36 @@
     <transition name="modal" appear>
         <div class="app">
             <div class="form">
-                <div class="title">스터디 추가</div>
+                <div class="title">{{title}}</div>
                 <form>
                     <div class="form-data">
                         <label for="f-title" class="form-head">그룹 이름</label>
-                        <input type="text" id="f-title" class="form-control form-content"/><br>
+                        <input type="text" id="f-title" v-model="form.name" class="form-control form-content"/><br>
                     </div>
                     <div class="form-data">
                         <label for="field" class="form-head">공부 분야</label>
-                        <input type="text" id="field" class="form-control form-content"/><br>
+                        <input type="text" id="field" v-model="form.field" class="form-control form-content"/><br>
                     </div>
                     <div class="form-data">
                         <label for="people" class="form-head">인원</label>
-                        <input type="text" id="people" class="form-control form-content"  style="width: 50px;"/><br>
+                        <input type="text" id="people" v-model="form.people" class="form-control form-content"  style="width: 50px;"/><br>
                     </div>
                     <div class="form-data">
                         <label for="addr" class="form-head">대표 레포지토리 주소</label>
-                        <input type="text" id="addr" class="form-control form-content"  placeholder="master 브랜치의 READMD.md와 연동됩니다." /><br>
+                        <input type="text" id="addr" v-model="form.repos" class="form-control form-content"  placeholder="master 브랜치의 READMD.md와 연동됩니다." /><br>
                     </div>
                     <div class="form-data">
                         <label for="image" class="form-head">대표 이미지</label>
                         <input type="file" id="image" class="form-control form-content"><br>
+                    </div>                    
+                    <div class="form-data">
+                        <label for="description" class="form-head">설명</label>
+                        <input type="text" id="description" v-model="form.description" class="form-control form-content"  style="height : 150px;"/><br>
                     </div>
                 </form>
                 <div class="form-button">
                     <button class="form-control" id="custom-bnt" @click="$emit('close')">취소</button>
-                    <button class="form-control" id="custom-bnt" @click="writeNewPost()">작성</button>
+                    <button class="form-control" id="custom-bnt" @click="makeFormData">작성</button>
                 </div>
             </div>
 
@@ -39,14 +43,16 @@
 export default {
   name: "post-creation",
   methods: {
-      writeNewPost: function () {
-          alert("New post");
+      makeFormData: function () {
+          const image = document.getElementById("image").files;
+          this.$emit("save", this.form, image);
       }
   },
   data() {
     return {
       items: ["선택", "정보보안", "코딩"],
-      items2: [["none"], ["리버싱", "포렌식"], ["c언어", "자바", "파이썬"]]
+      items2: [["none"], ["리버싱", "포렌식"], ["c언어", "자바", "파이썬"]],
+      form: {}
     };
   },
   props : {
@@ -78,7 +84,7 @@ export default {
 
 .form {
     height: 80%;
-    margin-top: 10%;
+    margin-top: 5%;
 }
 
 .form-select {

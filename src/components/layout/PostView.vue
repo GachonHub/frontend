@@ -1,38 +1,60 @@
 <template>
     <div id="post-view">
-        <div id="title">{{question.title}}</div>
+        <div id="title">{{post.title}}</div>
         <div id="post-info">
             <table>
                 <td></td>
                 <td id="wth80">작성자</td>
-                <td id="wth100">{{question.author}}</td>
+                <td id="wth100">{{post.user}}</td>
                 <td id="wth80">작성일</td>
-                <td id="wth100">{{question.date}}</td>
+                <td id="wth100">{{post.writeAt}}</td>
             </table>
         </div>
-        <div v-html="toContent(question.content)" class="content"></div>
-
-            <img :src="question.img" alt="img">
+        <div v-html="toContent(post.content)" class="content"></div>
+        <img v-for="item in post.fileList" :key="item" :src="item.img" alt="img">
+        <div class="form-button">
+            <button class="form-control" id="custom-bnt" @click="$emit('close')">삭제</button>
+            <button class="form-control" id="custom-bnt" @click="modal = true">수정</button>
+        </div>
+        <PostQuestion v-if="modal" id="modal" @close="modal = false" :updateItem = "post"></PostQuestion>
         <hr>
     </div>
 </template>
 
 <script>
+import PostQuestion from "../layout/post/PostQuestion.vue";
+
 export default {
     name : "post-view",
+    components: {
+        PostQuestion
+    },
+    data() {
+        return {
+            modal : false
+        }
+    },
     props : {
-        question : Object,
+        post : Array,
         reply: Array,
     },
     methods: {
-        toContent(question) {
-            return question.replaceAll("\n","<br/>");
-        }
+        toContent(post) {
+            return post.replaceAll("\n","<br/>");
+        },
     }
 }
 </script>
 
 <style scoped>
+
+#post-view {
+    width: 100%;
+}
+
+#modal {
+    background-color: white;
+}
 
 hr {
   margin: 0;
@@ -86,6 +108,20 @@ img {
 #content {
     min-height: 200px;
     padding: 50px;
+    
+}
+
+.form-button {
+    width: 1200px;
+    margin: auto;
+}
+
+#custom-bnt {
+    float: right;
+    margin-left: 5px;
+    display: inline-block;
+    width: 80px;
+    margin-right: 5px;
 }
 
 </style>

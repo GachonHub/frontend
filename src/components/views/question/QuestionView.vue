@@ -2,7 +2,7 @@
     <div class="container">
         <Title title="질문글" isSecondaryExists=true :SecondaryTitle="question.category"></Title>
         <div class="view">
-            <PostView :question="question"></PostView>
+            <PostView :post="apiRes"></PostView>
             <Reply :reply="reply" :author="question.author"></Reply>
         </div>
     </div>
@@ -11,10 +11,10 @@
 
 <script>
 
-import PostView from "../layout/PostView.vue"
-import Title from "../layout/common/Title.vue"
-import Reply from "../layout/Reply/ReplyQuestion.vue"
-// import {apiGetRequest} from "../../api/ApiCommon.js"
+import PostView from "../../layout/PostView.vue"
+import Title from "../../layout/common/Title.vue"
+import Reply from "../../layout/Reply/ReplyQuestion.vue"
+import {getQuestion} from "../../../api/ApiQuestion.js"
 
 export default {
     name: "question-view",
@@ -25,6 +25,7 @@ export default {
     },
     data() {
         return {
+            apiRes : {},
             question : {
                 title : "고수님들 리눅스 질문좀요ㅠㅠㅠㅠ",
                 author : "jaeesu",
@@ -70,22 +71,21 @@ export default {
             ]
         }
     },
-    // created() {
-    //     apiGetRequest("/api/posts/question/" + (parseInt(this.$route.params.id)))
-    //         .then(res => {
-    //         /* eslint-disable no-console */
-    //         console.log(res.data);
-    //         this.apiRes = res.data;
-    //   })
-    // }
-//route 변경 감지로 바꾸기
+    created() {
+        getQuestion(this.$route.params.id)
+        .then(res => {
+            this.apiRes = res;
+        })
+    }
 }
 </script>
 
 <style scoped>
 .container {
     margin: 0 auto;
+    padding: 0;
     max-width: 1200px;
+    min-width: 1200px;
 }
 
 </style>

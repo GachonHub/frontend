@@ -1,21 +1,27 @@
 <template>
-    <div class="list_component">
-        <div class="field">{{data.field}}</div>
-        <a class="sympathy">공감</a><div class="sympathy">{{data.sympathy}}</div>
-        <div class="study_name">{{data.title}}</div>
-        <div class="study_content">{{data.content}}</div>
-        <a class="writer">작성자 - </a><div class="writer">{{data.writer}}</div>
-        <div class="study_image" :src='data.img' ></div>
+    <div class="list_component"  v-for="item in items" :key="item">
+        <div><router-link :to="{path : '/groups/' + baseUri + '/info/' + item.id}">
+            <div class="field">{{item.field}}</div>
+            <div class="sympathy" v-if="baseUri == 'contest'"><a  class="sympathy">공감</a>{{data.sympathy}}</div>
+            <div class="study_name">{{item.name}}</div>
+            <div class="study_content">{{item.description}}</div>
+            <a class="writer">작성자 - </a><div class="writer">{{item.authorId}}</div>
+            <div class="study_image" :src='item.mainImage' >
+                <img :src="item.mainImage" alt="" style="width:100%; height:100%;">
+            </div>
+            </router-link>
+        </div>
+
         <hr>
     </div>
 </template>
 
 <script>
 export default {
-    props: 
-        {
-            data: Array
-        }
+    props: {
+        items: Array,
+        baseUri: String
+    }
 }
 </script>
 
@@ -23,6 +29,14 @@ export default {
 .list_component {
     width: 100%;
     height: 180px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+a:hover {
+    color: black;
 }
 
 .field {
@@ -59,6 +73,7 @@ div.sympathy {
     top: 6px;
     left: 203px;
 }
+
 .study_content {
     font-size: 14px;
     font-weight: 700;
@@ -80,8 +95,8 @@ div.sympathy {
     left: 203px;
 }
 .study_image {
-    background:
-    url(https://images.unsplash.com/photo-1543002588-bfa74002ed7e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80);
+    /* background:
+    url(https://images.unsplash.com/photo-1543002588-bfa74002ed7e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80); */
     background-size:183px;
     background-position-y: -85px;
     width: 182px;
