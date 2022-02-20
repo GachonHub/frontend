@@ -11,50 +11,28 @@
             </table>
         </div>
         <div v-html="toContent(post.content)" class="content"></div>
-        <img v-for="item in post.fileList" :key="item" :src="item.img" alt="img">
-        <div class="form-button">
-            <button class="form-control" id="custom-bnt" @click="$emit('close')">삭제</button>
-            <button class="form-control" id="custom-bnt" @click="modal = true">수정</button>
-        </div>
-        <PostQuestion v-if="modal" id="modal" @close="modal = false" :updateItem = "post"></PostQuestion>
+
+            <img :src="post.img" alt="img">
         <hr>
     </div>
 </template>
 
 <script>
-import PostQuestion from "../layout/post/PostQuestion.vue";
-
 export default {
     name : "post-view",
-    components: {
-        PostQuestion
-    },
-    data() {
-        return {
-            modal : false
-        }
-    },
     props : {
-        post : Array,
+        post : Object,
         reply: Array,
     },
     methods: {
-        toContent(post) {
-            return post.replaceAll("\n","<br/>");
-        },
+        toContent(question) {
+            return question.replaceAll("\n","<br/>");
+        }
     }
 }
 </script>
 
 <style scoped>
-
-#post-view {
-    width: 100%;
-}
-
-#modal {
-    background-color: white;
-}
 
 hr {
   margin: 0;
@@ -108,20 +86,6 @@ img {
 #content {
     min-height: 200px;
     padding: 50px;
-    
-}
-
-.form-button {
-    width: 1200px;
-    margin: auto;
-}
-
-#custom-bnt {
-    float: right;
-    margin-left: 5px;
-    display: inline-block;
-    width: 80px;
-    margin-right: 5px;
 }
 
 </style>
