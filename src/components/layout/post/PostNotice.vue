@@ -16,7 +16,7 @@
 
                 </form>
                 <div class="form-button">
-                    <button class="form-control" id="custom-bnt" @click="$emit('close')">취소</button>
+                    <button class="form-control" id="custom-bnt" @click="$emit('close')">삭제</button>
                     <button class="form-control" id="custom-bnt" @click="$emit('save', form)">작성</button>
                 </div>
             </div>

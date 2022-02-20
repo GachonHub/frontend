@@ -22,7 +22,7 @@ import PostNotice from "../../layout/post/PostNotice.vue"
 import Title from "../../layout/common/Title.vue"
 import PageButton from "../../layout/common/PageButton.vue"
 
-import {apiRequest, apiDataRequest} from "../../../api/ApiCommon.js"
+import {createNotice, readNoticeList} from "../../../api/ApiNotice.js"
 
 export default {
   name: "question",
@@ -42,27 +42,16 @@ export default {
   },
   methods: {
     create(form) {
-      apiDataRequest("POST", "/api/posts/notice", form)
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.log(err);
-      })
-      
+      createNotice(form, "POST");
       this.modal = false;
 
-    },
-    read() {
-      apiRequest("GET", "/api/posts/notice?page=" + (parseInt(this.currentPage) - 1))
-        .then(res => {
-          console.log(res.data);
-          this.apiRes = res.data;
-      })
     }
   },
   created() {
-    this.read();
+    readNoticeList(this.currentPage)
+    .then(res => {
+      this.apiRes = res;
+    })
   }
 };
 </script>

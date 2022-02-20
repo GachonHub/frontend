@@ -2,7 +2,7 @@
      <div class="container">
        <Title title="공지 사항" isSecondaryExists="False" class="title"></Title>
         <div class="view">
-        <PostView :notice="apiRes" class="content"></PostView> 
+        <PostView :post="apiRes" class="content" type="notice" @save="update"></PostView>
         </div>
     </div> 
 </template>
@@ -13,7 +13,7 @@
 import PostView from "../../layout/PostView.vue"
 import Title from "../../layout/common/Title.vue"
 
-// import {apiRequest} from "../../../api/ApiCommon.js"
+import {readNotice} from "../../../api/ApiNotice.js"
 
 export default {
     name: "question-view",
@@ -45,20 +45,15 @@ export default {
         }
     },
     methods: {
-        // read() {
-        //     apiRequest("GET","/api/posts/notice/" + parseInt(this.$route.params.id))
-        //     .then(res => {
-        //         console.log(res.data)
-        //         this.apiRes = res.data;
-        //     })
-        //     .catch(() => {
-        //         alert("존재하지 않는 게시글입니다.");
-        //         this.$router.push("/notice/1");
-        //     })
-        // }
+        read() {
+            readNotice(this.$route.params.id)
+            .then(res => {
+                this.apiRes = res;
+            })
+        }
     },
     created() {
-        this.read();
+        this.read()
     }
 }
 </script>
@@ -67,6 +62,7 @@ export default {
  .container {
     margin: auto;
     max-width: 1200px;
+    padding: 0;
 }
 
 .title {
