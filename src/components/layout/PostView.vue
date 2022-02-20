@@ -3,62 +3,66 @@
         <div id="title">{{post.title}}</div>
         <div id="post-info">
             <table>
-                <td></td>
                 <td id="wth80">작성자</td>
                 <td id="wth100">{{post.user}}</td>
                 <td id="wth80">작성일</td>
                 <td id="wth100">{{post.writeAt}}</td>
+                <td></td>
+                <td id="wth80r">조회수</td>
+                <td id="wth100r">{{post.git}}</td>
             </table>
         </div>
         <div v-html="toContent(post.content)" class="content"></div>
-        <img v-for="item in post.fileList" :key="item" :src="item.img" alt="img">
+        <img v-if="post.img" :src="post.img" alt="img">
         <div class="form-button">
-            <button class="form-control" id="custom-bnt" @click="$emit('close')">삭제</button>
-            <button class="form-control" id="custom-bnt" @click="modal = true">수정</button>
+            <button class="form-control" id="custom-bnt" @click="deletePost">삭제</button>
+            <button class="form-control" id="custom-bnt" @click="modal=true">수정</button>
         </div>
-        <PostQuestion v-if="modal" id="modal" @close="modal = false" :updateItem = "post"></PostQuestion>
+        <PostNotice v-if="modal" :notice = this.post @close="modal=false" @save = update></PostNotice>
         <hr>
+
     </div>
 </template>
 
 <script>
-import PostQuestion from "../layout/post/PostQuestion.vue";
+
+import {deleteNotice, createNotice} from "../../api/ApiNotice.js"
+import PostNotice from "../layout/post/PostNotice.vue"
 
 export default {
     name : "post-view",
-    components: {
-        PostQuestion
+    components : {
+        PostNotice
+    },
+    props : {
+        post : Object,
+        reply: Array,
+        type : String
     },
     data() {
         return {
             modal : false
         }
     },
-    props : {
-        post : Array,
-        reply: Array,
-    },
     methods: {
-        toContent(post) {
-            return post.replaceAll("\n","<br/>");
+        toContent(question) {
+            return question.replaceAll("\n","<br/>");
         },
+        deletePost() {
+            deleteNotice(this.$route.params.id);
+      },
+      update(form) {
+          form.id = this.post.id;
+          createNotice(form, "PUT");
+      }
     }
 }
 </script>
 
 <style scoped>
 
-#post-view {
-    width: 100%;
-}
-
-#modal {
-    background-color: white;
-}
-
 hr {
   margin: 0;
-  margin-top: 50px;
   border: 0;
   border-top: 1px solid #b2b2b2;
 }
@@ -81,10 +85,20 @@ table td {
 
 #wth80 {
     width: 80px;
-    border-left: 0.5px solid #b2b2b2;
+    border-right: 0.5px solid #b2b2b2;
 }
 
 #wth100 {
+    width: 100px;
+    border-right: 0.5px solid #b2b2b2;
+}
+
+#wth80r {
+    width: 80px;
+    border-left: 0.5px solid #b2b2b2;
+}
+
+#wth100r {
     width: 100px;
     border-left: 0.5px solid #b2b2b2;
 }
@@ -108,20 +122,21 @@ img {
 #content {
     min-height: 200px;
     padding: 50px;
-    
 }
 
+
 .form-button {
-    width: 1200px;
+    width: 1100px;
     margin: auto;
+    text-align: right;
+    height: 50px;
 }
 
 #custom-bnt {
-    float: right;
     margin-left: 5px;
     display: inline-block;
     width: 80px;
-    margin-right: 5px;
 }
+
 
 </style>

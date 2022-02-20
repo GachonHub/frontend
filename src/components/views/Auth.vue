@@ -12,7 +12,7 @@ import {FRONT_BASE_URL} from "../../constants.js"
 import {AUTHORIZATION} from "../../constants.js"
 import {REFRESH} from "../../constants.js"
 
-import {apiGetRequest} from "../../api/ApiCommon.js"
+import {apiRequest} from "../../api/ApiCommon.js"
 
 export default {
     created() {
@@ -28,7 +28,7 @@ export default {
     // TEST
     methods: {
         test() {
-            apiGetRequest("/any-role-test")
+            apiRequest("/any-role-test")
             .then(res => {
             /* eslint-disable no-console */
                 console.log(res.data)
@@ -36,7 +36,7 @@ export default {
 
         },
         role_test() {
-            apiGetRequest("/required-authorization-test")
+            apiRequest("/required-authorization-test")
             .then(res => {
             /* eslint-disable no-console */
                 console.log(res)

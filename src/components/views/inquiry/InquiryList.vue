@@ -17,11 +17,11 @@
 
 <script>
 import ListBox from "../../layout/ListBox.vue";
-import PostInquiry from "../../layout/post/Post.vue"
+import PostInquiry from "../../layout/post/PostNotice.vue"
 import Title from "../../layout/common/Title.vue"
 import PageButton from "../../layout/common/PageButton.vue"
 
-import {apiGetRequest} from "../../../api/ApiCommon.js"
+import {apiRequest} from "../../../api/ApiCommon.js"
 
 export default {
   name: "question",
@@ -39,7 +39,7 @@ export default {
     };
   },
   created() {
-    apiGetRequest("/api/posts/notice?page=" + (parseInt(this.currentPage) - 1))
+    apiRequest("/api/posts/notice?page=" + (parseInt(this.currentPage) - 1))
       .then(res => {
         /* eslint-disable no-console */
         console.log(res.data);
