@@ -2,7 +2,8 @@
     <div class="container">
         <Title title="질문글" isSecondaryExists=true :SecondaryTitle="question.category"></Title>
         <div class="view">
-            <PostView :question="question" :reply="reply"></PostView>
+            <PostView :question="question"></PostView>
+            <Reply :reply="reply" :author="question.author"></Reply>
         </div>
     </div>
 </template>
@@ -12,13 +13,15 @@
 
 import PostView from "../layout/PostView.vue"
 import Title from "../layout/common/Title.vue"
+import Reply from "../layout/Reply/ReplyQuestion.vue"
 // import {apiGetRequest} from "../../api/ApiCommon.js"
 
 export default {
     name: "question-view",
     components: {
         PostView,
-        Title
+        Title,
+        Reply
     },
     data() {
         return {
@@ -58,6 +61,11 @@ export default {
                     content : "여러분 싸우지 마세요...ㅠㅠㅠ",
                     author : "jaeesu",
                     date: "2021.01.01 19:30"
+                },
+                {
+                    content : "여러분 싸우지 마세요...ㅠㅠㅠ",
+                    author : "jaeesu",
+                    date: "2021.01.01 19:30"
                 }
             ]
         }
@@ -76,7 +84,7 @@ export default {
 
 <style scoped>
 .container {
-    margin: auto auto 40px auto;
+    margin: 0 auto;
     max-width: 1200px;
 }
 
