@@ -6,21 +6,18 @@
                 <form>
                     <div class="form-data">
                         <label for="f-title" class="form-head">제목</label>
-                        <input type="text" id="f-title" class="form-control form-content"/><br>
+                        <input type="text" id="f-title" v-model="form.title" class="form-control form-content"/><br>
                     </div>
 
                     <div class="form-data">
                         <label for="content" class="form-head" style="height: 200px">내용</label>
-                        <input type="text" id="content" class="form-control form-content"/><br>
+                        <input type="text" id="content" v-model="form.content" class="form-control form-content"/><br>
                     </div>
-                    <div class="form-data">
-                        <label for="file" class="form-head">첨부파일</label>
-                        <input type="file" id="file" class="form-control form-content"><br>
-                    </div>
+
                 </form>
                 <div class="form-button">
                     <button class="form-control" id="custom-bnt" @click="$emit('close')">취소</button>
-                    <button class="form-control" id="custom-bnt" @click="writeNewPost()">작성</button>
+                    <button class="form-control" id="custom-bnt" @click="$emit('save', form)">작성</button>
                 </div>
             </div>
         </div>
@@ -28,19 +25,14 @@
 </template>
 
 <script>
-
 export default {
   name: "post-creation",
-  methods: {
-      writeNewPost: function () {
-          alert("New post");
-      }
-  },
   props : {
       title: String
   },
   data() {
     return {
+        form:{},
       items: [
         {num : 0, val: "선택"},
         {num : 1 , val: "정보보안"},

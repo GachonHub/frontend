@@ -1,50 +1,64 @@
 <template>
-    <div>
-        <div id="title">{{question.title}}</div>
+    <div id="post-view">
+        <div id="title">{{post.title}}</div>
         <div id="post-info">
             <table>
                 <td></td>
                 <td id="wth80">작성자</td>
-                <td id="wth100">{{question.user}}</td>
+                <td id="wth100">{{post.user}}</td>
                 <td id="wth80">작성일</td>
-                <td id="wth100">{{question.writeAt}}</td>
+                <td id="wth100">{{post.writeAt}}</td>
             </table>
         </div>
-        <div id="content">
-            {{question.content}}
-            <img v-if="question.fileList" class="p-4" :src="question.fileList[0]" alt="">
+        <div v-html="toContent(post.content)" class="content"></div>
+        <img v-for="item in post.fileList" :key="item" :src="item.img" alt="img">
+        <div class="form-button">
+            <button class="form-control" id="custom-bnt" @click="$emit('close')">삭제</button>
+            <button class="form-control" id="custom-bnt" @click="modal = true">수정</button>
         </div>
+        <PostQuestion v-if="modal" id="modal" @close="modal = false" :updateItem = "post"></PostQuestion>
         <hr>
-        <template v-for="item in reply" :key="item">
-
-            <div class="form-control" :id="(item.author === question.author) ? 'reply1' : 'reply'">
-                <div id="reply-title">
-                    {{item.author}}&nbsp;&nbsp;&nbsp;{{item.date}}
-                </div>
-                <div id="reply-content">
-                    {{item.content}}
-                </div>
-            </div>
-        </template>
-
-
     </div>
 </template>
 
 <script>
+import PostQuestion from "../layout/post/PostQuestion.vue";
+
 export default {
     name : "post-view",
+    components: {
+        PostQuestion
+    },
+    data() {
+        return {
+            modal : false
+        }
+    },
     props : {
-        question : Array,
+        post : Array,
         reply: Array,
+    },
+    methods: {
+        toContent(post) {
+            return post.replaceAll("\n","<br/>");
+        },
     }
 }
 </script>
 
 <style scoped>
 
+#post-view {
+    width: 100%;
+}
+
+#modal {
+    background-color: white;
+}
+
 hr {
   margin: 0;
+  margin-top: 50px;
   border: 0;
   border-top: 1px solid #b2b2b2;
 }
@@ -74,43 +88,40 @@ table td {
     width: 100px;
     border-left: 0.5px solid #b2b2b2;
 }
+.content { 
+    padding: 50px;
+}
 
 #post-info {
     height: 50px;
     line-height: 50px;
 }
 
+img {
+    display: block;
+    border: 1px solid gray;
+    box-sizing: border-box;
+    margin: 0 50px;
+    
+}
+
 #content {
     min-height: 200px;
     padding: 50px;
+    
 }
 
-.form-control {
-    font-size: 12px;
-    border: none;
-    margin-top: 10px;
-    margin-left: auto;
-    margin-right: auto;
-    width: 800px;
+.form-button {
+    width: 1200px;
+    margin: auto;
 }
 
-#reply {
-    border: 2px solid #EBEDF0;
-    float: left;
-}
-
-#reply1 {
-    background-color: #EBEDF0;
+#custom-bnt {
     float: right;
-}
-
-#reply-title {
-    padding: 10px;
-    padding-bottom: 0;
-}
-
-#reply-content {
-    padding: 10px;
+    margin-left: 5px;
+    display: inline-block;
+    width: 80px;
+    margin-right: 5px;
 }
 
 </style>

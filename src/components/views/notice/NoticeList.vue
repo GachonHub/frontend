@@ -8,9 +8,9 @@
       <button v-if="role=='admin'" type="button" @click="modal = true" class="form-control">글 작성하기</button>
     </div>
 
-    <ListBox :items="apiRes.data" id="list"></ListBox>
-    <PostNotice id = "modal" v-if="modal" @close="modal = false" title="공지사항 작성"></PostNotice>
-    <PageButton id="pg_bnt" :page="currentPage" :lastPage="currentPage" baseUri="/question"></PageButton>
+    <ListBox :items="apiRes.data" id="list" baseUri="notice"></ListBox>
+    <PostNotice id = "modal" v-if="modal" @close="modal = false" @save="create" title="공지사항 작성"></PostNotice>
+    <PageButton id="pg_bnt" :page="currentPage" :lastPage="currentPage" baseUri="/notice"></PageButton>
     
   </div>
   
@@ -18,11 +18,11 @@
 
 <script>
 import ListBox from "../../layout/ListBox.vue";
-import PostNotice from "../../layout/post/Post.vue"
+import PostNotice from "../../layout/post/PostNotice.vue"
 import Title from "../../layout/common/Title.vue"
 import PageButton from "../../layout/common/PageButton.vue"
 
-import {apiGetRequest} from "../../../api/ApiCommon.js"
+import {apiRequest, apiDataRequest} from "../../../api/ApiCommon.js"
 
 export default {
   name: "question",
@@ -35,18 +35,34 @@ export default {
     data() {
     return {
       role: localStorage.getItem("role"),
-      currentPage: (!isNaN(this.$route.query.page)) ? this.$route.query.page : 1,
+      currentPage: (!isNaN(this.$route.params.page)) ? this.$route.params.page : 1,
       modal: false,
       apiRes : []
-    };
+    }
+  },
+  methods: {
+    create(form) {
+      apiDataRequest("POST", "/api/posts/notice", form)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+      
+      this.modal = false;
+
+    },
+    read() {
+      apiRequest("GET", "/api/posts/notice?page=" + (parseInt(this.currentPage) - 1))
+        .then(res => {
+          console.log(res.data);
+          this.apiRes = res.data;
+      })
+    }
   },
   created() {
-    apiGetRequest("/api/posts/notice?page=" + (parseInt(this.currentPage) - 1))
-      .then(res => {
-        /* eslint-disable no-console */
-        console.log(res.data);
-        this.apiRes = res.data;
-    })
+    this.read();
   }
 };
 </script>
