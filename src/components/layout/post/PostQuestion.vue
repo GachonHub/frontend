@@ -6,16 +6,15 @@
                 <form>
                     <div class="form-data">
                         <label for="f-title" class="form-head">제목</label>
-                        <input type="text" id="f-title" class="form-control form-content"/><br>
+                        <input type="text" id="f-title" v-model="form.title" class="form-control form-content" :placeholder="updateItem.title"/><br>
                     </div>
                     <div class="form-data">
                         <label for="" class="form-head">카테고리</label>
-                        <Category class="form-content" :items = "items" :items2 = "items2"></Category>
+                        <Category class="form-content" v-model="form.category" :items = "items" :items2 = "items2" ></Category>
                     </div>
-
                     <div class="form-data">
                         <label for="content" class="form-head" style="height: 200px">내용</label>
-                        <input type="text" id="content" class="form-control form-content"/><br>
+                        <input type="text" id="content" v-model="form.content" class="form-control form-content" :placeholder="updateItem.content" /><br>
                     </div>
                     <div class="form-data">
                         <label for="image" class="form-head">이미지</label>
@@ -24,7 +23,7 @@
                 </form>
                 <div class="form-button">
                     <button class="form-control" id="custom-bnt" @click="$emit('close')">취소</button>
-                    <button class="form-control" id="custom-bnt" @click="writeNewPost()">작성</button>
+                    <button class="form-control" id="custom-bnt" @click="check">작성</button>
                 </div>
             </div>
         </div>
@@ -33,16 +32,15 @@
 
 <script>
 import Category from "../common/SecondaryCategory.vue"
+import {apiDataRequest} from "../../../api/ApiCommon.js"
 
 export default {
   name: "post-creation",
   components: {
       Category
   },
-  methods: {
-      writeNewPost: function () {
-          alert("New post");
-      }
+  props: {
+        updateItem : Object
   },
   data() {
     return {
@@ -53,6 +51,23 @@ export default {
         ],
       items2: [["none"], ["리버싱", "포렌식"], ["c언어", "자바", "파이썬"]],
     };
+  },
+  methods : {
+      check() {
+          const file = document.getElementById("image").files;
+          this.$emit('save', this.form, file);
+          const rm = new FormData();
+          rm.append("title", "api test title");
+          rm.append("content", "api content title");
+          rm.append("category", "2");
+          apiDataRequest("POST", "/api/question")
+          .then(res => {
+              console.log(res);
+          })
+          .catch(err => {
+              console.log(err);
+          })
+      }
   }
 };
 
