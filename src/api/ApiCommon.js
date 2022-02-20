@@ -50,5 +50,4 @@ export async function apiDataRequest(method, url, params, form="json") {
         console.log("log : " + res);
     })
 
-
 }

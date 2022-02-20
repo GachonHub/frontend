@@ -2,7 +2,7 @@
     <transition name="modal" appear>
         <div class="app">
             <div class="form">
-                <div class="title">스터디 추가</div>
+                <div class="title">{{title}}</div>
                 <form>
                     <div class="form-data">
                         <label for="f-title" class="form-head">그룹 이름</label>
@@ -23,6 +23,10 @@
                     <div class="form-data">
                         <label for="image" class="form-head">대표 이미지</label>
                         <input type="file" id="image" class="form-control form-content"><br>
+                    </div>                    
+                    <div class="form-data">
+                        <label for="description" class="form-head">설명</label>
+                        <input type="text" id="description" v-model="form.description" class="form-control form-content"  style="height : 150px;"/><br>
                     </div>
                 </form>
                 <div class="form-button">
@@ -39,9 +43,6 @@
 export default {
   name: "post-creation",
   methods: {
-      writeNewPost: function () {
-          alert("New post");
-      },
       makeFormData: function () {
           const image = document.getElementById("image").files;
           this.$emit("save", this.form, image);
@@ -83,7 +84,7 @@ export default {
 
 .form {
     height: 80%;
-    margin-top: 10%;
+    margin-top: 5%;
 }
 
 .form-select {
