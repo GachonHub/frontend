@@ -16,7 +16,8 @@
                 </div>
             </div>
             <div  v-if="modal" id="modal_background">
-                <ProfileInfo id="info-modal" title="프로필 수정"  @close="modal=false"></ProfileInfo>
+                <ProfileInfo id="info-modal" title="프로필 수정" :info = "info"
+                    @close="modal=false" @save="updateProfile"></ProfileInfo>
             </div>
 
             <div class="user-description">
@@ -66,7 +67,8 @@ import Snsbar from "../layout/profile/Snsbar.vue"
 import ProfileInfo from "../layout/profile/ProfileInfo.vue"
 import MainRepos from "../layout/profile/MainRepos.vue"
 
-import {apiGetRequest} from "../../api/ApiCommon.js"
+import {apiRequest} from "../../api/ApiCommon.js"
+import {apiDataRequest} from "../../api/ApiCommon.js"
 
 export default {
     components:{
@@ -80,7 +82,7 @@ export default {
             modal : false,
             reposModal : false,
             back : "https://images.unsplash.com/photo-1622547748225-3fc4abd2cca0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2532&q=80",
-            info : Array,
+            info : Object,
             repos: [
                 {
                     title: "everything",
@@ -100,13 +102,12 @@ export default {
             ]
         }
     },
-    created() {
-        apiGetRequest("/api/me?id=" + this.$route.params.id)
+    methods : {
+        readProfile() {
+            apiRequest("GET", "/api/me?id=" + this.$route.params.id)
             .then(res => {
                 this.info = res.data;
-                this.info.graduate = 
                 this.back = (this.info.back) ? this.info.back : this.back;
-                // this.repos = res.data.repos;
             })
             .catch(err => {
                 if (err.response.status == 400) {
@@ -114,6 +115,21 @@ export default {
                     this.$router.push("/");
                 }
             })
+        },
+        updateProfile(data) {
+            console.log(data);
+            apiDataRequest("PUT", "/api/me", data)
+            .then(res => {
+                console.log(res);
+            })
+            .catch(err => {
+                console.log(err.response);
+            })
+        },
+
+    },
+    created() {
+        this.readProfile();
     }
 }
 </script>
@@ -143,8 +159,8 @@ export default {
     border: 1px solid #cccccc;
     /* box-shadow: 5px 5px 5px 5px lightgray; */
     border-radius: 10px;
-    height: 250px;
-    width: 600px;
+    height: 600px;
+    width: 800px;
     z-index: 30;
     left: 34%;
     background-color: white;
@@ -268,12 +284,12 @@ p {
     display: table-cell;
     vertical-align: middle;
 }
-
+/* 
 .box {
     position: relative;
     top: 60px;
     margin-left: 40px;
-}
+} */
 .title {
     font-size: 22px;
     font-weight: 700;

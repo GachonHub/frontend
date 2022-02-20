@@ -1,30 +1,25 @@
 <template>
-    <div>
-        <div id="title">
-            <p style="font-size : 18px;"><b>메인 레포지토리</b></p>
-            <p style="font-size : 10px;">*메인 레포지토리는 최대 3개까지 선택 가능*</p>
-        </div>
-        <div>
-            <ul class="list-group">
-                <li  v-for="item in repos" :key="item" @click="check(item.id)" :id="`${item.id}-body`" 
-                    class="list-group-item">
-                    <div id="repos-body">
-                        <p style="font-size : 16px;"><b>{{item.name}}</b></p>
-                        <p style="font-size : 14px;">{{item.description}}</p>
-                        <p style="font-size : 12px;">{{item.lang}}</p>
-                    </div>
-                    <input :id="`${item.id}-id`" type="checkbox" style="">
-                </li>
-            </ul>
-        </div>
-
+    <div class="nav">
+        <ul class="list-group">
+            <li  v-for="item in repos" :key="item" @click="check(item.id)" :id="`${item.id}-body`" 
+                class="list-group-item">
+                <div id="repos-body">
+                    <p style="font-size : 16px;"><b>{{item.name}}</b></p>
+                    <p style="font-size : 14px;">{{item.description}}</p>
+                    <p style="font-size : 12px;">{{item.lang}}</p>
+                </div>
+                <input :id="`${item.id}-id`" type="checkbox" style="">
+            </li>
+        </ul>
     </div>
+
 </template>
 
 <script>
 export default {
     data() {
         return {
+            selectedReposList: [],
             count : 0,
             repos : [
                 {
@@ -80,11 +75,20 @@ export default {
         }
     },
     methods : {
+        save() {
+            
+        },
+        exit() {
+
+        },
         check(index) {
             var doc = document.getElementById(index + "-id");
+            console.log(doc.checked);
             if (doc.checked) {
                 document.getElementById(index + "-body").style.background = "white";
+
                 this.count -= 1;
+                this.selectedReposList = this.selectedReposList.filter((element) => element !== index);
             } else {
                 if (this.count == 3) {
                     doc.checked = false;
@@ -93,6 +97,7 @@ export default {
                 }
                 document.getElementById(index + "-body").style.background = "#a3cfbb";
                 this.count += 1;
+                this.selectedReposList.push(index);
             }
             doc.checked = (doc.checked) ? false : true;
         }
@@ -103,6 +108,7 @@ export default {
                 this.count += 1;
                 document.getElementById(this.repos[i].id + "-body").style.background = "#a3cfbb";
                 document.getElementById(this.repos[i].id + "-id").checked = true;
+                this.selectedReposList.push(this.repos[i].id);
             }
         }
     }
@@ -110,10 +116,30 @@ export default {
 </script>
 
 <style scoped>
+.title, .btns{
+    display: inline-flex;
+}
+
+.nav {
+    height: 320px;
+    width: 400px;
+    border: 1px solid rgba(0,0,0,.125);
+    box-sizing: border-box;
+}
+ul {
+    width: 100%;
+}
+
+.list-group-item {
+    border-left: none;
+    border-right: none;
+}
+
 li {
     cursor: pointer;
     height: 100px;
-    border-radius: 0 !important;
+    width: 100%;
+    /* border-radius: 0 !important; */
 }
 
 input {

@@ -6,35 +6,47 @@
                 <form>
                     <div class="form-data">
                         <label for="f-title" class="form-head">학과</label>
-                        <input type="text" id="f-title" class="form-control form-content"/><br>
+                        <input type="text" id="f-title" v-model="form.major" :placeholder="info.major" class="form-control form-content"/><br>
                     </div>
 
                     <div class="form-data">
                         <label for="content" class="form-head">재학 여부</label>
-                        <input type="text" id="content" class="form-control form-content"/><br>
+                        <input type="text" id="content" v-model="form.graduate" :placeholder="info.graduate" class="form-control form-content"/><br>
+                    </div>
+                    <div id="title" style="margin-left:auto; margin-right:auto;">
+                        <div style="font-size : 18px; text-align:center;"><b>메인 레포지토리</b></div>
+                        <div style="font-size : 10px; text-align:center;">*메인 레포지토리는 최대 3개까지 선택 가능*</div>
+                    </div>
+                    <div style="background-color : white;">
+                        <MainRepos id="mainRepos-selection"></MainRepos>
+                    </div>
+                    <div class="form-button">
+                        <button class="form-control" id="custom-bnt" @click="$emit('close')">취소</button>
+                        <button class="form-control" id="custom-bnt" @click="$emit('save', form)">작성</button>
                     </div>
                 </form>
-                <div class="form-button">
-                    <button class="form-control" id="custom-bnt" @click="$emit('close')">취소</button>
-                    <button class="form-control" id="custom-bnt" @click="writeNewPost()">작성</button>
-                </div>
             </div>
         </div>
     </transition>
 </template>
 
 <script>
+import MainRepos from "../../layout/profile/MainRepos.vue"
 
 export default {
   name: "post-creation",
-  methods: {
-      writeNewPost: function () {
-          alert("New post");
-      }
+  components: {
+      MainRepos
   },
   props : {
-      title: String
+      title: String,
+      info: Object
   },
+  data() {
+      return {
+          form : {}
+      }
+  }
 };
 
 </script>
@@ -44,6 +56,25 @@ export default {
 .app {
   width: 100%;
   height: 100%;
+}
+
+#mainRepos-selection {
+    background-color:white;
+    width: 400px;
+    height: 250px;
+    margin: auto;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    border-radius: 4px;
+}
+
+#mainRepos-selection::-webkit-scrollbar {
+    display: none;
+}
+
+#main-repos {
+    width: 50%;
+    margin : auto;
 }
 
 .form {
@@ -89,8 +120,11 @@ textarea {
 }
 
 .form-button {
-    width: calc((100% -20px)*0.5);
+    height:50px;
+    padding-top: 10px;
+    width: 400px;
     margin: auto;
+    line-height: 50px;
 }
 
 #custom-bnt {
@@ -98,7 +132,6 @@ textarea {
     margin-left: 5px;
     display: inline-block;
     width: 80px;
-    margin-right: 5px;
 }
 
 </style>
