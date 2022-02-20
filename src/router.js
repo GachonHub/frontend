@@ -20,6 +20,7 @@ import ContestList from "./components/views/contest/ContestList.vue"
 import ContestView from "./components/views/contest/ContestView.vue"
 
 import NoticeList from "./components/views/notice/NoticeList.vue"
+import NoticeView from "./components/views/notice/NoticeView.vue"
 
 import InquiryList from "./components/views/inquiry/InquiryList.vue"
 import InquiryView from "./components/views/inquiry/InquiryView.vue"
@@ -51,6 +52,7 @@ const router = createRouter({
     {path: "/contest/id/:id", component: ContestView},
 
     {path: "/notice/:page", component: NoticeList},
+    {path: "/notice/id/:id", component: NoticeView},
 
     {path: "/inquiry/:page", component: InquiryList},
     {path: "/inquiry/id/:id", component: InquiryView},

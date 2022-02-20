@@ -114,7 +114,7 @@ export default {
     font-size: 18px;
     font-weight: bold;
 
-    margin: 10px 0;
+    margin: 30px 0;
 }
 .green {
     color: #8EB094;

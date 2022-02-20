@@ -29,15 +29,14 @@
 <script>
 export default {
     props : {
-        contest : Array,
+        contest : Object,
         more : Array
     },
     computed: {
-            toContet() {
+        toContet() {
             return this.contest.content.replaceAll("\n", "<br/>")
-            }
-
         }
+    }
 }
 </script>
 <style scoped>

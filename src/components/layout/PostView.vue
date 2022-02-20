@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="post-view">
         <div id="title">{{question.title}}</div>
         <div id="post-info">
             <table>
@@ -10,32 +10,10 @@
                 <td id="wth100">{{question.date}}</td>
             </table>
         </div>
-        <div id="content">
-            {{question.content}}
-            <img class="p-4" :src="question.img" alt="">
-        </div>
+        <div v-html="toContent(question.content)" class="content"></div>
+
+            <img :src="question.img" alt="img">
         <hr>
-        <template v-for="item in reply" :key="item">
-        <!-- 문의 사항 댓글 -->
-        <!-- <div class="form-control" id="reply" style="background-color:#EBEDF0;">
-            <div id="reply-title">
-                re: {{question.title}} {{reply.date}}
-            </div>
-            <div id="reply-content">
-                {{reply.content}}
-            </div>
-        </div> -->
-            <div class="form-control" :id="(item.author === question.author) ? 'reply1' : 'reply'">
-                <div id="reply-title">
-                    {{item.author}}&nbsp;&nbsp;&nbsp;{{item.date}}
-                </div>
-                <div id="reply-content">
-                    {{item.content}}
-                </div>
-            </div>
-        </template>
-
-
     </div>
 </template>
 
@@ -43,8 +21,13 @@
 export default {
     name : "post-view",
     props : {
-        question : Array,
+        question : Object,
         reply: Array,
+    },
+    methods: {
+        toContent(question) {
+            return question.replaceAll("\n","<br/>");
+        }
     }
 }
 </script>
@@ -53,6 +36,7 @@ export default {
 
 hr {
   margin: 0;
+  margin-top: 50px;
   border: 0;
   border-top: 1px solid #b2b2b2;
 }
@@ -82,43 +66,26 @@ table td {
     width: 100px;
     border-left: 0.5px solid #b2b2b2;
 }
+.content { 
+    padding: 50px;
+}
 
 #post-info {
     height: 50px;
     line-height: 50px;
 }
 
+img {
+    display: block;
+    border: 1px solid gray;
+    box-sizing: border-box;
+    margin: 0 50px;
+    
+}
+
 #content {
     min-height: 200px;
     padding: 50px;
-}
-
-.form-control {
-    font-size: 12px;
-    border: none;
-    margin-top: 10px;
-    margin-left: auto;
-    margin-right: auto;
-    width: 800px;
-}
-
-#reply {
-    border: 2px solid #EBEDF0;
-    float: left;
-}
-
-#reply1 {
-    background-color: #EBEDF0;
-    float: right;
-}
-
-#reply-title {
-    padding: 10px;
-    padding-bottom: 0;
-}
-
-#reply-content {
-    padding: 10px;
 }
 
 </style>

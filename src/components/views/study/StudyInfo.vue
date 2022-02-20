@@ -3,6 +3,11 @@
         <div class="profile" >
             <img class="profile-img" :src="study.img">
             <div class="profile-name">{{study.name}}</div>
+            <div class="memberChange" v-show="study.authorId==userId">
+                <div class="m-eclipse"></div>
+                <div class="m-eclipse"></div>
+                <div class="m-eclipse"></div>
+            </div>
         </div>
         <div class="description">
             <div class="sub-title green">동아리 소개</div>
@@ -60,10 +65,12 @@ export default {
     },
     data() {
         return {
+            userId: localStorage.getItem("user"),
             reposModal : false,
             study: {
                 img: require("/Users/ljiun/frontend/src/assets/pay1oad.jpeg"),
                 name: "Pay1oad",
+                authorId : "50683915",
                 content: "가천대학교 정보 * 보안 동아리입니다.\n"+
                         "동아리실은 학생회관 1층 101호에 위치하고 있습니다.",
                 fields: "정보보안",
@@ -89,16 +96,19 @@ export default {
                     content: "테스트, 데모버전",
                     lan:"C"
                 }
+            ],
+            members : [
+                {id : "50683915", name : "jiiunlee19"},
             ]
         }
     },
     computed: {
-            toContent() {
+        toContent() {
             return this.study.content.replaceAll("\n", "<br/>")
-            },
-            toRecruit() {
-                return this.study.recruitContent.replaceAll("\n", "<br/>")
-            }
+        },
+        toRecruit() {
+            return this.study.recruitContent.replaceAll("\n", "<br/>")
+        }
     }
 }
 </script>
@@ -114,7 +124,7 @@ export default {
     font-size: 18px;
     font-weight: bold;
 
-    margin: 10px 0;
+    margin: 30px 0;
 }
 .green {
     color: #8EB094;
@@ -141,6 +151,25 @@ export default {
     line-height: 180px;
     position: relative;
     left: 60px;
+}
+.memberChange {
+    display: inline-flex;
+    position: relative;
+    vertical-align: middle;
+    left: 900px;
+}
+.m-eclipse {
+    width: 20px;
+    height: 20px;
+    border-radius: 70%;
+    background:gray;
+}
+.m-eclipse:nth-child(2) {
+    position: absolute;
+    
+}
+.m-eclipse:nth-child(3) {
+    position: absolute;
 }
 /* description */
 .content {
