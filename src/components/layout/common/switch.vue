@@ -29,6 +29,7 @@ export default {
 
             }
             // off
+            this.$emit('save', recruit);
         }
     },
     mounted() {

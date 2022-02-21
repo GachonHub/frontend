@@ -19,7 +19,8 @@
             <button class="form-control" id="custom-bnt" @click="modal=true">수정</button>
         </div>
         <PostNotice v-if="modal && (type=='notice')" :updateItem = post @close="modal=false" @save = update></PostNotice>
-        <PostQuestion v-if="(type=='question')" :updateItem = post @close="modal=false" @save = update></PostQuestion>
+        <PostQuestion v-if="modal && (type=='question')" :updateItem = post @close="modal=false" @save = update></PostQuestion>
+        <PostInquiry v-if="modal && (type=='inquiry')" :updateItem = post @close="modal=false" @save = update></PostInquiry>
         <hr>
 
     </div>
@@ -28,16 +29,19 @@
 <script>
 import PostNotice from "../layout/post/PostNotice.vue"
 import PostQuestion from "../layout/post/PostQuestion.vue"
+import PostInquiry from "../layout/post/PostInquiry.vue"
 
 
 import {deleteNotice, createNotice} from "../../api/ApiNotice.js"
 import {createQuestion} from "../../api/ApiQuestion.js"
+import {createInquiry, deleteInquiry} from "../../api/ApiInquiry.js"
 
 export default {
     name : "post-view",
     components : {
         PostNotice,
-        PostQuestion
+        PostQuestion,
+        PostInquiry
     },
     props : {
         post : Object,
@@ -54,11 +58,26 @@ export default {
             return question.replaceAll("\n","<br/>");
         },
         deletePost() {
-            deleteNotice(this.$route.params.id);
+            if(this.type == "notice") {
+                deleteNotice(this.$route.params.id);
+            } else if(this.type == "inquiry") {
+                deleteInquiry(this.$route.params.id)
+                .then(res => {
+                    this.$router.push("/inquiry/1");
+                    return res;
+                })
+            }
         },
         update(files = null, form) {
             if (this.type == 'notice') createNotice(form, "PUT");
-            if (this.type == 'question') createQuestion(files, form, "PUT");
+            else if (this.type == 'question') createQuestion(files, form, "PUT");
+            else if (this.type == 'inquiry') {
+                createInquiry(files, form, "PUT", this.post.id)
+                .then(res => {
+                    this.$router.push("/inquiry/1");
+                    return res;
+                });
+            }
         }
     }
 }

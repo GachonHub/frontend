@@ -72,6 +72,22 @@ export default {
         .catch((err) => {
             console.log(err);
         })
+    },
+    watch:  {
+        $route(to, from) {
+            if (to != from) {
+                this.type = this.$route.params.type;
+                this.korType = (this.type == "study") ? "스터디" : "동아리";
+                getGroupList(this.type.toUpperCase(), this.currentPage)
+                .then(res => {
+                    this.apiRes = res.data;
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+            }
+        }
+
     }
 }
 </script>
