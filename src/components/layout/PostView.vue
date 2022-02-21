@@ -9,30 +9,35 @@
                 <td id="wth100">{{post.writeAt}}</td>
                 <td></td>
                 <td id="wth80r">조회수</td>
-                <td id="wth100r">{{post.git}}</td>
+                <td id="wth100r">{{post.hit}}</td>
             </table>
         </div>
         <div v-html="toContent(post.content)" class="content"></div>
         <img v-if="post.img" :src="post.img" alt="img">
         <div class="form-button">
-            <button class="form-control" id="custom-bnt" @click="deletePost">삭제</button>
+            <button v-if="type != 'question'" class="form-control" id="custom-bnt" @click="deletePost">삭제</button>
             <button class="form-control" id="custom-bnt" @click="modal=true">수정</button>
         </div>
-        <PostNotice v-if="modal" :notice = this.post @close="modal=false" @save = update></PostNotice>
+        <PostNotice v-if="modal && (type=='notice')" :updateItem = post @close="modal=false" @save = update></PostNotice>
+        <PostQuestion v-if="(type=='question')" :updateItem = post @close="modal=false" @save = update></PostQuestion>
         <hr>
 
     </div>
 </template>
 
 <script>
+import PostNotice from "../layout/post/PostNotice.vue"
+import PostQuestion from "../layout/post/PostQuestion.vue"
+
 
 import {deleteNotice, createNotice} from "../../api/ApiNotice.js"
-import PostNotice from "../layout/post/PostNotice.vue"
+import {createQuestion} from "../../api/ApiQuestion.js"
 
 export default {
     name : "post-view",
     components : {
-        PostNotice
+        PostNotice,
+        PostQuestion
     },
     props : {
         post : Object,
@@ -50,11 +55,11 @@ export default {
         },
         deletePost() {
             deleteNotice(this.$route.params.id);
-      },
-      update(form) {
-          form.id = this.post.id;
-          createNotice(form, "PUT");
-      }
+        },
+        update(files = null, form) {
+            if (this.type == 'notice') createNotice(form, "PUT");
+            if (this.type == 'question') createQuestion(files, form, "PUT");
+        }
     }
 }
 </script>
