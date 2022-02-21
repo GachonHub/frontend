@@ -5,16 +5,16 @@
                 <div class="title">질문글 작성</div>
                 <form>
                     <div class="form-data">
-                        <label for="f-title" class="form-head">제목</label>
-                        <input type="text" id="f-title" v-model="form.title" class="form-control form-content" :placeholder="updateItem.title"/><br>
+                        <label for="title" class="form-head">제목</label>
+                        <input type="text" id="title" v-model="form.title" class="form-control form-content"/><br>
                     </div>
                     <div class="form-data">
                         <label for="" class="form-head">카테고리</label>
-                        <Category class="form-content" v-model="form.category" :items = "items" :items2 = "items2" ></Category>
+                        <Category class="form-content" :items = "items" @save="getCategory"></Category>
                     </div>
                     <div class="form-data">
                         <label for="content" class="form-head" style="height: 200px">내용</label>
-                        <input type="text" id="content" v-model="form.content" class="form-control form-content" :placeholder="updateItem.content" /><br>
+                        <input type="text" id="content" v-model="form.content" class="form-control form-content" /><br>
                     </div>
                     <div class="form-data">
                         <label for="image" class="form-head">이미지</label>
@@ -23,7 +23,7 @@
                 </form>
                 <div class="form-button">
                     <button class="form-control" id="custom-bnt" @click="$emit('close')">취소</button>
-                    <button class="form-control" id="custom-bnt" @click="check">작성</button>
+                    <button class="form-control" id="custom-bnt" @click="create">작성</button>
                 </div>
             </div>
         </div>
@@ -31,42 +31,68 @@
 </template>
 
 <script>
-import Category from "../common/SecondaryCategory.vue"
-import {apiDataRequest} from "../../../api/ApiCommon.js"
+import Category from "../common/SecondaryCategory2.vue"
 
 export default {
   name: "post-creation",
   components: {
-      Category
+      Category,
   },
   props: {
         updateItem : Object
   },
   data() {
     return {
-      items: [
-        {num : 0, val: "선택"},
-        {num : 1 , val: "정보보안"},
-        {num : 2 , val : "코딩"}
-        ],
-      items2: [["none"], ["리버싱", "포렌식"], ["c언어", "자바", "파이썬"]],
+        form : {},
+        items: [
+            {
+                num : 0,
+                val: "선택",
+                sub : [
+                    {num : 1, val: "선택"},
+                ]
+            },
+            {
+                num : 6, 
+                val: "정보보안",
+                sub : [
+                    {num : 1, val: "포렌식"},
+                    {num : 2, val: "웹해킹"},
+                    {num : 3, val: "리버싱"},
+                    {num : 4, val: "포너블"},
+                ]
+            },
+            {
+                num : 7,
+                 val : "개발",
+                sub : [
+                    {num : 5, val: "spring"},
+                    {num : 6, val: "django"},
+                    {num : 7, val: "ios"},
+                    {num : 8, val: "web"},
+                    {num : 9, val: "android"}
+                ]
+            }
+        ]
     };
   },
   methods : {
-      check() {
-          const file = document.getElementById("image").files;
-          this.$emit('save', this.form, file);
-          const rm = new FormData();
-          rm.append("title", "api test title");
-          rm.append("content", "api content title");
-          rm.append("category", "2");
-          apiDataRequest("POST", "/api/question")
-          .then(res => {
-              console.log(res);
-          })
-          .catch(err => {
-              console.log(err);
-          })
+      getCategory(main, sub) {
+          this.main = main;
+          this.sub = sub;
+      },
+      create() {
+          const files = document.getElementById('image').files;
+          this.form.id = this.updateItem.id;
+          this.form.category = this.sub;
+          this.$emit('save', files, this.form);
+
+      }
+  },
+  cerated() {
+      if (this.updateItem) {
+          document.getElementById('title').placeholder = this.updateItem.title;
+          document.getElementById('content').placeholder = this.updateItem.content;
       }
   }
 };

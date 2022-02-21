@@ -3,7 +3,7 @@
     <Title title="질문 게시판"></Title>
     <div style="display: inline-block; margin-top:10px;">
       <span style="font-size:14px;">카테고리 </span>
-      <Category style="display:inline-block;" :items = "items" :items2 = "items2"></Category>
+      <Category style="display:inline-block;" :items = "items" @save="getCategory"></Category>
     </div>
 
     <div class="search">
@@ -13,7 +13,7 @@
     </div>
 
     <ListBox :items="apiRes.data" id="list" baseUri="question"></ListBox>
-    <PostQuestion id = "modal" v-if="modal" @close="modal = false"></PostQuestion>
+    <PostQuestion id = "modal" v-if="modal" @close="modal = false" @save="create" :updatedItem = "apiRes.data"></PostQuestion>
     <PageButton id="pg_bnt" :page="currentPage" :lastPage="parseInt(apiRes.totalPages)" baseUri="/question"></PageButton>
     
   </div>
@@ -28,6 +28,7 @@ import PageButton from "../../layout/common/PageButton.vue"
 import Category from "../../layout/common/SecondaryCategory.vue"
 
 import {apiRequest} from "../../../api/ApiCommon.js"
+import {createQuestion} from "../../../api/ApiQuestion.js"
 
 export default {
   name: "question",
@@ -42,26 +43,49 @@ export default {
     return {
       main: "",
       sub: "",
-      currentPage: (!isNaN(this.$route.query.page)) ? this.$route.query.page : 1,
       modal: false,
       item1Val: 0,
       items: [
-        {num : 0, val: "선택"},
-        {num : 1 , val: "정보보안"},
-        {num : 2 , val : "코딩"}
-        ],
-      items2: [["선택"], ["리버싱", "포렌식", "전체"], ["c언어", "자바", "파이썬", "전체"]],
+          {
+              num : 0,
+              val: "선택",
+              sub : [
+                  {num : 1, val: "선택"},
+              ]
+          },
+          {
+              num : 6, 
+              val: "정보보안",
+              sub : [
+                  {num : 1, val: "포렌식"},
+                  {num : 2, val: "웹해킹"},
+                  {num : 3, val: "리버싱"},
+                  {num : 4, val: "포너블"},
+              ]
+          },
+          {
+              num : 7,
+                val : "개발",
+              sub : [
+                  {num : 5, val: "spring"},
+                  {num : 6, val: "django"},
+                  {num : 7, val: "ios"},
+                  {num : 8, val: "web"},
+                  {num : 9, val: "android"}
+              ]
+          }
+      ],
+      currentPage: (!isNaN(this.$route.query.page)) ? this.$route.query.page : 1,
       apiRes : []
     };
   },
   methods : {
-    mainF(item) {
-      this.main = item;
-      console.log(this.main);
-    }, 
-    subF(sub) {
+    getCategory(main, sub) {
+      this.main = main;
       this.sub = sub;
-      console.log(this.sub);
+    },
+    create(files, form) {
+      createQuestion(files, form, "POST");
     }
   },
   created() {

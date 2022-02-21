@@ -2,7 +2,7 @@
     <div class="container">
         <Title title="질문글" isSecondaryExists=true :SecondaryTitle="question.category"></Title>
         <div class="view">
-            <PostView :post="apiRes"></PostView>
+            <PostView :post="apiRes" type="question"></PostView>
             <Reply :reply="reply" :author="question.author"></Reply>
         </div>
     </div>
@@ -74,6 +74,7 @@ export default {
     created() {
         getQuestion(this.$route.params.id)
         .then(res => {
+            console.log(res);
             this.apiRes = res;
         })
     }

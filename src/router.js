@@ -10,7 +10,6 @@ import QuestionView from "./components/views/question/QuestionView.vue";
 import GroupList from "./components/views/group/GroupList.vue"
 import GroupInfo from "./components/views/group/GroupInfo.vue"
 
-
 import ContestList from "./components/views/contest/ContestList.vue"
 import ContestView from "./components/views/contest/ContestView.vue"
 

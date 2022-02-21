@@ -39,6 +39,9 @@ export async function apiRequest(method, url) {
 }
 
 export async function apiDataRequest(method, url, params, form="json") {
+    console.log("apidatrequest : " + form);
+
+    console.log((form=="json") ? headers() : formDataHeaders());
 
     return await axios({
         method: method,
