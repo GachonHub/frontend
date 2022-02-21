@@ -13,15 +13,25 @@
                         <label for="content" class="form-head" style="height: 200px">내용</label>
                         <input type="text" id="content" v-model="form.content" class="form-control form-content"/><br>
                     </div>
+                    <div class="form-data">
+                        <label for="image" class="form-head">첨부파일</label>
+                        <input type="file" id="image" class="form-control form-content"><br>
+                    </div>
 
                     <div class="form-data">
-                        <label for="file" class="form-head">첨부파일</label>
-                        <input type="file" id="file" class="form-control form-content"><br>
+                        <label for="isSecret" class="form-head">비밀글 여부</label>
+                        <div>
+                            <Switch id="isSecret" @save="checkSecret"></Switch>
+                        </div>
+                    </div>
+                    <div class="form-data">
+                        <label for="password" class="form-head">비밀번호</label>
+                        <input type="text" id="password" v-model="form.password" class="form-control form-content"/><br>
                     </div>
                 </form>
                 <div class="form-button">
                     <button class="form-control" id="custom-bnt" @click="$emit('close')">취소</button>
-                    <button class="form-control" id="custom-bnt" @click="create()">작성</button>
+                    <button class="form-control" id="custom-bnt" @click="create">작성</button>
                 </div>
             </div>
         </div>
@@ -30,15 +40,22 @@
 
 <script>
 
+import Switch from "../common/switch.vue"
+
 export default {
   name: "post-creation",
+  components: {
+      Switch
+  },
   props : {
       title: String,
-      baseUri : String
+      baseUri : String,
+      updateItem : Object,
   },
   data() {
     return {
-        form:[],
+        secret : false,
+        form:{},
       items: [
         {num : 0, val: "선택"},
         {num : 1 , val: "정보보안"},
@@ -49,12 +66,14 @@ export default {
   },
   methods: {
       create() {
-          const rm = new FormData();
-        //   const file = document.getElementById("file").files;
-        //   rm.append
-          rm.append("title", this.form.title);
-          rm.append("content", this.form.content);
-
+          this.form.secret = this.secret;
+          const image = document.getElementById('image').files;
+          this.$emit('save', image, this.form);
+      },
+      checkSecret(bool) {
+          this.secret = (bool) ? true : false;
+          document.getElementById('password').readOnly = !(this.secret);
+          console.log(this.secret);
       }
   }
 };
@@ -66,6 +85,10 @@ export default {
 .app {
   width: 100%;
   height: 100%;
+}
+
+#isSecret {
+    display: inline-block;
 }
 
 .form {
@@ -92,6 +115,7 @@ export default {
     grid-template-columns: 2.5fr 5fr 2.5fr;
     margin: 10px;
     grid-template-areas: "head content .";
+    
 }
 
 textarea {

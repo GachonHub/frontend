@@ -7,8 +7,8 @@
       <button type="button" @click="modal = true" class="form-control">글 작성하기</button>
     </div>
 
-    <ListBox :items="apiRes.data" id="list"></ListBox>
-    <PostInquiry id = "modal" v-if="modal" @close="modal = false" title="문의사항 작성"></PostInquiry>
+    <ListBox :items="apiRes.data" id="list" baseUri="inquiry"></ListBox>
+    <PostInquiry id = "modal" v-if="modal" @close="modal = false" title="문의사항 작성" @save="create"></PostInquiry>
     <PageButton id="pg_bnt" :page="currentPage" :lastPage="currentPage" baseUri="/question"></PageButton>
     
   </div>
@@ -17,11 +17,11 @@
 
 <script>
 import ListBox from "../../layout/ListBox.vue";
-import PostInquiry from "../../layout/post/PostNotice.vue"
+import PostInquiry from "../../layout/post/PostInquiry.vue"
 import Title from "../../layout/common/Title.vue"
 import PageButton from "../../layout/common/PageButton.vue"
 
-import {apiRequest} from "../../../api/ApiCommon.js"
+import {getInquiryList, createInquiry} from "../../../api/ApiInquiry.js"
 
 export default {
   name: "question",
@@ -38,13 +38,17 @@ export default {
       apiRes : []
     };
   },
+  methods: {
+    create(image, form) {
+      createInquiry(image, form, "POST");
+    }
+  },
   created() {
-    apiRequest("/api/posts/notice?page=" + (parseInt(this.currentPage) - 1))
-      .then(res => {
-        /* eslint-disable no-console */
-        console.log(res.data);
-        this.apiRes = res.data;
+    getInquiryList(this.currentPage)
+    .then(res => {
+      this.apiRes = res;
     })
+
   }
 };
 </script>

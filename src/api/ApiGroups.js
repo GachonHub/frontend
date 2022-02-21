@@ -21,6 +21,16 @@ export function getGroupList(type, page) {
     })
 }
 
+export function deleteGroup(id) {
+    return apiRequest("DELETE", "/api/groups/" + id)
+    .then(res => {
+        return res;
+    })
+    .catch(err => {
+        console.log(err);
+    })
+}
+
 export function getGroup(id) {
     return apiRequest("GET", "/api/groups/" + id)
     .then(res => {

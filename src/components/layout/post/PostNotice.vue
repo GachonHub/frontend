@@ -1,4 +1,4 @@
-<template>
+ <template>
     <transition name="modal" appear>
         <div class="app">
             <div class="form">
