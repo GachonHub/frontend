@@ -17,7 +17,7 @@
 
 <script>
 import ListBox from "../../layout/ListBox.vue";
-import PostInquiry from "../../layout/post/PostNotice.vue"
+import PostInquiry from "../../layout/post/PostInquiry.vue"
 import Title from "../../layout/common/Title.vue"
 import PageButton from "../../layout/common/PageButton.vue"
 
