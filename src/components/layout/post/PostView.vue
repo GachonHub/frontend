@@ -59,22 +59,38 @@ export default {
         },
         deletePost() {
             if(this.type == "notice") {
-                deleteNotice(this.$route.params.id);
+                deleteNotice(this.$route.params.id)
+                .then(res => {
+                    this.$router.go(-1);
+                    return res;
+                });
             } else if(this.type == "inquiry") {
                 deleteInquiry(this.$route.params.id)
                 .then(res => {
-                    this.$router.push("/inquiry/1");
+                    this.$router.go(-1);
                     return res;
                 })
             }
         },
         update(files = null, form) {
-            if (this.type == 'notice') createNotice(form, "PUT");
-            else if (this.type == 'question') createQuestion(files, form, "PUT");
+            if (this.type == 'notice') {
+                createNotice(form, "PUT")
+                .then(res => {
+                    this.$router.go();
+                    return res;
+                });
+            }
+            else if (this.type == 'question') {
+                createQuestion(files, form, "PUT")
+                .then(res => {
+                    this.$router.go();
+                    return res;
+                });
+            }
             else if (this.type == 'inquiry') {
                 createInquiry(files, form, "PUT", this.post.id)
                 .then(res => {
-                    this.$router.push("/inquiry/1");
+                    this.$router.go();
                     return res;
                 });
             }

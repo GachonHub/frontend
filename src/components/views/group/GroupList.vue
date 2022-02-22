@@ -80,35 +80,31 @@ export default {
             createGroup(form, image, this.type)
             .then(res => {
                 console.log(res);
+                this.$router.go();
             })
             .catch(() => {
                 alert("err");
             })
+        },
+        get() {
+            this.type = this.$route.params.type;
+            this.korType = (this.type == "study") ? "스터디" : "동아리";
+            getGroupList(this.type.toUpperCase(), this.currentPage)
+            .then(res => {
+                this.apiRes = res.data;
+            })
+            .catch((err) => {
+                console.log(err);
+            })
         }
     },
     created() {
-        this.type = this.$route.params.type;
-        this.korType = (this.type == "study") ? "스터디" : "동아리";
-        getGroupList(this.type.toUpperCase(), this.currentPage)
-        .then(res => {
-            this.apiRes = res.data;
-        })
-        .catch((err) => {
-            console.log(err);
-        })
+        this.get();
     },
     watch:  {
         $route(to, from) {
             if (to != from) {
-                this.type = this.$route.params.type;
-                this.korType = (this.type == "study") ? "스터디" : "동아리";
-                getGroupList(this.type.toUpperCase(), this.currentPage)
-                .then(res => {
-                    this.apiRes = res.data;
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
+                this.get();
             }
         }
 

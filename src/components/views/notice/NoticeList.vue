@@ -42,8 +42,11 @@ export default {
   },
   methods: {
     create(form) {
-      createNotice(form, "POST");
-      this.modal = false;
+      createNotice(form, "POST")
+      .then(res => {
+        this.$router.go();
+        return res;
+      })
 
     }
   },

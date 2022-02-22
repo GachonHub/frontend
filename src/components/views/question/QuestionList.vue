@@ -85,7 +85,11 @@ export default {
       this.sub = sub;
     },
     create(files, form) {
-      createQuestion(files, form, "POST");
+      createQuestion(files, form, "POST")
+      .then(res => {
+        this.$route.go();
+        return res;
+      })
     }
   },
   created() {
