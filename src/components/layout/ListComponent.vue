@@ -1,17 +1,16 @@
 <template>
     <div class="list_component"  v-for="item in items" :key="item">
-        <div><router-link :to="{path : '/groups/' + baseUri + '/info/' + item.id}">
-            <div class="field">{{item.field}}</div>
-            <div class="sympathy" v-if="baseUri == 'contest'"><a  class="sympathy">공감</a>{{data.sympathy}}</div>
-            <div class="study_name">{{item.name}}</div>
-            <div class="study_content">{{item.description}}</div>
+        <div><router-link :to="{path : ((baseUri == 'contest') ?'/contest/id/' + item.id : '/groups/' + baseUri + '/info/' + item.id)}">
+            <div class="field">{{(baseUri == 'contest') ? item.category : item.field}}</div>
+            <!-- <div class="sympathy" v-if="baseUri == 'contest'"><a  class="sympathy">공감</a>{{data.sympathy}}</div> -->
+            <div class="study_name">{{(baseUri == 'contest') ? item.title : item.name}}</div>
+            <div class="study_content">{{(baseUri == 'contest') ? item.content : item.description}}</div>
             <a class="writer">작성자 - </a><div class="writer">{{item.authorId}}</div>
             <div class="study_image" :src='item.mainImage' >
                 <img :src="item.mainImage" alt="" style="width:100%; height:100%;">
             </div>
             </router-link>
         </div>
-
         <hr>
     </div>
 </template>

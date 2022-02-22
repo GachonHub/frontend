@@ -27,14 +27,14 @@
 </template>
 
 <script>
-import PostNotice from "../layout/post/PostNotice.vue"
-import PostQuestion from "../layout/post/PostQuestion.vue"
-import PostInquiry from "../layout/post/PostInquiry.vue"
+import PostNotice from "./PostNotice.vue"
+import PostQuestion from "./PostQuestion.vue"
+import PostInquiry from "./PostInquiry.vue"
 
 
-import {deleteNotice, createNotice} from "../../api/ApiNotice.js"
-import {createQuestion} from "../../api/ApiQuestion.js"
-import {createInquiry, deleteInquiry} from "../../api/ApiInquiry.js"
+import {deleteNotice, createNotice} from "../../../api/ApiNotice.js"
+import {createQuestion} from "../../../api/ApiQuestion.js"
+import {createInquiry, deleteInquiry} from "../../../api/ApiInquiry.js"
 
 export default {
     name : "post-view",

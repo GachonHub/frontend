@@ -50,8 +50,6 @@ export default {
   },
   data() {
     return {
-      items: ["선택", "정보보안", "코딩"],
-      items2: [["none"], ["리버싱", "포렌식"], ["c언어", "자바", "파이썬"]],
       form: {}
     };
   },

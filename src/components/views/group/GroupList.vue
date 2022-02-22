@@ -3,7 +3,7 @@
         <Title :title="korType + '⚡'"></Title>
         <div style="display: inline-block; margin-top:10px;">
             <span style="font-size:14px;">카테고리 </span>
-            <Category style="display:inline-block;" :items = "categoryList" :items2 = "categoryList2"></Category>
+            <Category style="display:inline-block;" :items = "items" ></Category>
         </div>
         <div class="search">
             <input id="search_text" class="form-control" type="text">
@@ -40,12 +40,36 @@ export default {
         return {
             type : "",
             korType : "",
-            categoryList: [
-                {num : 0, val: "선택"},
-                {num : 1 , val: "정보보안"},
-                {num : 2 , val : "코딩"}
-                ],
-            categoryList2: [["선택"], ["리버싱", "포렌식", "전체"], ["c언어", "자바", "파이썬", "전체"]],
+            items: [
+                {
+                    num : 0,
+                    val: "선택",
+                    sub : [
+                        {num : 1, val: "선택"},
+                    ]
+                },
+                {
+                    num : 6, 
+                    val: "정보보안",
+                    sub : [
+                        {num : 1, val: "포렌식"},
+                        {num : 2, val: "웹해킹"},
+                        {num : 3, val: "리버싱"},
+                        {num : 4, val: "포너블"},
+                    ]
+                },
+                {
+                    num : 7,
+                        val : "개발",
+                    sub : [
+                        {num : 5, val: "spring"},
+                        {num : 6, val: "django"},
+                        {num : 7, val: "ios"},
+                        {num : 8, val: "web"},
+                        {num : 9, val: "android"}
+                    ]
+                }
+            ],
             currentPage: (!isNaN(this.$route.params.page)) ? this.$route.params.page : 1,
             modal: false,
             apiRes : []

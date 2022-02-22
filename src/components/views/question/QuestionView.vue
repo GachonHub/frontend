@@ -11,7 +11,7 @@
 
 <script>
 
-import PostView from "../../layout/PostView.vue"
+import PostView from "../../layout/post/PostView.vue"
 import Title from "../../layout/common/Title.vue"
 import Reply from "../../layout/Reply/ReplyQuestion.vue"
 import {getQuestion} from "../../../api/ApiQuestion.js"
