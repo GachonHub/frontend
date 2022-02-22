@@ -1,7 +1,7 @@
 <template>
     <div class="wrap">
-        <input v-show="authorId==userId" id="search_text" class="form-control" type="text" @input="filter()">
-        <button v-show="authorId==userId" id="input_btn" type="button" class="form-control" @click="addMember()">추가</button>
+        <input v-show="authorId == userId" id="search_text" class="form-control" type="text" @input="filter()">
+        <button v-show="authorId == userId" id="input_btn" type="button" class="form-control" @click="addMember()">추가</button>
         <div>
             <table>
                 <tr v-for="(item, index) in members2" :key="item">
@@ -21,7 +21,6 @@
 export default {
     props: {
         authorId:String,
-        userId:String,
         members:Array,
         allMembers:Array
     },
@@ -30,6 +29,7 @@ export default {
             members2 : [],
             word : "",
             arr : [],
+            userId : localStorage.getItem("user")
         }
     },
     methods: {

@@ -1,24 +1,31 @@
 <template>
     <div class="container" style="padding-top: 32px;">
         <div class="profile" >
-            <img class="profile-img" :src="apiRes.mainImage">
-            <div class="profile-name">{{apiRes.name}}</div>
-            
-            <button @click="modalshow=true">
-                <div class="memberChange" v-for="(index) in (members.length>5 ? 5 : members.length)" :key="index">
-                    <img class="m-eclipse" :src="members[index-1].img" @click="modal=true">
-                </div>
-            </button>
-            <MemberChange v-if="modalshow" @close="modalshow=false" class="modal-member" :authorId="study.authorId" :userId="userId" :members="members" :allMembers="allMembers" ></MemberChange>
-            <button class="profile-bnt ib" id="repos-bnt" @click="groupinfoModal = true"></button>
-            <GroupUpdate :groupinfoModal="groupinfoModal" :study="study" @close="groupinfoModal=false"></GroupUpdate>
+            <div style="line-height : 180px; text-align : center;">
+                <img class="profile-img" :src="apiRes.mainImage">
+            </div>
+            <div class="profile-name">
+                {{apiRes.name}}
+                <button class="profile-bnt ib" @click="groupinfoModal = true"></button>
+            </div>
+            <div id="member-bnt">
+                <button @click="modalshow=true" id="member-button">
+                    <div class="memberChange" v-for="(index) in (members.length>5 ? 5 : members.length)" :key="index">
+                        <img class="m-eclipse" :src="members[index-1].img">
+                    </div>
+                </button>
+            </div>
+
+            <MemberChange v-if="modalshow" @close="modalshow=false" class="modal-member" :authorId="apiRes.authorId" :members="members" :allMembers="allMembers" ></MemberChange>
+
+            <div id="modal_background" v-if="groupinfoModal">
+                <GroupUpdate id="update-modal" :groupinfoModal="groupinfoModal" :data="apiRes" @close="groupinfoModal=false"></GroupUpdate>
+            </div>
         </div>
 
-
-
         <div class="description">
-            <div class="sub-title green">{{type}} 소개</div>
-            <div class="gray-bd" v-html="toContent"></div>
+            <div class="sub-title green">{{(apiRes.type == "CREW") ? '동아리' : '스터디'}} 소개</div>
+            <div class="gray-bd" v-html="apiRes.description"></div>
             <ul>
                 <li class="gray-bd list">공부 분야 : {{apiRes.field}}</li>
                 <li class="gray-bd list">현재 인원 : {{apiRes.people}}명</li>
@@ -28,8 +35,7 @@
         <div class="repository">
             <div>
                 <div class="sub-title green ib">대표 레포지토리</div>
-                <button class="profile-bnt ib" id="repos-bnt" @click="reposModal = true"></button>
-                
+
             </div>
 
             <div v-if="repos.length == 0" style="padding-left:40px; padding-top:50px;">
@@ -50,17 +56,10 @@
             <div v-if="reposModal" id="modal_background"></div>
         </div>
 
-
-        <div class="recruit">
-            <div class="sub-title black ib">{{type}}원 모집</div>
-            <Switch v-if="apiRes.authorId == userId" class="switch ib" :recruit="apiRes.recruiting"></Switch>
-            <div class="recruit-content" v-html="toRecruit"></div>
-        </div>
     </div>
 </template>
 
 <script>
-import Switch from "../../layout/common/switch.vue"
 import MemberChange from "../../layout/post/MemberChange.vue"
 import GroupUpdate from "../../layout/GroupUpdate.vue"
 
@@ -68,32 +67,17 @@ import {getGroup} from "../../../api/ApiGroups.js"
 
 export default {
     components: {
-        Switch,
         MemberChange,
         GroupUpdate
     },
     data() {
         return {
             apiRes : {},
-            type : (this.$route.params.type == "study") ? "스터디" : "동아리",
             groupinfoModal:false,
             modalshow:false,
             modal: false,
             userId: localStorage.getItem("user"),
             reposModal : false,
-            study: {
-                img: require("@/assets/pay1oad.jpeg"),
-                name: "Pay1oad",
-                authorId : "50683915",
-                content: "가천대학교 정보 * 보안 동아리입니다.\n"+
-                        "동아리실은 학생회관 1층 101호에 위치하고 있습니다.",
-                fields: "정보보안",
-                member: "90",
-                recruit: true,
-                recruitContent: "지원 자격 : 16학번~22학번\n"+
-                                "모집 기간 : 2022/01/01 ~ 2022/02/01\n"+
-                                "payload 인스타그램 : instargram/pay1oad\n"
-            },
             repos: [
                 {
                     title: "everything",
@@ -143,26 +127,20 @@ export default {
             
         }
     },
-    computed: {
-        toContent() {
-            return this.study.content.replaceAll("\n", "<br/>")
-        },
-        toRecruit() {
-            return this.study.recruitContent.replaceAll("\n", "<br/>")
-        }
-    },
     created() {
         getGroup(this.$route.params.id)
             .then(res => {
-                console.log(res.data);
                 this.apiRes = res.data;
             })
     },
     methods: {
         memberModal() {
             
-        }
+        },
     },
+    mounted() {
+        this.apiRes.description = String(this.apiRes.description).replaceAll("\n", "<br/>");
+    }
 }
 </script>
 
@@ -182,8 +160,31 @@ export default {
 .green {
     color: #8EB094;
 }
+
+#modal_background {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    z-index: 20;
+    top: 0px;
+    left: 0px;
+    background-color:rgba(0,0,0,.4);
+}
+
+#update-modal {
+    position: absolute;
+    width: 900px;
+    height: 685px;
+    left: 50%;
+    margin-left: -450px;
+    top: 50%;
+    margin-top: -323px;
+}
+
 .profile {
-    /* margin-top: 72px; */
+    display: grid;
+    grid-template-areas: "image name member";
+    grid-template-columns: 2fr 2fr 6fr;
     
     width: 1200px;
     height: 180px;
@@ -191,26 +192,35 @@ export default {
     background: #EBEDF0;
 }
 .profile-img {
+    grid-area: "image";
     width: 150px;
     height: 150px;
     border-radius: 70%;
     
-    position: relative;
+    /* position: relative;
     left: 33px;
-    vertical-align: middle;
+    vertical-align: middle; */
 }
 .profile-name {
-    display: inline-flex;
+    grid-area: "name";
+    display: inline-block;
     line-height: 180px;
-    position: relative;
-    left: 60px;
+    /* position: relative;
+    left: 60px; */
 }
-button {
-    position: relative;
-    vertical-align: middle;
+
+#member-bnt {
+    grid-area: "member";
+}
+
+#member-button {
+    /* position: relative;
+    vertical-align: middle; */
     left: 200px;
     background: transparent;
     border: 0;
+    line-height: 180px;
+    float: right;
 }
 .memberChange {
     display: inline-flex;
@@ -222,9 +232,12 @@ button {
     background:gray;
 }
 .modal-member {
-    position: relative;
-    left: 450px;
-    top: 160px;
+    position: absolute;
+    width: 300px;
+    height: 390px;
+    left: 1050px;
+    top: 190px;
+    z-index: 999;
 }
 .studyinfo-btn {
     position: relative;
@@ -261,17 +274,7 @@ li {
     border: none;
     margin: auto
 }
-#repos-bnt {
-    position: relative;
-    left: 10px;
-    z-index: 40;
-    background: url("../../../assets/profile/pencil-square.svg");
-    background-size: 100%;
-    width:16px;
-    height:16px;
-    border: none;
-    margin: auto
-}
+
 #repo-blank {
     height:120px;
     width:1160px;
@@ -360,25 +363,8 @@ li {
     border-radius: 4px;
 }
 
-
-/* recruit */
-
-.black {
-    color: black;
-}
 .ib {
     display: inline-block;
 }
-.switch {
-    position: relative;
-    top: 3px;
-    left: 10px;
-}
-.recruit-content {
-    width: 1200px;
-    min-height: 170px;
-    background: #EBEDF0;
-    border-radius: 10px;  
-    padding: 10px 10px;  
-}
+
 </style>
