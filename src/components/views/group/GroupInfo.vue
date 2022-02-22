@@ -3,12 +3,19 @@
         <div class="profile" >
             <img class="profile-img" :src="apiRes.mainImage">
             <div class="profile-name">{{apiRes.name}}</div>
-            <div class="memberChange" v-show="study.authorId==userId">
-                <div class="m-eclipse"></div>
-                <div class="m-eclipse"></div>
-                <div class="m-eclipse"></div>
-            </div>
+            
+            <button @click="modalshow=true">
+                <div class="memberChange" v-for="(index) in (members.length>5 ? 5 : members.length)" :key="index">
+                    <img class="m-eclipse" :src="members[index-1].img" @click="modal=true">
+                </div>
+            </button>
+            <MemberChange v-if="modalshow" @close="modalshow=false" class="modal-member" :authorId="study.authorId" :userId="userId" :members="members" :allMembers="allMembers" ></MemberChange>
+            <button class="profile-bnt ib" id="repos-bnt" @click="groupinfoModal = true"></button>
+            <GroupUpdate :groupinfoModal="groupinfoModal" :study="study" @close="groupinfoModal=false"></GroupUpdate>
         </div>
+
+
+
         <div class="description">
             <div class="sub-title green">{{type}} 소개</div>
             <div class="gray-bd" v-html="toContent"></div>
@@ -22,6 +29,7 @@
             <div>
                 <div class="sub-title green ib">대표 레포지토리</div>
                 <button class="profile-bnt ib" id="repos-bnt" @click="reposModal = true"></button>
+                
             </div>
 
             <div v-if="repos.length == 0" style="padding-left:40px; padding-top:50px;">
@@ -39,9 +47,7 @@
                 <div class="repo_public">Public</div>
             </div>
             
-            <div v-if="reposModal" id="modal_background">
-                <MainRepos id="mainRepos-selection" @close="reposModal = false"></MainRepos>
-            </div>
+            <div v-if="reposModal" id="modal_background"></div>
         </div>
 
 
@@ -54,20 +60,25 @@
 </template>
 
 <script>
-import MainRepos from "../../layout/profile/MainRepos.vue"
 import Switch from "../../layout/common/switch.vue"
+import MemberChange from "../../layout/post/MemberChange.vue"
+import GroupUpdate from "../../layout/GroupUpdate.vue"
 
 import {getGroup} from "../../../api/ApiGroups.js"
 
 export default {
     components: {
-        MainRepos,
-        Switch
+        Switch,
+        MemberChange,
+        GroupUpdate
     },
     data() {
         return {
             apiRes : {},
             type : (this.$route.params.type == "study") ? "스터디" : "동아리",
+            groupinfoModal:false,
+            modalshow:false,
+            modal: false,
             userId: localStorage.getItem("user"),
             reposModal : false,
             study: {
@@ -101,8 +112,35 @@ export default {
                 }
             ],
             members : [
-                {id : "50683915", name : "jiiunlee19"},
-            ]
+                {id : "50683915", name : "jiiunlee19", img: "https://avatars.githubusercontent.com/u/50683915?s=400&v=4"},
+                {id : "50683914", name : "jaeesu", img: "https://avatars.githubusercontent.com/u/50989437?v=4"},
+                {id : "50683915", name : "jiiunlee19", img: "https://avatars.githubusercontent.com/u/50683915?s=400&v=4"},
+                {id : "50683914", name : "jaeesu", img: "https://avatars.githubusercontent.com/u/50989437?v=4"},
+                {id : "50683915", name : "jiiunlee19", img: "https://avatars.githubusercontent.com/u/50683915?s=400&v=4"},
+                {id : "50683914", name : "jaeesu", img: "https://avatars.githubusercontent.com/u/50989437?v=4"},
+                {id : "50683915", name : "jiiunlee19", img: "https://avatars.githubusercontent.com/u/50683915?s=400&v=4"},
+                {id : "50683914", name : "jaeesu", img: "https://avatars.githubusercontent.com/u/50989437?v=4"},
+                {id : "50683915", name : "jiiunlee19", img: "https://avatars.githubusercontent.com/u/50683915?s=400&v=4"},
+                {id : "50683914", name : "jaeesu", img: "https://avatars.githubusercontent.com/u/50989437?v=4"},
+                {id : "50683915", name : "jiiunlee19", img: "https://avatars.githubusercontent.com/u/50683915?s=400&v=4"},
+                {id : "50683914", name : "jaeesu", img: "https://avatars.githubusercontent.com/u/50989437?v=4"},
+            ],
+            allMembers : [
+                {id : "50683915", name : "jiiunlee19", img: "https://avatars.githubusercontent.com/u/50683915?s=400&v=4"},
+                {id : "50683914", name : "jaeesu", img: "https://avatars.githubusercontent.com/u/50989437?v=4"},
+                {id : "50683915", name : "jiiunlee19", img: "https://avatars.githubusercontent.com/u/50683915?s=400&v=4"},
+                {id : "50683914", name : "jaeesu", img: "https://avatars.githubusercontent.com/u/50989437?v=4"},
+                {id : "50683915", name : "jiiunlee19", img: "https://avatars.githubusercontent.com/u/50683915?s=400&v=4"},
+                {id : "50683914", name : "jaeesu", img: "https://avatars.githubusercontent.com/u/50989437?v=4"},
+                {id : "50683915", name : "jiiunlee19", img: "https://avatars.githubusercontent.com/u/50683915?s=400&v=4"},
+                {id : "50683914", name : "jaeesu", img: "https://avatars.githubusercontent.com/u/50989437?v=4"},
+                {id : "50683915", name : "jiiunlee19", img: "https://avatars.githubusercontent.com/u/50683915?s=400&v=4"},
+                {id : "50683914", name : "jaeesu", img: "https://avatars.githubusercontent.com/u/50989437?v=4"},
+                {id : "50683915", name : "jiiunlee19", img: "https://avatars.githubusercontent.com/u/50683915?s=400&v=4"},
+                {id : "50683914", name : "jaeesu", img: "https://avatars.githubusercontent.com/u/50989437?v=4"},
+                {id : "50683914", name : "hello", img: "https://avatars.githubusercontent.com/u/50989437?v=4"},
+            ],
+            
         }
     },
     computed: {
@@ -119,7 +157,12 @@ export default {
                 console.log(res.data);
                 this.apiRes = res.data;
             })
-    }
+    },
+    methods: {
+        memberModal() {
+            
+        }
+    },
 }
 </script>
 
@@ -162,11 +205,15 @@ export default {
     position: relative;
     left: 60px;
 }
-.memberChange {
-    display: inline-flex;
+button {
     position: relative;
     vertical-align: middle;
-    left: 900px;
+    left: 200px;
+    background: transparent;
+    border: 0;
+}
+.memberChange {
+    display: inline-flex;
 }
 .m-eclipse {
     width: 20px;
@@ -174,12 +221,15 @@ export default {
     border-radius: 70%;
     background:gray;
 }
-.m-eclipse:nth-child(2) {
-    position: absolute;
-    
+.modal-member {
+    position: relative;
+    left: 450px;
+    top: 160px;
 }
-.m-eclipse:nth-child(3) {
-    position: absolute;
+.studyinfo-btn {
+    position: relative;
+    left: 875px;
+    vertical-align: middle;
 }
 /* description */
 .content {

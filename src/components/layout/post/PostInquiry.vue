@@ -7,11 +7,13 @@
                     <div class="form-data">
                         <label for="f-title" class="form-head">제목</label>
                         <input type="text" id="f-title" v-model="form.title" class="form-control form-content"/><br>
+                        
                     </div>
 
                     <div class="form-data">
                         <label for="content" class="form-head" style="height: 200px">내용</label>
                         <input type="text" id="content" v-model="form.content" class="form-control form-content"/><br>
+                        
                     </div>
                     <div class="form-data">
                         <label for="image" class="form-head">첨부파일</label>

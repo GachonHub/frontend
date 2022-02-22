@@ -1,10 +1,19 @@
 <template>
-    <div v-if="groupinfoModal" style="background:white; border:1px solid red; position:absolute; z-index:999; width:100%;">
+    <div v-if="groupinfoModal" class="groupinfoModal">
         <form>
             <div class="form-data">
                 <label for="introduction" class="form-head">스터디 소개</label>
                 <input type="text" id="introduction" class="form-control form-content" :value="study.content"/>
             </div>
+            <div class="form-data">
+                <label for="field" class="form-head">공부 분야</label>
+                <input type="text" id="field" class="form-control form-content" :value="study.fields"/>
+            </div>
+            <div class="form-data">
+                <label for="member_num" class="form-head">현재 인원</label>
+                <input type="text" id="member_num" class="form-control form-content" :value="study.member"/>
+            </div>
+
             <label>레포지토리 설정</label>
             <MainRepos style="height:200px; overflow-y:scroll;"></MainRepos>
 
@@ -103,3 +112,36 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.groupinfoModal {
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    position:absolute; 
+    z-index:999;
+}
+form {
+    padding: 50px;
+}
+input {
+    width: 500px;
+    min-height: 38px;
+    /* word-break: break-all;
+    overflow: scroll; */
+}
+button {
+    width: 50%;
+    display: inline-block;
+    border-radius: 0;
+
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-bottom-left-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+</style>
