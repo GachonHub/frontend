@@ -40,7 +40,11 @@ export default {
   },
   methods: {
     create(image, form) {
-      createInquiry(image, form, "POST");
+      createInquiry(image, form, "POST")
+      .then(res => {
+        this.$router.go();
+        return res;
+      });
     }
   },
   created() {
