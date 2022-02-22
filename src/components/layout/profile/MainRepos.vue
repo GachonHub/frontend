@@ -121,7 +121,7 @@ export default {
 }
 
 .nav {
-    height: 320px;
+    /* height: 320px; */
     width: 400px;
     border: 1px solid rgba(0,0,0,.125);
     box-sizing: border-box;
