@@ -10,9 +10,9 @@
                     <p class="profile_name">{{this.info.nickname}}
                         <button class="profile-bnt" @click="modal = true"></button>
                     </p>
-                    <p class="profile-etc" v-if="this.info.major">{{this.info.major}}</p>
-                    <p class="profile-etc" v-if="this.info.company">{{this.info.company}}</p>
-                    <p class="profile-etc" v-if="this.info.graduate">{{(this.info.graduate) ? "졸업" : "재학"}}</p>
+                    <p class="profile-etc" v-if="this.info.major"><i class="bi bi-book"></i>{{this.info.major}}</p>
+                    <p class="profile-etc" v-if="this.info.company"><i class="bi bi-building"></i>{{this.info.company}}</p>
+                    <p class="profile-etc" v-if="this.info.graduate"><i class="bi bi-mortarboard"></i>{{(this.info.graduate) ? "졸업" : "재학"}}</p>
                 </div>
             </div>
             <div  v-if="modal" id="modal_background">
@@ -135,7 +135,9 @@ export default {
 </script>
 
 <style scoped>
-
+i {
+    padding: 5px;
+}
 .profile {
     max-width: 1200px;
     min-width: 1200px;
@@ -155,14 +157,16 @@ export default {
 
 #info-modal {
     position: absolute !important;
-    top: 120px;
+    top: 50%;
+    margin-top: -300px;
     border: 1px solid #cccccc;
     /* box-shadow: 5px 5px 5px 5px lightgray; */
     border-radius: 10px;
     height: 600px;
     width: 800px;
     z-index: 30;
-    left: 34%;
+    left: 50%;
+    margin-left: -400px;
     background-color: white;
 }
 
