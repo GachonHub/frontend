@@ -3,7 +3,6 @@ import {apiDataRequest, apiRequest} from "./ApiCommon.js"
 
 export function createGroup(form, image, type) {
     var data = new FormData();
-    console.log("dasta==============");
     console.log(image);
     if (image.length > 0) {
         data.append('image', image[0]);

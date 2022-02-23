@@ -6,19 +6,19 @@
                 <form>
                     <div class="form-data">
                         <label for="f-title" class="form-head">학과</label>
-                        <input type="text" id="f-title" v-model="form.major" :placeholder="info.major" class="form-control form-content"/><br>
+                        <input type="text" id="f-title" :value="info.major" class="form-control form-content"/><br>
                     </div>
 
                     <div class="form-data">
                         <label for="content" class="form-head">재학 여부</label>
-                        <input type="text" id="content" v-model="form.graduate" :placeholder="info.graduate" class="form-control form-content"/><br>
+                        <input type="text" id="content" :value="info.graduate" class="form-control form-content"/><br>
                     </div>
                     <div id="title" style="margin-left:auto; margin-right:auto;">
                         <div style="font-size : 18px; text-align:center;"><b>메인 레포지토리</b></div>
                         <div style="font-size : 10px; text-align:center;">*메인 레포지토리는 최대 3개까지 선택 가능*</div>
                     </div>
                     <div style="background-color : white;">
-                        <MainRepos id="mainRepos-selection"></MainRepos>
+                        <MainRepos id="mainRepos-selection" :repos = info.repos></MainRepos>
                     </div>
                     <div class="form-button">
                         <button class="form-control" id="custom-bnt" @click="$emit('close')">취소</button>
@@ -41,11 +41,6 @@ export default {
   props : {
       title: String,
       info: Object
-  },
-  data() {
-      return {
-          form : {}
-      }
   }
 };
 

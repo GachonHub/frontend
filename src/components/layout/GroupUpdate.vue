@@ -48,6 +48,7 @@
 <script>
 import Switch from "../layout/common/switch.vue"
 import MainRepos from "../layout/profile/MainRepos.vue"
+import {deleteGroup} from "../../api/ApiGroups.js"
 export default {
     components:{
         MainRepos,
@@ -121,18 +122,24 @@ export default {
     methods: {
         deleteGroup() {
             var val = document.getElementById("deleteInput").value;
-            if (val != this.data.name) {
-                alert(this.type + "명이 틀렸습니다.");
+            if (val !== this.data.name) {
+                alert(this.type + "명이 틀렸습니다." + this.data.name);
                 return;
             }
             // delete api 날리기
-            this.$router.push("/groups/" + this.type + "/1");
+            deleteGroup(this.$router.params.id)
+            .then(res => {
+                this.$router.push("/groups/" + this.type + "/1");
+                return res;
+            })
         },
         save() {
-            var intro_content = document.getElementById("introduction").value;
-            var recruit_content = document.getElementById("recruit").value;
-            console.log(intro_content);
-            console.log(recruit_content);
+            var introduction = document.getElementById("introduction").value;
+            var recruitContent = document.getElementById("recruit").value;
+
+            console.log(introduction + recruitContent);
+            // this.recruit
+            // var 
             this.$router.go();
         },
         checkRecruit(recruit) {
