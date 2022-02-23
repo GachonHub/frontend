@@ -268,7 +268,7 @@ input[type="radio"] + label {
     position: absolute;
 
     width: 101px;
-    height: 20px;
+    height: 30px;
     padding-top: 3px;
 
     text-align: center;

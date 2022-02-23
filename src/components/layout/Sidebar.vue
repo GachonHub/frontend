@@ -40,9 +40,20 @@ export default {
     max-width: 1200px;
     display: flex;
     justify-content: space-evenly;
-    background: #CCD6CE;
+    background: white;
+    filter: drop-shadow(5px 5px 15px rgba(0, 0, 0, 0.25));
+    border-radius: 30%;
+    /* background-image: url('../../assets/sidebar.png'); */
+    /* background-repeat : no-repeat; */
+    background-size : 50px;
+    background-position: center;
+    /* border:2px solid #6baf92; */
+    border-top: 0;
+    border-radius: 2px;
     z-index: 5;
+    
 }
+
 ul, li {
     margin: 0;
     padding: 0;
