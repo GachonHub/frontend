@@ -3,24 +3,24 @@
         <div class="app">
             <div class="form">
                 <div class="title">질문글 작성</div>
-                <form>
+                <div class="has-validation">
                     <div class="form-data">
                         <label for="title" class="form-head">제목</label>
-                        <input type="text" id="title" v-model="form.title" class="form-control form-content"/><br>
+                        <input type="text" id="title" class="form-control form-content" @blur="isValid($event.target.value, 'title')"/><br>
                     </div>
                     <div class="form-data">
                         <label for="" class="form-head">카테고리</label>
                         <Category class="form-content" :items = "items" @save="getCategory"></Category>
                     </div>
                     <div class="form-data">
-                        <label for="content" class="form-head" style="height: 200px">내용</label>
-                        <input type="text" id="content" v-model="form.content" class="form-control form-content" /><br>
+                        <label for="cnt" class="form-head" style="height: 200px">내용</label>
+                        <textarea type="text" id="cnt" class="form-control form-content" @blur="isValid($event.target.value, 'cnt')" /><br>
                     </div>
                     <div class="form-data">
                         <label for="image" class="form-head">이미지</label>
                         <input type="file" id="image" class="form-control form-content"><br>
                     </div>
-                </form>
+                </div>
                 <div class="form-button">
                     <button class="form-control" id="custom-bnt" @click="$emit('close')">취소</button>
                     <button class="form-control" id="custom-bnt" @click="create">작성</button>
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import Category from "../common/SecondaryCategory2.vue"
+import Category from "../common/SecondaryCategory.vue"
 
 export default {
   name: "post-creation",
@@ -43,6 +43,7 @@ export default {
   },
   data() {
     return {
+        title : "",
         form : {},
         items: [
             {
@@ -83,10 +84,19 @@ export default {
       },
       create() {
           const files = document.getElementById('image').files;
-          this.form.id = this.updateItem.id;
           this.form.category = this.sub;
           this.$emit('save', files, this.form);
-
+      },
+      isValid(value, id) {
+          console.log(value.trim());
+        var element = document.getElementById(id);
+        if (value.trim().length == 0) {
+            element.classList.remove('is-valid');
+            element.classList.add('is-invalid');
+        } else{
+            element.classList.remove('is-invalid');
+            element.classList.add('is-valid');
+        }
       }
   },
   cerated() {
