@@ -16,7 +16,7 @@
                 </button>
             </div>
 
-            <MemberChange v-if="modalshow" @close="modalshow=false" class="modal-member" :authorId="apiRes.authorId" :members="members" :allMembers="allMembers" ></MemberChange>
+            <MemberChange v-if="modalshow" @close="modalshow=false" class="modal-member" :authorId="apiRes.authorId" :members="apiRes.users" :allMembers="allMembers" ></MemberChange>
 
             <div id="modal_background" v-if="groupinfoModal">
                 <GroupUpdate id="update-modal" :groupinfoModal="groupinfoModal" :data="apiRes" @close="groupinfoModal=false"></GroupUpdate>
@@ -35,7 +35,6 @@
         <div class="repository">
             <div>
                 <div class="sub-title green ib">대표 레포지토리</div>
-
             </div>
 
             <div v-if="repos.length == 0" style="padding-left:40px; padding-top:50px;">

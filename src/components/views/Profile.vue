@@ -27,10 +27,8 @@
         </div>
 
         <div class="repo">
-            <div class="title repository_title">
-                <div>
-                <p>메인 저장소 🗂</p>
-                </div>
+            <div>
+                <div class="sub-title green ib">대표 레포지토리</div>
             </div>
             
             <div v-if="mainRepos.length == 0" style="padding-left:40px; padding-top:50px;">
@@ -41,12 +39,16 @@
                     </div>
                 </div>
             </div>
-            <div v-for="item in mainRepos" v-bind:key="item" class="box">
-                <div class="repo_title">{{item.title}}</div>
-                <div class="repo_content">{{item.content}}</div>
-                <div class="repo_lan"><div class="eclipse"></div>{{item.lan}}</div>
-                <div class="repo_public">Public</div>
-            </div>
+            <template  v-for="item in mainRepos" v-bind:key="item">
+                <a :href="item.url" target="_blank">
+                    <div class="box">
+                        <div class="repo_title">{{item.name}}</div>
+                        <div class="repo_content">{{(item.description == undefined) ? "github에서 레포지토리 설명을 추가해보세요." :item.description}}</div>
+                        <div class="repo_lan"><div class="eclipse"></div>{{item.lang}}</div>
+                        <div class="repo_public">Public</div>
+                    </div>
+                </a>
+            </template>
             
         </div>
         
@@ -278,8 +280,18 @@ p {
     padding-left: 5px;
     background-color: white;
 }
-.repository_title {
-    width: 20%;
+
+.sub-title {
+    font-size: 18px;
+    font-weight: bold;
+
+    margin: 30px 0;
+}
+.green {
+    color: #8EB094;
+}
+.ib {
+    display: inline-block;
 }
 .repo_title {
     position: relative;
@@ -344,6 +356,7 @@ p {
     border: 1px solid #A5A5A5;
     border-radius: 6px;
     display: inline-block;
+    margin-right: 40px;
     
 }
 .box1{
@@ -376,6 +389,11 @@ p {
     left: 50px;
     width: 1110px;
     height: 177px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
 }
 
 </style>
