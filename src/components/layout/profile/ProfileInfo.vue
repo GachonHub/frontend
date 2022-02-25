@@ -23,7 +23,7 @@
                     <div v-for="item in count" :key="item" class="form-data">
                         <div v-if="item==1" class="form-head">sns</div>
                         <div v-else class="form-head"></div>
-                        <AddSNS style="height:35px;" :countVal="item" @save="updateSns"></AddSNS>
+                        <AddSNS style="height:35px;" :countVal="item" @save="updateSns" :data="snsList[item-1]"></AddSNS>
                     </div>
                     
                     <div class="form" style="margin:10px;">
@@ -104,8 +104,7 @@ export default {
           this.major = this.info.major;
           this.graduate = (this.info.graduate)?'졸업':'재학';
           this.snsList = this.info.sns;
-          
-          console.log(this.info.sns);
+          this.count = this.snsList.length;
       }
   },
   mounted() {

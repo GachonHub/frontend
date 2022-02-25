@@ -1,27 +1,27 @@
 <template>
     <div class="profile">
-        <Snsbar id="sns-bar" :snsList="apiRes.sns" :groupList="apiRes.groups"></Snsbar>
+        <Snsbar id="sns-bar" :snsList="data.sns" :groupList="data.groups"></Snsbar>
         <div id="user" :style="{backgroundImage : `url(${back})`}">
             <div class="user-img">
-                <img class="profile_image" :src="this.apiRes.avatarUrl" alt="">
+                <img class="profile_image" :src="this.data.avatarUrl" alt="">
             </div>
             <div class="user-info">
                 <div>
-                    <p class="profile_name">{{this.apiRes.nickname}}
+                    <p class="profile_name">{{this.data.nickname}}
                         <button class="profile-bnt" @click="modal = true"></button>
                     </p>
-                    <p class="profile-etc" v-if="this.apiRes.major"><i class="bi bi-book"></i>{{this.apiRes.major}}</p>
-                    <p class="profile-etc" v-if="this.apiRes.company"><i class="bi bi-building"></i>{{this.apiRes.company}}</p>
-                    <p class="profile-etc" v-if="this.apiRes.graduate"><i class="bi bi-mortarboard"></i>{{(this.apiRes.graduate) ? "졸업" : "재학"}}</p>
+                    <p class="profile-etc" v-if="this.data.major"><i class="bi bi-book"></i>{{this.data.major}}</p>
+                    <p class="profile-etc" v-if="this.data.company"><i class="bi bi-building"></i>{{this.data.company}}</p>
+                    <p class="profile-etc" v-if="this.data.graduate"><i class="bi bi-mortarboard"></i>{{(this.data.graduate) ? "졸업" : "재학"}}</p>
                 </div>
             </div>
             <div  v-if="modal" id="modal_background">
-                <ProfileInfo id="info-modal" title="프로필 수정" :info="apiRes"
+                <ProfileInfo id="info-modal" title="프로필 수정" :info="data"
                     @close="modal=false" @save="updateProfile"></ProfileInfo>
             </div>
 
             <div class="user-description">
-                <div class="profile_content">{{this.apiRes.description}}</div>
+                <div class="profile_content">{{this.data.description}}</div>
             </div>
             
         </div>
@@ -63,9 +63,8 @@ import Snsbar from "../layout/profile/Snsbar.vue"
 import ProfileInfo from "../layout/profile/ProfileInfo.vue"
 
 
-import {apiRequest} from "../../api/ApiCommon.js"
-import {updateUserInfo, updateUserMainRepos} from "../../api/ApiUser.js"
-// import {getUserInfo} from "../../api/ApiUser.js"
+import {updateUserInfo} from "../../api/ApiUser.js"
+import {getUserInfo} from "../../api/ApiUser.js"
 
 export default {
     components:{
@@ -78,20 +77,20 @@ export default {
             mainRepos : [],
             modal : false,
             back : "https://images.unsplash.com/photo-1622547748225-3fc4abd2cca0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2532&q=80",
-            apiRes : {}
+            data : {}
         }
     },
     methods : {
         readProfile() {
-            apiRequest("GET", "/api/me?id=" + this.$route.params.id)
+            getUserInfo(this.$route.params.id)
             .then(res => {
-                console.log(res.data);
-                this.apiRes = res.data;
-                this.mainRepos = this.apiRes.repos.filter(x => x.main == true);
-                this.back = (this.apiRes.back) ? this.apiRes.back : this.back;
-
+                this.snsList = res.sns;
+                this.data = res;
+                this.mainRepos = this.data.repos.filter(x => x.main == true);
+                this.back = (this.data.back) ? this.data.back : this.back;
             })
             .catch(err => {
+                console.log(err.message);
                 if (err.response.status == 401) {
                     alert("로그인을 해주세요.");
                     this.$router.push("/");
@@ -99,8 +98,7 @@ export default {
             })
         },
         updateProfile(major, graduate, sns, list) {
-            updateUserInfo(major, graduate, sns);
-            updateUserMainRepos(list)
+            updateUserInfo(major, graduate, sns, list)
             .then(res => {
                 this.$router.go();
                 return res;
