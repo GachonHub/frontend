@@ -30,7 +30,7 @@
                         <div class="repo-description">메인 레포지토리는 최대 3개까지 선택할 수 있습니다.</div>
                     </div>
                     <InterlockBtn style="display:inline-block; float:right;"></InterlockBtn>
-                    <MainRepos style="width: 400px; height: 500px;overflow-y:scroll;"></MainRepos>
+                    <MainRepos style="width: 400px; height: 500px;overflow-y:scroll;" :repos=[]></MainRepos>
                     
                 </div>
             </div>
