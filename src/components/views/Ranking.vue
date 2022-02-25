@@ -1,105 +1,49 @@
 <template>
     <div class="ranking">
         <div class="container">
-            <div class="title">랭킹 👑</div>
-            <div class="tab_content">
-                <input type="radio" name="tabmenu" id="tab01" checked>
-                <label for="tab01">Personal</label>
-                <input type="radio" name="tabmenu" id="tab02">
-                <label for="tab02">Group</label>
-                <!-- personal section -->
-                <div class="personal conbox con1">
+            <Title title="랭킹 👑" isSecondaryExists="False"></Title>
+            
+                <div id="personal">
+                    
                     <div class="superb">
+                        <button id="personal_btn" @click="personalR()"><div>Personal</div></button>
+                        <button id="group_btn" @click="groupR()"><div>Group</div></button>
                         <!-- 1위 -->
                         <div class="first">
                             <h1 class="first_rank_area">1위</h1>
-                            <h1 class="first_id_area">tearofglass</h1>
+                            <h1 class="first_id_area">{{mainList[0].id}}</h1>
                         </div>
                         <hr class="line01">
                         <div class="first_info">
                             <div class="accumulate_commits">
                                 <h2 class="first_accumulate_title">누적 커밋 수</h2>
-                                <h3 class="first_accumulate_data">10111</h3>
+                                <h3 class="first_accumulate_data">{{mainList[0].commits}}</h3>
                             </div>
                             <hr class="line02">
                             <div class="previous_commits">
                                 <h2 class="first_previous_title">전일 커밋 수</h2>
-                                <h3 class="first_previous_data">+ 11</h3>
+                                <h3 class="first_previous_data">{{mainList[0].previous}}</h3>
                             </div>
                         </div>
-                        <!-- 2위 -->
-                        <div class="second">
-
-                            <div class="second_rank_area">2위</div>
-                            <div class="second_id_area">tearofglass</div>
-                            <div class="second_info">
-                                <div class="accumulate_commits">
-                                    <div class="second_accumulate_title">누적 커밋 수</div>
-                                    <div class="second_accumulate_data">1000</div>
-                                </div>
-                                <hr class="line03">
-                                <div class="previous_commits">
-                                    <div class="second_previous_title">전일 커밋 수</div>
-                                    <div class="second_previous_data">+11</div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <!-- 3위 -->
-                        <div class="third">
-
-                            <div class="second_rank_area">3위</div>
-                            <div class="second_id_area">tearofglass</div>
-                            <div class="second_info">
-                                <div class="accumulate_commits">
-                                    <div class="second_accumulate_title">누적 커밋 수</div>
-                                    <div class="second_accumulate_data">1000</div>
-                                </div>
-                                <hr class="line03">
-                                <div class="previous_commits">
-                                    <div class="second_previous_title">전일 커밋 수</div>
-                                    <div class="second_previous_data">+11</div>
+                        <!-- 2위 ~ 5위 -->
+                        <div v-for="item in mainList" :key="item">
+                            <div v-if="item.rank>=2 && item.rank<=5" class="second">
+                                <div v-if="item.rank>=2 && item.rank<=5" class="second_rank_area">{{item.rank}}위</div>
+                                <div class="second_id_area">{{item.id}}</div>
+                                <div class="second_info">
+                                    <div class="accumulate_commits">
+                                        <div class="second_accumulate_title">누적 커밋 수</div>
+                                        <div class="second_accumulate_data">{{item.commits}}</div>
+                                    </div>
+                                    <hr class="line03">
+                                    <div class="previous_commits">
+                                        <div class="second_previous_title">전일 커밋 수</div>
+                                        <div class="second_previous_data">{{item.previous}}</div>
+                                    </div>
                                 </div>
                             </div>
-
                         </div>
-                        <!-- 4위 -->
-                        <div class="fourth">
-
-                            <div class="second_rank_area">4위</div>
-                            <div class="second_id_area">tearofglass</div>
-                            <div class="second_info">
-                                <div class="accumulate_commits">
-                                    <div class="second_accumulate_title">누적 커밋 수</div>
-                                    <div class="second_accumulate_data">1000</div>
-                                </div>
-                                <hr class="line03">
-                                <div class="previous_commits">
-                                    <div class="second_previous_title">전일 커밋 수</div>
-                                    <div class="second_previous_data">+11</div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <!-- 5위 -->
-                        <div class="fifth">
-
-                            <div class="second_rank_area">5위</div>
-                            <div class="second_id_area">tearofglass</div>
-                            <div class="second_info">
-                                <div class="accumulate_commits">
-                                    <div class="second_accumulate_title">누적 커밋 수</div>
-                                    <div class="second_accumulate_data">1000</div>
-                                </div>
-                                <hr class="line03">
-                                <div class="previous_commits">
-                                    <div class="second_previous_title">전일 커밋 수</div>
-                                    <div class="second_previous_data">+11</div>
-                                </div>
-                            </div>
-
-                        </div>
-                        
+                    <!-- 6위 ~ -->
                     </div>
                     <div class="others">
                         <div class="others_table_title">
@@ -107,155 +51,103 @@
                             <div class="others_id_title">아이디</div>
                             <div class="others_commitsNprevious_title">누적 커밋 수 (전일대비)</div>
                         </div>
-                        <div v-for="(item,index) in items" v-bind:key="index"
-                            class="others_table_items">
-                            <div class="others_rank_items">{{item.rank}}</div>
-                            <div class="others_id_items">{{item.id}}</div>
-                            <div class="others_commitsNprevious_items">{{item.commits}} (+{{item.previous}})</div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- group section -->
-                <div class="group conbox con2">
-                    <div class="superb">
-                        
-                        <div class="first">
-                            <h1 class="first_rank_area">1위</h1>
-                            <h1 class="first_id_area">Pay1oad</h1>
-                        </div>
-                        <hr class="line01">
-                        <div class="first_info">
-                            <div class="accumulate_commits">
-                                <h2 class="first_accumulate_title">누적 커밋 수</h2>
-                                <h3 class="first_accumulate_data">10111</h3>
-                            </div>
-                            <hr class="line02">
-                            <div class="previous_commits">
-                                <h2 class="first_previous_title">전일 커밋 수</h2>
-                                <h3 class="first_previous_data">+ 11</h3>
+                        <div v-for="(item,index) in mainList" v-bind:key="index">
+                            <div v-if="item.rank>=6"
+                                class="others_table_items">
+                                <div class="others_rank_items">{{item.rank}}</div>
+                                <div class="others_id_items">{{item.id}}</div>
+                                <div class="others_commitsNprevious_items">{{item.commits}} (+{{item.previous}})</div>
                             </div>
                         </div>
-
-                        <div class="second">
-                            <div class="second_rank_area">2위</div>
-                            <div class="second_id_area">tearofglass</div>
-                            <div class="second_info">
-                                <div class="accumulate_commits">
-                                    <div class="second_accumulate_title">누적 커밋 수</div>
-                                    <div class="second_accumulate_data">1000</div>
-                                </div>
-                                <hr class="line03">
-                                <div class="previous_commits">
-                                    <div class="second_previous_title">전일 커밋 수</div>
-                                    <div class="second_previous_data">+11</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="third">
-
-                            <div class="second_rank_area">3위</div>
-                            <div class="second_id_area">tearofglass</div>
-                            <div class="second_info">
-                                <div class="accumulate_commits">
-                                    <div class="second_accumulate_title">누적 커밋 수</div>
-                                    <div class="second_accumulate_data">1000</div>
-                                </div>
-                                <hr class="line03">
-                                <div class="previous_commits">
-                                    <div class="second_previous_title">전일 커밋 수</div>
-                                    <div class="second_previous_data">+11</div>
-                                </div>
-                            </div>
-
-                        </div>
-                        
-                        <div class="fourth">
-
-                            <div class="second_rank_area">4위</div>
-                            <div class="second_id_area">tearofglass</div>
-                            <div class="second_info">
-                                <div class="accumulate_commits">
-                                    <div class="second_accumulate_title">누적 커밋 수</div>
-                                    <div class="second_accumulate_data">1000</div>
-                                </div>
-                                <hr class="line03">
-                                <div class="previous_commits">
-                                    <div class="second_previous_title">전일 커밋 수</div>
-                                    <div class="second_previous_data">+11</div>
-                                </div>
-                            </div>
-
-                        </div>
-                        
-                        <div class="fifth">
-
-                            <div class="second_rank_area">5위</div>
-                            <div class="second_id_area">tearofglass</div>
-                            <div class="second_info">
-                                <div class="accumulate_commits">
-                                    <div class="second_accumulate_title">누적 커밋 수</div>
-                                    <div class="second_accumulate_data">1000</div>
-                                </div>
-                                <hr class="line03">
-                                <div class="previous_commits">
-                                    <div class="second_previous_title">전일 커밋 수</div>
-                                    <div class="second_previous_data">+11</div>
-                                </div>
-                            </div>
-
-                        </div>
-                        
-                    </div>
-                    <div class="others">
-                        <div class="others_table_title">
-                            <div class="others_rank_title">순위</div>
-                            <div class="others_id_title">아이디</div>
-                            <div class="others_commitsNprevious_title">누적 커밋 수 (전일대비)</div>
-                        </div>
-                        <div v-for="(item,index) in items" v-bind:key="index"
-                            class="others_table_items">
-                            <div class="others_rank_items">{{item.rank}}</div>
-                            <div class="others_id_items">{{item.id}}</div>
-                            <div class="others_commitsNprevious_items">{{item.commits}} (+{{item.previous}})</div>
-                        </div>
-
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 </template>
 
 <script>
 import {getCommitRank} from "../../api/ApiGithub.js"
+import Title from "../layout/common/Title.vue"
 
 export default {
+    components: {
+        Title
+    },
     data() {
         return {
             apiRes : [],
-            items: [
-                {rank:6,id:'tearofglass', commits: 4567, previous:7},
-                {rank:7,id:'jaeesu', commits: 4566, previous:7},
-                {rank:8,id:'tearofglass', commits: 4565, previous:7},
-                {rank:9,id:'tearofglass', commits: 4564, previous:7},
-                {rank:10,id:'tearofglass', commits: 4563, previous:7},
-                {rank:11,id:'tearofglass', commits: 4562, previous:7},
-                {rank:12,id:'tearofglass', commits: 4561, previous:7},
-                {rank:13,id:'tearofglass', commits: 4560, previous:7},
-                {rank:14,id:'tearofglass', commits: 4559, previous:7},
-                {rank:15,id:'tearofglass', commits: 4558, previous:7}
+            mainList : [],
+            personal: [
+                    {rank:1,id:'jaeesu',commits:1234,previous:234},
+                    {rank:2,id:'tearofglass',commits:1234,previous:234},
+                    {rank:3,id:'tearofglass',commits:1234,previous:234},
+                    {rank:4,id:'tearofglass',commits:1234,previous:234},
+                    {rank:5,id:'tearofglass',commits:1234,previous:234},
+                    {rank:6,id:'tearofglass',commits:1234,previous:234},
+                    {rank:7,id:'tearofglass',commits:1234,previous:234},
+                    {rank:8,id:'tearofglass',commits:1234,previous:234},
+                    {rank:9,id:'tearofglass',commits:1234,previous:234},
+                    {rank:10,id:'tearofglass',commits:1234,previous:234},
+                    {rank:11,id:'tearofglass',commits:1234,previous:234},
+                    {rank:12,id:'tearofglass',commits:1234,previous:234},
+                    {rank:13,id:'tearofglass',commits:1234,previous:234},
+                    {rank:14,id:'tearofglass',commits:1234,previous:234},
+                    {rank:15,id:'tearofglass',commits:1234,previous:234},
+                    {rank:16,id:'tearofglass',commits:1234,previous:234},
+                    {rank:17,id:'tearofglass',commits:1234,previous:234},
+                    {rank:18,id:'tearofglass',commits:1234,previous:234},
+                    {rank:19,id:'tearofglass',commits:1234,previous:234},
+                    {rank:20,id:'tearofglass',commits:1234,previous:234}
+                ],
+                group:[
+                    {rank:1,id:'Pay1oad',commits:1234,previous:234},
+                    {rank:2,id:'Pay1oad',commits:1234,previous:234},
+                    {rank:3,id:'Pay1oad',commits:1234,previous:234},
+                    {rank:4,id:'Pay1oad',commits:1234,previous:234},
+                    {rank:5,id:'Pay1oad',commits:1234,previous:234},
+                    {rank:6,id:'Pay1oad',commits:1234,previous:234},
+                    {rank:7,id:'Pay1oad',commits:1234,previous:234},
+                    {rank:8,id:'Pay1oad',commits:1234,previous:234},
+                    {rank:9,id:'Pay1oad',commits:1234,previous:234},
+                    {rank:10,id:'Pay1oad',commits:1234,previous:234},
+                    {rank:11,id:'Pay1oad',commits:1234,previous:234},
+                    {rank:12,id:'Pay1oad',commits:1234,previous:234},
+                    {rank:13,id:'Pay1oad',commits:1234,previous:234},
+                    {rank:14,id:'Pay1oad',commits:1234,previous:234},
+                    {rank:15,id:'Pay1oad',commits:1234,previous:234},
+                    {rank:16,id:'Pay1oad',commits:1234,previous:234},
+                    {rank:17,id:'Pay1oad',commits:1234,previous:234},
+                    {rank:18,id:'Pay1oad',commits:1234,previous:234},
+                    {rank:19,id:'Pay1oad',commits:1234,previous:234},
+                    {rank:20,id:'Pay1oad',commits:1234,previous:234},
                 ]
+        }
+        
+    }, 
+    methods: {
+        personalR() {
+            this.mainList = this.personal;
+            document.getElementById("personal_btn").style.background = "#717171";
+            document.getElementById("personal_btn").style.color = "white";
+            document.getElementById("group_btn").style.background = "white";
+            document.getElementById("group_btn").style.color = "#717171";
+        },
+        groupR() {
+            this.mainList = this.group;
+            document.getElementById("group_btn").style.background = "#717171";
+            document.getElementById("group_btn").style.color = "white";
+            document.getElementById("personal_btn").style.background = "white";
+            document.getElementById("personal_btn").style.color = "#717171";
         }
     },
     created() {
+        this.mainList= this.personal;
+        
         getCommitRank()
         .then(res => {
             this.apiRes = res;
         })
-    }
+    },
 }
 
 
@@ -268,72 +160,41 @@ export default {
     margin: 0 auto;
     margin-bottom: 20px;
 }
-
-/* 탭메뉴 */
-input[type="radio"] {
-    display: none; 
-    }
-input[type="radio"] + label {
-    position: absolute;
-
-    width: 101px;
-    height: 30px;
-    padding-top: 3px;
-
-    text-align: center;
-    margin-bottom: 60px;
-    background: #FFFFFF;
-    color: #717171;
-    font-size: 14px;
-    cursor: pointer;
+#personal {
+    display: block;
 }
-input[type="radio"]:checked + label {
-    background: #717171; 
-    color: white;
-}
-
-label[for="tab01"] {
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-    top: 20px;
-    left: 116px;
-
-    font-size: 14px;
-}
-label[for="tab02"] {
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-    top: 20px;
-    left: 217px;
-
-    font-size: 14px;
-}
-
-.tab_content {
-    position: relative;
-}
-
-/* 탭 메뉴 내용 부분 */
-.conbox {
-    
-    width: 100%;
-    height: auto;
-    background: white; 
-    margin: 0 auto;
+#group {
     display: none;
 }
-input[id="tab01"]:checked ~ .con1 {display: block;}
-input[id="tab02"]:checked ~ .con2 {display: block;}
 
-.title { 
-    width: calc(100%-20px);
-    height: 60px;
+#personal_btn {
+    position: relative;
+    top:-143px;
+    left: 105px;
 
-    text-align: left;
-    font-size: 18px;
-    font-weight: 700;
-    line-height: 60px;
-    padding-left: 20px;
+    width: 101px;
+    height: 27px;
+    background: #717171;
+    color: white;
+    border: 2px solid #717171;
+    box-sizing: border-box;
+    border-radius: 5px 0px 0px 5px;
+}
+#personal_btn > div {
+    /* line-height: 23px; */
+}
+#group_btn {
+    position: relative;
+    top:-143px;
+    left: 103px;
+
+    width: 101px;
+    height: 27px;
+    background: white;
+    color: #717171;
+    border: 2px solid #717171;
+    box-sizing: border-box;
+    border-radius: 0px 5px 5px 0px;
 }
 .superb {
     width: 100%;
@@ -355,9 +216,9 @@ input[id="tab02"]:checked ~ .con2 {display: block;}
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
 
-    position: absolute;
-    top: 71px;
-    left: 116px;
+    position: relative;
+    top: 76px;
+    left: -100px;
 }
 .first_rank_area {
     width: 52px;
@@ -390,9 +251,9 @@ input[id="tab02"]:checked ~ .con2 {display: block;}
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
 
-    position: absolute;
-    top: 71px;
-    left: 324px;
+    position: relative;
+    top: 76px;
+    left: -100px;
 }
 .first_accumulate_title {
     position: absolute;
@@ -438,10 +299,9 @@ input[id="tab02"]:checked ~ .con2 {display: block;}
     background-color: #569A8E;
     border-radius: 5px;
     
-    position: absolute;
-    top: 71px;
+    position: relative;
+    top: -130px;
     left: 548px;
-    right: 115px;
 }
 .second_rank_area {
     width: 68px;
@@ -502,42 +362,6 @@ input[id="tab02"]:checked ~ .con2 {display: block;}
     left: 446px;
 }
 
-.third {
-    display: inline-block;
-    width: 537px;
-    height: 46px;
-    background-color: #569A8E;
-    border-radius: 5px;
-
-    position: absolute;
-    top: 120px;
-    left: 548px;
-    right: 115px;
-}
-.fourth {
-    display: inline-block;
-    width: 537px;
-    height: 46px;
-    background-color: #569A8E;
-    border-radius: 5px;
-
-    position: absolute;
-    top: 169px;
-    left: 548px;
-    right: 115px;
-}
-.fifth {
-    display: inline-block;
-    width: 537px;
-    height: 46px;
-    background-color: #569A8E;
-    border-radius: 5px;
-
-    position: absolute;
-    top: 218px;
-    left: 548px;
-    right: 115px;
-}
 /* others */
 .others {
     width: 100%;
