@@ -45,3 +45,31 @@ export function getGroup(id) {
         return res;
     })
 }
+
+export function addMember(userId, teamId) {
+    var list = {
+        memberId : userId,
+        teamId : teamId
+    };
+
+    return apiRequest("POST", "/api/groups/member", list)
+    .then(res => {
+        return res.data;
+    })
+    .catch(err => {
+        console.log(err.message);
+    })
+
+}
+
+export function managingMember(method, userId, teamId) {
+
+    return apiRequest(method, "/api/groups/member?user=" + userId + "&team=" + teamId)
+    .then(res => {
+        return res.data;
+    })
+    .catch(err => {
+        console.log(err.message);
+    })
+
+}

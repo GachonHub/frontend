@@ -5,19 +5,20 @@
         <div>
             <table>
                 <tr v-for="(item, index) in members2" :key="item">
-                    <div v-if="item.name.includes(word) && !(arr.includes(item))">
-                        <td class="member" :id="'member'+index" ><img :src="item.img"> {{item.name}} <button style="float:right;" @click="deleteMember(index, item.name)">삭제</button></td>
+                    <div v-if="item.nickname.includes(word) && !(arr.includes(item))">
+                        <td class="member" :id="'member'+index" ><img :src="item.avatarUrl"> {{item.nickname}} <button type="button" style="float:right;" @click="deleteMember(item.nickname)">삭제</button></td>
                     </div>
                 </tr>
             </table>
         </div>
         <button class="close-btn" @click="$emit('close')">닫기</button>
         
-
     </div>
 </template>
 
 <script>
+import {managingMember} from "../../../api/ApiGroups.js"
+
 export default {
     props: {
         authorId:String,
@@ -40,22 +41,33 @@ export default {
             console.log(this.word);    
         },
         addMember() {
-            var member = document.getElementById('search_text').value;
-            console.log(member);
-            for (var i=0; i<this.allMembers.length; i++) {
-                if(this.allMembers[i].name == member) {
-                    var memberinfo = this.allMembers[i];
-                    console.log(this.memberInfo);
-                    this.members2.push(memberinfo);
+            var userId = document.getElementById('search_text').value;
+            managingMember("GET", userId, this.$route.params.id)
+            .then(res => {
+                // this.$router.go();
+                return res;
+            })
+            // var member = document.getElementById('search_text').value;
+            // console.log(member);
+            // for (var i=0; i<this.allMembers.length; i++) {
+            //     if(this.allMembers[i].name == member) {
+            //         var memberinfo = this.allMembers[i];
+            //         console.log(this.memberInfo);
+            //         this.members2.push(memberinfo);
                     
-                    break;
-                }
-                // deleteMember 덜 구현됨 list에서 삭제해야 함
-            }
+            //         break;
+            //     }
+            // }
         },
-        deleteMember(index, name) {
-            this.members2.slice(index,1);
-            this.arr.push(name);
+        deleteMember(name) {
+            managingMember("DELETE",name, this.$route.params.id)
+            .then(res => {
+                
+                // this.$router.go();
+                return res;
+            })
+            // this.members2.slice(index,1);
+            // this.arr.push(name);
         }
     },
     created() {

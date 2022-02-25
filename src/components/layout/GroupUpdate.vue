@@ -30,7 +30,7 @@
                         <div class="repo-description">메인 레포지토리는 최대 3개까지 선택할 수 있습니다.</div>
                     </div>
                     <InterlockBtn style="display:inline-block; float:right;"></InterlockBtn>
-                    <MainRepos style="width: 400px; height: 500px;overflow-y:scroll;"></MainRepos>
+                    <MainRepos style="width: 400px; height: 500px;overflow-y:scroll;" :repos=[]></MainRepos>
                     
                 </div>
             </div>
@@ -38,9 +38,9 @@
 
         <div class="form-button">
             <div v-if="inputModal" style="display : inline-block; width: 350px;">
-                <span style="font-size:10px;">*{{type}}를 삭제하시려면 {{type}}명을 입력하고 삭제 버튼을 눌러주세요*</span>
-                <input class="form-control" type="text" style="width : 260px;">
-                <button class="form-control" id="deleteInput" style="position: relative; bottom: 48px;" @click="deleteGroup">삭제</button>
+                <span style="font-size:10px;">*{{type}}를 삭제하시려면 {{data.name}}을(를) 입력하고 삭제 버튼을 눌러주세요*</span>
+                <input class="form-control" type="text" style="width : 260px;" @input="insertGroupName($event.target.value)">
+                <button class="form-control" id="deleteInput" style="position: relative; bottom: 48px;" @click="deleteGroup" disabled>삭제</button>
             </div>
             <button class="form-control" style="width: 130px;" @click="inputModal = true">{{type}} 삭제</button>
             <button class="form-control" @click="save()">작성</button>
@@ -126,16 +126,17 @@ export default {
         }
     },
     methods: {
-        deleteGroup() {
-            var val = document.getElementById("deleteInput").value;
-            if (val !== this.data.name) {
-                alert(this.type + "명이 틀렸습니다." + this.data.name);
-                return;
+        insertGroupName(val) {
+            if(val == this.data.name) {
+                document.getElementById("deleteInput").disabled = false;
             }
-            // delete api 날리기
-            deleteGroup(this.$router.params.id)
+
+        },
+        deleteGroup() {
+
+            deleteGroup(this.$route.params.id)
             .then(res => {
-                this.$router.push("/groups/" + this.type + "/1");
+                this.$router.push("/groups/" + this.data.type.toLowerCase() + "/1");
                 return res;
             })
         },

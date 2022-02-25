@@ -83,6 +83,8 @@ export default {
     getCategory(main, sub) {
       this.main = main;
       this.sub = sub;
+      console.log(main);
+      console.log(sub);
     },
     create(files, form) {
       createQuestion(files, form, "POST")
