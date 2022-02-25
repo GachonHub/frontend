@@ -230,9 +230,12 @@
 </template>
 
 <script>
+import {getCommitRank} from "../../api/ApiGithub.js"
+
 export default {
     data() {
         return {
+            apiRes : [],
             items: [
                 {rank:6,id:'tearofglass', commits: 4567, previous:7},
                 {rank:7,id:'jaeesu', commits: 4566, previous:7},
@@ -246,6 +249,12 @@ export default {
                 {rank:15,id:'tearofglass', commits: 4558, previous:7}
                 ]
         }
+    },
+    created() {
+        getCommitRank()
+        .then(res => {
+            this.apiRes = res;
+        })
     }
 }
 
@@ -268,7 +277,7 @@ input[type="radio"] + label {
     position: absolute;
 
     width: 101px;
-    height: 20px;
+    height: 30px;
     padding-top: 3px;
 
     text-align: center;

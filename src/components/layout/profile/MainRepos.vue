@@ -59,11 +59,12 @@ export default {
                 this.selectedReposList.push(index);
             }
             doc.checked = (doc.checked) ? false : true;
+            this.$emit('save', this.selectedReposList);
         }
     },
     mounted() {
         for(var i = 0; i <this.repos.length; i++) {
-            if (this.repos[i].check) {
+            if (this.repos[i].main) {
                 this.count += 1;
                 document.getElementById(this.repos[i].id + "-body").style.background = "#a3cfbb";
                 document.getElementById(this.repos[i].id + "-id").checked = true;

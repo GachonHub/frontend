@@ -10,9 +10,9 @@
                     <p class="profile_name">{{this.apiRes.nickname}}
                         <button class="profile-bnt" @click="modal = true"></button>
                     </p>
-                    <p class="profile-etc" v-if="this.apiRes.major">{{this.apiRes.major}}</p>
-                    <p class="profile-etc" v-if="this.apiRes.company">{{this.apiRes.company}}</p>
-                    <p class="profile-etc" v-if="this.apiRes.graduate">{{(this.apiRes.graduate) ? "졸업" : "재학"}}</p>
+                    <p class="profile-etc" v-if="this.apiRes.major"><i class="bi bi-book"></i>{{this.apiRes.major}}</p>
+                    <p class="profile-etc" v-if="this.apiRes.company"><i class="bi bi-building"></i>{{this.apiRes.company}}</p>
+                    <p class="profile-etc" v-if="this.apiRes.graduate"><i class="bi bi-mortarboard"></i>{{(this.apiRes.graduate) ? "졸업" : "재학"}}</p>
                 </div>
             </div>
             <div  v-if="modal" id="modal_background">
@@ -62,8 +62,10 @@ import CommitTable from '../layout/CommitTable.vue'
 import Snsbar from "../layout/profile/Snsbar.vue"
 import ProfileInfo from "../layout/profile/ProfileInfo.vue"
 
+
 import {apiRequest} from "../../api/ApiCommon.js"
-import {apiDataRequest} from "../../api/ApiCommon.js"
+import {updateUserInfo, updateUserMainRepos} from "../../api/ApiUser.js"
+// import {getUserInfo} from "../../api/ApiUser.js"
 
 export default {
     components:{
@@ -83,25 +85,25 @@ export default {
         readProfile() {
             apiRequest("GET", "/api/me?id=" + this.$route.params.id)
             .then(res => {
+                console.log(res.data);
                 this.apiRes = res.data;
                 this.mainRepos = this.apiRes.repos.filter(x => x.main == true);
-                console.log(this.mainRepos);
                 this.back = (this.apiRes.back) ? this.apiRes.back : this.back;
+
             })
             .catch(err => {
-                if (err.response.status == 400) {
+                if (err.response.status == 401) {
                     alert("로그인을 해주세요.");
                     this.$router.push("/");
                 }
             })
         },
-        updateProfile(data) {
-            apiDataRequest("PUT", "/api/me", data)
+        updateProfile(major, graduate, sns, list) {
+            updateUserInfo(major, graduate, sns);
+            updateUserMainRepos(list)
             .then(res => {
-                console.log(res);
-            })
-            .catch(err => {
-                console.log(err.response);
+                this.$router.go();
+                return res;
             })
         },
 
@@ -113,7 +115,9 @@ export default {
 </script>
 
 <style scoped>
-
+i {
+    padding: 5px;
+}
 .profile {
     max-width: 1200px;
     min-width: 1200px;
@@ -133,14 +137,16 @@ export default {
 
 #info-modal {
     position: absolute !important;
-    top: 120px;
+    top: 50%;
+    margin-top: -300px;
     border: 1px solid #cccccc;
     /* box-shadow: 5px 5px 5px 5px lightgray; */
     border-radius: 10px;
     height: 600px;
     width: 800px;
     z-index: 30;
-    left: 34%;
+    left: 50%;
+    margin-left: -400px;
     background-color: white;
 }
 
@@ -262,12 +268,6 @@ p {
     display: table-cell;
     vertical-align: middle;
 }
-/* 
-.box {
-    position: relative;
-    top: 60px;
-    margin-left: 40px;
-} */
 .title {
     font-size: 22px;
     font-weight: 700;

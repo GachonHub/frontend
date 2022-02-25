@@ -1,28 +1,51 @@
 <template>
     <transition name="modal" appear>
-        <div class="app">
+        <div class="app"    style="max-height:600px; overflow-y: scroll;">
             <div class="form">
                 <div class="title">{{title}}</div>
                 <form>
                     <div class="form-data">
                         <label for="f-title" class="form-head">학과</label>
-                        <input type="text" id="f-title" :value="info.major" class="form-control form-content"/><br>
+                        <input type="text" id="f-title" @input="major = $event.target.value" :value="major" class="form-control form-content"/><br>
                     </div>
 
                     <div class="form-data">
                         <label for="content" class="form-head">재학 여부</label>
-                        <input type="text" id="content" :value="info.graduate" class="form-control form-content"/><br>
+                        <div class="input-group" style="height:35px;">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{graduate}}</button>
+                            <ul class="dropdown-menu">
+                                <li v-for="item in isGraduateList" :key="item" ><a @click="graduate=item" class="dropdown-item">{{item}}</a></li>
+                            </ul>
+                        </div>
                     </div>
-                    <div id="title" style="margin-left:auto; margin-right:auto;">
-                        <div style="font-size : 18px; text-align:center;"><b>메인 레포지토리</b></div>
-                        <div style="font-size : 10px; text-align:center;">*메인 레포지토리는 최대 3개까지 선택 가능*</div>
+
+
+                    <div v-for="item in count" :key="item" class="form-data">
+                        <div v-if="item==1" class="form-head">sns</div>
+                        <div v-else class="form-head"></div>
+                        <AddSNS style="height:35px;" :countVal="item" @save="updateSns"></AddSNS>
                     </div>
-                    <div style="background-color : white;">
-                        <MainRepos id="mainRepos-selection" :repos = info.repos></MainRepos>
+                    
+                    <div class="form" style="margin:10px;">
+                        <button id="btn" type="button" class="form-control" @click="addBox()" style="width: 50%; margin: 0 auto; text-align:center;">
+                            <i class="bi bi-plus-lg"></i>
+                        </button>
+                    </div>
+                    
+
+                    <div id="title" style="margin-left:auto; width:400px; margin-right:auto;">
+                        <div style="display:inline-block;">
+                            <div class="modal-repo-title"><b>메인 레포지토리</b></div>
+                            <div class="modal-repo-title" style="font-size : 10px;">*메인 레포지토리는 최대 3개까지 선택 가능*</div>
+                        </div>
+                        <InterlockBtn style="display:inline-block; float:right;"></InterlockBtn>
+                    </div>
+                    <div >
+                        <MainRepos id="mainRepos-selection" :repos = info.repos @save="updateMainRepos"></MainRepos>
                     </div>
                     <div class="form-button">
                         <button class="form-control" id="custom-bnt" @click="$emit('close')">취소</button>
-                        <button class="form-control" id="custom-bnt" @click="$emit('save', form)">작성</button>
+                        <button type="button" class="form-control" id="custom-bnt" @click="updateProfile">작성</button>
                     </div>
                 </form>
             </div>
@@ -31,16 +54,62 @@
 </template>
 
 <script>
+import AddSNS from "../../layout/profile/AddSNS.vue"
+import InterlockBtn from "../../layout/InterlockBtn.vue"
 import MainRepos from "../../layout/profile/MainRepos.vue"
 
 export default {
   name: "post-creation",
   components: {
+      AddSNS,
+      InterlockBtn,
       MainRepos
   },
   props : {
       title: String,
       info: Object
+  },
+  data() {
+      return {
+          count:1,
+          isGraduateList : ['재학', '졸업'],
+          graduate : "재학",
+          snsList : [],
+          mainRepos: []
+      }
+  },
+  methods: {
+      addBox() {
+            const button = document.getElementById("btn");
+            this.count+=1;
+            console.log(this.count);
+            console.log(button);
+      },
+      updateSns(cnt, category, value) {
+          if(this.snsList.length < cnt) {
+                this.snsList.push({category : category.toUpperCase(), url : value});
+          } else {
+              this.snsList[cnt] = {category : category.toUpperCase(), url : value};
+          }
+      },
+      updateMainRepos(list) {
+          this.mainRepos = list;
+      },
+      updateProfile() {
+          this.$emit('save', this.major, this.graduate, this.snsList, this.mainRepos);
+      }
+  },
+  created() {
+      if (this.info != undefined) {
+          this.major = this.info.major;
+          this.graduate = (this.info.graduate)?'졸업':'재학';
+          this.snsList = this.info.sns;
+          
+          console.log(this.info.sns);
+      }
+  },
+  mounted() {
+
   }
 };
 
@@ -127,6 +196,11 @@ textarea {
     margin-left: 5px;
     display: inline-block;
     width: 80px;
+}
+
+.modal-repo-title {
+    font-size : 18px; 
+    text-align:left;
 }
 
 </style>

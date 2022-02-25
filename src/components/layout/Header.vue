@@ -165,8 +165,7 @@ label {
     height: 100%;
     margin: 0 auto;
     z-index: 100;
-    padding-left: 0;
-    padding-right: 0;
+    padding:0;
 
     background-color: white;
 }

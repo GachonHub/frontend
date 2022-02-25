@@ -25,9 +25,13 @@
                 </div>
                 
                 <div id="study-repos">
-                    <label class="form-head">레포지토리 설정</label>
-                    <div class="repo-description">메인 레포지토리는 최대 3개까지 선택할 수 있습니다.</div>
+                    <div style="display:inline-block;">
+                        <label class="form-head">레포지토리 설정</label>
+                        <div class="repo-description">메인 레포지토리는 최대 3개까지 선택할 수 있습니다.</div>
+                    </div>
+                    <InterlockBtn style="display:inline-block; float:right;"></InterlockBtn>
                     <MainRepos style="width: 400px; height: 500px;overflow-y:scroll;"></MainRepos>
+                    
                 </div>
             </div>
         </form>
@@ -49,10 +53,12 @@
 import Switch from "../layout/common/switch.vue"
 import MainRepos from "../layout/profile/MainRepos.vue"
 import {deleteGroup} from "../../api/ApiGroups.js"
+import InterlockBtn from "../layout/InterlockBtn.vue"
 export default {
     components:{
         MainRepos,
-        Switch
+        Switch,
+        InterlockBtn
     },
     props:{
         groupinfoModal:Boolean,

@@ -89,7 +89,7 @@ export default {
         get() {
             this.type = this.$route.params.type;
             this.korType = (this.type == "study") ? "스터디" : "동아리";
-            getGroupList(this.type.toUpperCase(), this.currentPage)
+            getGroupList("STUDY", this.currentPage)
             .then(res => {
                 this.apiRes = res.data;
             })

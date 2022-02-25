@@ -20,6 +20,9 @@ export default {
         localStorage.clear();
         localStorage.setItem(AUTHORIZATION, query[AUTHORIZATION]);
         localStorage.setItem(REFRESH, query[REFRESH]);
+        localStorage.setItem("user", query["user"]);
+        localStorage.setItem("name", query["name"]);
+        localStorage.setItem("role", String(query["role"]).split("_")[1].toLowerCase());
         // localStorage.clear();
         // this.test();
         // this.role_test();
