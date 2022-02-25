@@ -1,27 +1,27 @@
 <template>
     <div class="profile">
-        <Snsbar id="sns-bar"></Snsbar>
+        <Snsbar id="sns-bar" :snsList="apiRes.sns" :groupList="apiRes.groups"></Snsbar>
         <div id="user" :style="{backgroundImage : `url(${back})`}">
             <div class="user-img">
-                <img class="profile_image" :src="this.info.avatarUrl" alt="">
+                <img class="profile_image" :src="this.apiRes.avatarUrl" alt="">
             </div>
             <div class="user-info">
                 <div>
-                    <p class="profile_name">{{this.info.nickname}}
+                    <p class="profile_name">{{this.apiRes.nickname}}
                         <button class="profile-bnt" @click="modal = true"></button>
                     </p>
-                    <p class="profile-etc" v-if="this.info.major"><i class="bi bi-book"></i>{{this.info.major}}</p>
-                    <p class="profile-etc" v-if="this.info.company"><i class="bi bi-building"></i>{{this.info.company}}</p>
-                    <p class="profile-etc" v-if="this.info.graduate"><i class="bi bi-mortarboard"></i>{{(this.info.graduate) ? "졸업" : "재학"}}</p>
+                    <p class="profile-etc" v-if="this.apiRes.major"><i class="bi bi-book"></i>{{this.apiRes.major}}</p>
+                    <p class="profile-etc" v-if="this.apiRes.company"><i class="bi bi-building"></i>{{this.apiRes.company}}</p>
+                    <p class="profile-etc" v-if="this.apiRes.graduate"><i class="bi bi-mortarboard"></i>{{(this.apiRes.graduate) ? "졸업" : "재학"}}</p>
                 </div>
             </div>
             <div  v-if="modal" id="modal_background">
-                <ProfileInfo id="info-modal" title="프로필 수정" :info = "info"
+                <ProfileInfo id="info-modal" title="프로필 수정" :info="apiRes"
                     @close="modal=false" @save="updateProfile"></ProfileInfo>
             </div>
 
             <div class="user-description">
-                <div class="profile_content">{{this.info.description}}</div>
+                <div class="profile_content">{{this.apiRes.description}}</div>
             </div>
             
         </div>
@@ -30,11 +30,10 @@
             <div class="title repository_title">
                 <div>
                 <p>메인 저장소 🗂</p>
-                    <button class="profile-bnt" id="repos-bnt" @click="reposModal = true"></button>
                 </div>
             </div>
             
-            <div v-if="repos.length == 0" style="padding-left:40px; padding-top:50px;">
+            <div v-if="mainRepos.length == 0" style="padding-left:40px; padding-top:50px;">
                 <div id="repo-blank">
                     <div>
                         등록할 레포지토리가 없습니다.<br>
@@ -42,16 +41,13 @@
                     </div>
                 </div>
             </div>
-            <div v-for="item in repos" v-bind:key="item" class="box">
+            <div v-for="item in mainRepos" v-bind:key="item" class="box">
                 <div class="repo_title">{{item.title}}</div>
                 <div class="repo_content">{{item.content}}</div>
                 <div class="repo_lan"><div class="eclipse"></div>{{item.lan}}</div>
                 <div class="repo_public">Public</div>
             </div>
             
-            <div  v-if="reposModal" id="modal_background">
-                <MainRepos id="mainRepos-selection" @close="reposModal = false"></MainRepos>
-            </div>
         </div>
         
         <div class="grass">
@@ -65,65 +61,49 @@
 import CommitTable from '../layout/CommitTable.vue'
 import Snsbar from "../layout/profile/Snsbar.vue"
 import ProfileInfo from "../layout/profile/ProfileInfo.vue"
-import MainRepos from "../layout/profile/MainRepos.vue"
+
 
 import {apiRequest} from "../../api/ApiCommon.js"
-import {apiDataRequest} from "../../api/ApiCommon.js"
+import {updateUserInfo, updateUserMainRepos} from "../../api/ApiUser.js"
+// import {getUserInfo} from "../../api/ApiUser.js"
 
 export default {
     components:{
         CommitTable,
         Snsbar,
-        ProfileInfo,
-        MainRepos
+        ProfileInfo
     },
     data() {
         return {
+            mainRepos : [],
             modal : false,
-            reposModal : false,
             back : "https://images.unsplash.com/photo-1622547748225-3fc4abd2cca0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2532&q=80",
-            info : Object,
-            repos: [
-                {
-                    title: "everything",
-                    content: "테스트 코드 저장을 위한 저장소",
-                    lan: "HTML"
-                },
-                {
-                    title: "anything",
-                    content: "데모 코드 저장을 위한 저장소",
-                    lan:"HTML, CSS"
-                },
-                {
-                    title: "something",
-                    content: "테스트, 데모버전",
-                    lan:"C"
-                }
-            ]
+            apiRes : {}
         }
     },
     methods : {
         readProfile() {
             apiRequest("GET", "/api/me?id=" + this.$route.params.id)
             .then(res => {
-                this.info = res.data;
-                this.back = (this.info.back) ? this.info.back : this.back;
+                console.log(res.data);
+                this.apiRes = res.data;
+                this.mainRepos = this.apiRes.repos.filter(x => x.main == true);
+                this.back = (this.apiRes.back) ? this.apiRes.back : this.back;
+
             })
             .catch(err => {
-                if (err.response.status == 400) {
+                if (err.response.status == 401) {
                     alert("로그인을 해주세요.");
                     this.$router.push("/");
                 }
             })
         },
-        updateProfile(data) {
-            console.log(data);
-            apiDataRequest("PUT", "/api/me", data)
+        updateProfile(major, graduate, sns, list) {
+            updateUserInfo(major, graduate, sns);
+            updateUserMainRepos(list)
             .then(res => {
-                console.log(res);
-            })
-            .catch(err => {
-                console.log(err.response);
+                this.$router.go();
+                return res;
             })
         },
 
@@ -288,12 +268,6 @@ p {
     display: table-cell;
     vertical-align: middle;
 }
-/* 
-.box {
-    position: relative;
-    top: 60px;
-    margin-left: 40px;
-} */
 .title {
     font-size: 22px;
     font-weight: 700;

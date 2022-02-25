@@ -1,7 +1,13 @@
 <template>
     <div class="nav">
-        <ul class="list-group">
-            <li  v-for="item in repos" :key="item" @click="check(item.id)" :id="`${item.id}-body`" 
+        <div v-if="repos.length == 0" id="repo-blank">
+            <div style="text-align:center;">
+                등록할 레포지토리가 없습니다.<br>
+                github에서 첫 레포지토리를 만들어보세요.
+            </div>
+        </div>
+        <ul v-else class="list-group">
+            <li v-for="item in repos" :key="item" @click="check(item.id)" :id="`${item.id}-body`" 
                 class="list-group-item">
                 <div id="repos-body">
                     <p style="font-size : 16px;"><b>{{item.name}}</b></p>
@@ -10,6 +16,7 @@
                 </div>
                 <input :id="`${item.id}-id`" type="checkbox" style="">
             </li>
+
         </ul>
     </div>
 
@@ -17,61 +24,13 @@
 
 <script>
 export default {
+    props: {
+        repos : Array
+    },
     data() {
         return {
             selectedReposList: [],
-            count : 0,
-            repos : [
-                {
-                    "id" : 1,
-                    "name" : "gachonhub",
-                    "description" : "gachonhub 개발을 위한 백엔드 레포지토리",
-                    "lang" : "java",
-                    "check" : true
-                },
-                {
-                    "id" : 5,
-                    "name" : "gachonhub",
-                    "description" : "gachonhub 개발을 위한 백엔드 레포지토리",
-                    "lang" : "java",
-                    "check" : false
-                },
-                {
-                    "id" : 7,
-                    "name" : "gachonhub",
-                    "description" : "gachonhub 개발을 위한 백엔드 레포지토리",
-                    "lang" : "java",
-                    "check" : false
-                },
-                {
-                    "id" : 9,
-                    "name" : "gachonhub",
-                    "description" : "gachonhub 개발을 위한 백엔드 레포지토리",
-                    "lang" : "java",
-                    "check" : true
-                },
-                {
-                    "id" : 33,
-                    "name" : "gachonhub",
-                    "description" : "gachonhub 개발을 위한 백엔드 레포지토리",
-                    "lang" : "java",
-                    "check" : false
-                },
-                {
-                    "id" : 44,
-                    "name" : "gachonhub",
-                    "description" : "gachonhub 개발을 위한 백엔드 레포지토리",
-                    "lang" : "java",
-                    "check" : false
-                },
-                {
-                    "id" : 99,
-                    "name" : "gachonhub",
-                    "description" : "gachonhub 개발을 위한 백엔드 레포지토리",
-                    "lang" : "java",
-                    "check" : false
-                }
-            ]
+            count : 0
         }
     },
     methods : {
@@ -100,11 +59,12 @@ export default {
                 this.selectedReposList.push(index);
             }
             doc.checked = (doc.checked) ? false : true;
+            this.$emit('save', this.selectedReposList);
         }
     },
     mounted() {
         for(var i = 0; i <this.repos.length; i++) {
-            if (this.repos[i].check) {
+            if (this.repos[i].main) {
                 this.count += 1;
                 document.getElementById(this.repos[i].id + "-body").style.background = "#a3cfbb";
                 document.getElementById(this.repos[i].id + "-id").checked = true;
@@ -156,6 +116,13 @@ p {
 
 #repos-body {
     padding: 10px;
+}
+
+#repo-blank {
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+    margin: auto;
 }
 
 </style>
