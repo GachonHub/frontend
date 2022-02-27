@@ -423,8 +423,8 @@ export default {
     border: 0;
 
     position: absolute;
-    left: 324px;
-    top: 88px;
+    left: 444px;
+    top: 195px;
     z-index: 10;
 }.line02 {
     width: 160px;
@@ -445,7 +445,7 @@ export default {
     border: 0;
 
     position: absolute;
-    top: 0px;
+    top: -8px;
     left: 411px;
 }
 /* font size */

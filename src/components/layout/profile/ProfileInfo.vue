@@ -14,10 +14,11 @@
                         <input type="text" id="content" v-model="form.graduate" :placeholder="info.graduate" class="form-control form-content"/><br>
                     </div>
 
-                    <div v-for="item in count+1" :key="item" class="form-data">
+                    <div v-for="(item,index) in count+1" :key="item" :id="'div-'+index" class="form-data">
                         <div v-if="item==1" class="form-head">sns</div>
                         <div v-else class="form-head"></div>
                         <AddSNS style="height:35px;"></AddSNS>
+                        <div type="button" class="minus_btn" @click="minusBtn(index)"><i class="bi bi-dash"></i></div>
                     </div>
                     
                     <div class="form" style="margin:10px;">
@@ -76,7 +77,13 @@ export default {
             console.log(this.count);
             console.log(button);
 
+      },
+      minusBtn(idx) {
+            document.getElementById('div-'+idx).style.display="none";
+            // this.count-=1;
+            console.log(this.count);
       }
+
   }
 };
 
@@ -170,4 +177,14 @@ textarea {
     text-align:left;
 }
 
+.minus_btn {
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    color: #ced4da;
+    width: 38px;
+    line-height: 38px;
+    text-align: center;
+    z-index: 10;
+    margin-left: 10px;
+}
 </style>
