@@ -38,7 +38,7 @@
                             <div class="modal-repo-title"><b>메인 레포지토리</b></div>
                             <div class="modal-repo-title" style="font-size : 10px;">*메인 레포지토리는 최대 3개까지 선택 가능*</div>
                         </div>
-                        <InterlockBtn style="display:inline-block; float:right;"></InterlockBtn>
+                        <InterlockBtn style="display:inline-block; float:right;" @click="updateUserCommits"></InterlockBtn>
                     </div>
                     <div >
                         <MainRepos id="mainRepos-selection" :repos = info.repos @save="updateMainRepos"></MainRepos>
@@ -57,6 +57,8 @@
 import AddSNS from "../../layout/profile/AddSNS.vue"
 import InterlockBtn from "../../layout/InterlockBtn.vue"
 import MainRepos from "../../layout/profile/MainRepos.vue"
+
+import {getUserCommits} from "../../../api/ApiGithub.js"
 
 export default {
   name: "post-creation",
@@ -79,6 +81,12 @@ export default {
       }
   },
   methods: {
+      updateUserCommits() {
+          getUserCommits()
+          .then(res => {
+              return res;
+          })
+      },
       addBox() {
             const button = document.getElementById("btn");
             this.count+=1;

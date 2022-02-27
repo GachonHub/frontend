@@ -11,34 +11,34 @@
                         <!-- 1위 -->
                         <div class="first">
                             <h1 class="first_rank_area">1위</h1>
-                            <h1 class="first_id_area">{{mainList[0].id}}</h1>
+                            <h1 class="first_id_area">{{first.nickname}}</h1>
                         </div>
                         <hr class="line01">
                         <div class="first_info">
                             <div class="accumulate_commits">
                                 <h2 class="first_accumulate_title">누적 커밋 수</h2>
-                                <h3 class="first_accumulate_data">{{mainList[0].commits}}</h3>
+                                <h3 class="first_accumulate_data">{{(first.commit == null) ? 0 : first.commit}}</h3>
                             </div>
                             <hr class="line02">
                             <div class="previous_commits">
                                 <h2 class="first_previous_title">전일 커밋 수</h2>
-                                <h3 class="first_previous_data">{{mainList[0].previous}}</h3>
+                                <h3 class="first_previous_data">{{(first.lastCommit == null) ? 0 : first.lastCommit}}</h3>
                             </div>
                         </div>
                         <!-- 2위 ~ 5위 -->
-                        <div v-for="item in mainList" :key="item">
-                            <div v-if="item.rank>=2 && item.rank<=5" class="second">
-                                <div v-if="item.rank>=2 && item.rank<=5" class="second_rank_area">{{item.rank}}위</div>
-                                <div class="second_id_area">{{item.id}}</div>
+                        <div v-for="(item, index) in mainList" :key="item">
+                            <div class="second">
+                                <div  class="second_rank_area">{{index+2}}위</div>
+                                <div class="second_id_area">{{item.nickname}}</div>
                                 <div class="second_info">
                                     <div class="accumulate_commits">
                                         <div class="second_accumulate_title">누적 커밋 수</div>
-                                        <div class="second_accumulate_data">{{item.commits}}</div>
+                                        <div class="second_accumulate_data">{{(item.commit == undefined) ? 0 : item.commit}}</div>
                                     </div>
                                     <hr class="line03">
                                     <div class="previous_commits">
                                         <div class="second_previous_title">전일 커밋 수</div>
-                                        <div class="second_previous_data">{{item.previous}}</div>
+                                        <div class="second_previous_data">{{(item.lastCommit == undefined) ? 0 : item.lastCommit}}</div>
                                     </div>
                                 </div>
                             </div>
@@ -51,7 +51,7 @@
                             <div class="others_id_title">아이디</div>
                             <div class="others_commitsNprevious_title">누적 커밋 수 (전일대비)</div>
                         </div>
-                        <div v-for="(item,index) in mainList" v-bind:key="index">
+                        <div v-for="(item,index) in apiRes.splice(6, 15)" v-bind:key="index">
                             <div v-if="item.rank>=6"
                                 class="others_table_items">
                                 <div class="others_rank_items">{{item.rank}}</div>
@@ -75,6 +75,7 @@ export default {
     },
     data() {
         return {
+            first:{},
             apiRes : [],
             mainList : [],
             personal: [
@@ -141,12 +142,27 @@ export default {
         }
     },
     created() {
-        this.mainList= this.personal;
-        
         getCommitRank()
         .then(res => {
             this.apiRes = res;
+            if(this.apiRes[0] != undefined) {
+                this.first = this.apiRes[0];
+            }
+            this.mainList = [];
+            for (var i = 1; i < 5; i++) {
+                if (i < this.apiRes.length) {
+                    this.mainList.push(this.apiRes[i]);
+                } else{
+                    this.mainList.push({
+                        id : "",
+                        nickname : "",
+                        commit : "",
+                        lastCommit : ""
+                    })
+                }
+            }
         })
+        
     },
 }
 
