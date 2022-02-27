@@ -3,21 +3,21 @@
         <div class="app">
             <div class="form">
                 <div class="title">{{title}}</div>
-                <form>
+                <form action="register.php" method="post" novalidate="true">
                     <div class="form-data">
-                        <label for="f-title" class="form-head">제목</label>
-                        <input type="text" id="f-title" v-model="form.title" class="form-control form-content" :placeholder="updateItem.title" /><br>
+                        <label for="title" class="form-head">제목</label>
+                        <input type="text" id="title" class="form-control form-content" @blur="isValid($event.target.value, 'title')" :placeholder="hello"/><br>
                     </div>
 
                     <div class="form-data">
-                        <label for="content" class="form-head" style="height: 200px">내용</label>
-                        <input type="text" id="content" v-model="form.content" class="form-control form-content" :placeholder="updateItem.content" /><br>
+                        <label for="cnt" class="form-head" style="height: 200px">내용</label>
+                        <input type="text" id="cnt" class="form-control form-content" @blur="isValid($event.target.value, 'cnt')" :placeholder="hello" /><br>
                     </div>
 
                 </form>
                 <div class="form-button">
                     <button class="form-control" id="custom-bnt" @click="$emit('close')">삭제</button>
-                    <button class="form-control" id="custom-bnt" @click="$emit('save', form)">작성</button>
+                    <button class="form-control" id="custom-bnt" @click="write()">작성</button>
                 </div>
             </div>
         </div>
@@ -33,6 +33,7 @@ export default {
   },
   data() {
     return {
+        hello : null,
         form:{},
       items: [
         {num : 0, val: "선택"},
@@ -41,6 +42,25 @@ export default {
         ],
       items2: [["none"], ["리버싱", "포렌식"], ["c언어", "자바", "파이썬"]],
     };
+  },
+  methods: {
+      isValid(value, id) {
+          console.log(value.trim());
+        var element = document.getElementById(id);
+        if (value.trim().length == 0) {
+            element.classList.remove('is-valid');
+            element.classList.add('is-invalid');
+        } else{
+            element.classList.remove('is-invalid');
+            element.classList.add('is-valid');
+        }
+      },
+      write() { 
+          //제약조건 함수
+        if(document.getElementById('title').classList.contains('is-invalid')) return;
+        if(document.getElementById('content').classList.contains('is-invalid')) return;
+        this.$router.go();
+      }
   }
 };
 

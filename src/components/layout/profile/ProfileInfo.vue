@@ -19,11 +19,13 @@
                         </div>
                     </div>
 
-
-                    <div v-for="item in count" :key="item" class="form-data">
+                    <div v-for="(item, index) in count" :key="item" class="form-data">
                         <div v-if="item==1" class="form-head">sns</div>
                         <div v-else class="form-head"></div>
                         <AddSNS style="height:35px;" :countVal="item" @save="updateSns" :data="snsList[item-1]"></AddSNS>
+                        
+                        <div type="button" class="minus_btn" @click="minusBtn(index)"><i class="bi bi-dash"></i></div>
+
                     </div>
                     
                     <div class="form" style="margin:10px;">
@@ -84,6 +86,12 @@ export default {
             this.count+=1;
             console.log(this.count);
             console.log(button);
+      },
+      minusBtn(idx) {
+            document.getElementById('div-'+idx).style.display="none";
+            // this.count-=1;
+            console.log(this.count);
+      }
       },
       updateSns(cnt, category, value) {
           if(this.snsList.length < cnt) {
@@ -202,4 +210,14 @@ textarea {
     text-align:left;
 }
 
+.minus_btn {
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    color: #ced4da;
+    width: 38px;
+    line-height: 38px;
+    text-align: center;
+    z-index: 10;
+    margin-left: 10px;
+}
 </style>
