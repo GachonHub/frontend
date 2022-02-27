@@ -3,7 +3,6 @@ import {apiDataRequest, apiRequest} from "./ApiCommon.js"
 
 export function createGroup(form, image, type) {
     var data = new FormData();
-    console.log("dasta==============");
     console.log(image);
     if (image.length > 0) {
         data.append('image', image[0]);
@@ -45,4 +44,32 @@ export function getGroup(id) {
     .then(res => {
         return res;
     })
+}
+
+export function addMember(userId, teamId) {
+    var list = {
+        memberId : userId,
+        teamId : teamId
+    };
+
+    return apiRequest("POST", "/api/groups/member", list)
+    .then(res => {
+        return res.data;
+    })
+    .catch(err => {
+        console.log(err.message);
+    })
+
+}
+
+export function managingMember(method, userId, teamId) {
+
+    return apiRequest(method, "/api/groups/member?user=" + userId + "&team=" + teamId)
+    .then(res => {
+        return res.data;
+    })
+    .catch(err => {
+        console.log(err.message);
+    })
+
 }

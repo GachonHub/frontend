@@ -66,6 +66,7 @@
 </template>
 
 <script>
+import {getCommitRank} from "../../api/ApiGithub.js"
 import Title from "../layout/common/Title.vue"
 
 export default {
@@ -74,6 +75,7 @@ export default {
     },
     data() {
         return {
+            apiRes : [],
             mainList : [],
             personal: [
                     {rank:1,id:'jaeesu',commits:1234,previous:234},
@@ -140,6 +142,11 @@ export default {
     },
     created() {
         this.mainList= this.personal;
+        
+        getCommitRank()
+        .then(res => {
+            this.apiRes = res;
+        })
     },
 }
 

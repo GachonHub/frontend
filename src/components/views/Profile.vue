@@ -1,40 +1,37 @@
 <template>
     <div class="profile">
-        <Snsbar id="sns-bar"></Snsbar>
+        <Snsbar id="sns-bar" :snsList="data.sns" :groupList="data.groups"></Snsbar>
         <div id="user" :style="{backgroundImage : `url(${back})`}">
             <div class="user-img">
-                <img class="profile_image" :src="this.info.avatarUrl" alt="">
+                <img class="profile_image" :src="this.data.avatarUrl" alt="">
             </div>
             <div class="user-info">
                 <div>
-                    <p class="profile_name">{{this.info.nickname}}
+                    <p class="profile_name">{{this.data.nickname}}
                         <button class="profile-bnt" @click="modal = true"></button>
                     </p>
-                    <p class="profile-etc" v-if="this.info.major"><i class="bi bi-book"></i>{{this.info.major}}</p>
-                    <p class="profile-etc" v-if="this.info.company"><i class="bi bi-building"></i>{{this.info.company}}</p>
-                    <p class="profile-etc" v-if="this.info.graduate"><i class="bi bi-mortarboard"></i>{{(this.info.graduate) ? "졸업" : "재학"}}</p>
+                    <p class="profile-etc" v-if="this.data.major"><i class="bi bi-book"></i>{{this.data.major}}</p>
+                    <p class="profile-etc" v-if="this.data.company"><i class="bi bi-building"></i>{{this.data.company}}</p>
+                    <p class="profile-etc" v-if="this.data.graduate"><i class="bi bi-mortarboard"></i>{{(this.data.graduate) ? "졸업" : "재학"}}</p>
                 </div>
             </div>
             <div  v-if="modal" id="modal_background">
-                <ProfileInfo id="info-modal" title="프로필 수정" :info = "info"
+                <ProfileInfo id="info-modal" title="프로필 수정" :info="data"
                     @close="modal=false" @save="updateProfile"></ProfileInfo>
             </div>
 
             <div class="user-description">
-                <div class="profile_content">{{this.info.description}}</div>
+                <div class="profile_content">{{this.data.description}}</div>
             </div>
             
         </div>
 
         <div class="repo">
-            <div class="title repository_title">
-                <div>
-                <p>메인 저장소 🗂</p>
-                    <button class="profile-bnt" id="repos-bnt" @click="reposModal = true"></button>
-                </div>
+            <div>
+                <div class="sub-title green ib">대표 레포지토리</div>
             </div>
             
-            <div v-if="repos.length == 0" style="padding-left:40px; padding-top:50px;">
+            <div v-if="mainRepos.length == 0" style="padding-left:40px; padding-top:50px;">
                 <div id="repo-blank">
                     <div>
                         등록할 레포지토리가 없습니다.<br>
@@ -42,16 +39,17 @@
                     </div>
                 </div>
             </div>
-            <div v-for="item in repos" v-bind:key="item" class="box">
-                <div class="repo_title">{{item.title}}</div>
-                <div class="repo_content">{{item.content}}</div>
-                <div class="repo_lan"><div class="eclipse"></div>{{item.lan}}</div>
-                <div class="repo_public">Public</div>
-            </div>
+            <template  v-for="item in mainRepos" v-bind:key="item">
+                <a :href="item.url" target="_blank">
+                    <div class="box">
+                        <div class="repo_title">{{item.name}}</div>
+                        <div class="repo_content">{{(item.description == undefined) ? "github에서 레포지토리 설명을 추가해보세요." :item.description}}</div>
+                        <div class="repo_lan"><div class="eclipse"></div>{{item.lang}}</div>
+                        <div class="repo_public">Public</div>
+                    </div>
+                </a>
+            </template>
             
-            <div  v-if="reposModal" id="modal_background">
-                <MainRepos id="mainRepos-selection" @close="reposModal = false"></MainRepos>
-            </div>
         </div>
         
         <div class="grass">
@@ -65,65 +63,47 @@
 import CommitTable from '../layout/CommitTable.vue'
 import Snsbar from "../layout/profile/Snsbar.vue"
 import ProfileInfo from "../layout/profile/ProfileInfo.vue"
-import MainRepos from "../layout/profile/MainRepos.vue"
 
-import {apiRequest} from "../../api/ApiCommon.js"
-import {apiDataRequest} from "../../api/ApiCommon.js"
+
+import {updateUserInfo} from "../../api/ApiUser.js"
+import {getUserInfo} from "../../api/ApiUser.js"
 
 export default {
     components:{
         CommitTable,
         Snsbar,
-        ProfileInfo,
-        MainRepos
+        ProfileInfo
     },
     data() {
         return {
+            mainRepos : [],
             modal : false,
-            reposModal : false,
             back : "https://images.unsplash.com/photo-1622547748225-3fc4abd2cca0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2532&q=80",
-            info : Object,
-            repos: [
-                {
-                    title: "everything",
-                    content: "테스트 코드 저장을 위한 저장소",
-                    lan: "HTML"
-                },
-                {
-                    title: "anything",
-                    content: "데모 코드 저장을 위한 저장소",
-                    lan:"HTML, CSS"
-                },
-                {
-                    title: "something",
-                    content: "테스트, 데모버전",
-                    lan:"C"
-                }
-            ]
+            data : {}
         }
     },
     methods : {
         readProfile() {
-            apiRequest("GET", "/api/me?id=" + this.$route.params.id)
+            getUserInfo(this.$route.params.id)
             .then(res => {
-                this.info = res.data;
-                this.back = (this.info.back) ? this.info.back : this.back;
+                this.snsList = res.sns;
+                this.data = res;
+                this.mainRepos = this.data.repos.filter(x => x.main == true);
+                this.back = (this.data.back) ? this.data.back : this.back;
             })
             .catch(err => {
-                if (err.response.status == 400) {
+                console.log(err.message);
+                if (err.response.status == 401) {
                     alert("로그인을 해주세요.");
                     this.$router.push("/");
                 }
             })
         },
-        updateProfile(data) {
-            console.log(data);
-            apiDataRequest("PUT", "/api/me", data)
+        updateProfile(major, graduate, sns, list) {
+            updateUserInfo(major, graduate, sns, list)
             .then(res => {
-                console.log(res);
-            })
-            .catch(err => {
-                console.log(err.response);
+                this.$router.go();
+                return res;
             })
         },
 
@@ -288,12 +268,6 @@ p {
     display: table-cell;
     vertical-align: middle;
 }
-/* 
-.box {
-    position: relative;
-    top: 60px;
-    margin-left: 40px;
-} */
 .title {
     font-size: 22px;
     font-weight: 700;
@@ -306,8 +280,18 @@ p {
     padding-left: 5px;
     background-color: white;
 }
-.repository_title {
-    width: 20%;
+
+.sub-title {
+    font-size: 18px;
+    font-weight: bold;
+
+    margin: 30px 0;
+}
+.green {
+    color: #8EB094;
+}
+.ib {
+    display: inline-block;
 }
 .repo_title {
     position: relative;
@@ -372,6 +356,7 @@ p {
     border: 1px solid #A5A5A5;
     border-radius: 6px;
     display: inline-block;
+    margin-right: 40px;
     
 }
 .box1{
@@ -404,6 +389,11 @@ p {
     left: 50px;
     width: 1110px;
     height: 177px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
 }
 
 </style>

@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import Category from "../../layout/common/SecondaryCategory2.vue"
+import Category from "../../layout/common/SecondaryCategory.vue"
 
 export default {
     components: {

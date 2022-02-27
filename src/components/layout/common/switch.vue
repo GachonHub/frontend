@@ -1,8 +1,8 @@
 <template>
     <div>
-        <input id="checkbox" type="checkbox" @change="check">
+        <input id="checkbox" type="checkbox" @change="check($event.target.checked)" :checked="recruit">
         <label for="checkbox">
-            <div id="switch">
+            <div id="swc">
                 <div id="sphere"></div>
             </div>
         </label>
@@ -16,24 +16,16 @@ export default {
         recruit:Boolean
     },
     methods: {
-        check() {
-            var recruit = document.getElementById("checkbox").checked;
-            if (recruit) {
-                document.getElementById("switch").style.background="#75b798";
-                document.getElementById("sphere").style.transform = "translate(17px)";
-            }
-            // on
-            else {
-                document.getElementById("switch").style.background="lightgray";
-                document.getElementById("sphere").style.transform = "translate(0px)";
+        check(recruit) {
+            console.log(recruit);
+            // var recruit = document.getElementById("checkbox").checked;
+            console.log((recruit)?"#75b798":"lightgray");
+            console.log((recruit)?"translate(17px)":"translate(0px)");
+                document.getElementById("swc").style.background=(recruit)?"#75b798":"lightgray";
+                document.getElementById("sphere").style.transform = (recruit)?"translate(17px)":"translate(0px)";
 
-            }
-            // off
             this.$emit('save', recruit);
         }
-    },
-    mounted() {
-        this.check(this.recruit);
     }
 }
 </script>
@@ -43,7 +35,7 @@ export default {
     display: none;
 }
 
-#switch {
+#swc {
     width: 35px;
     height: 18px;
     border-radius: 20px;

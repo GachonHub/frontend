@@ -12,8 +12,8 @@ export function getQuestion(page) {
 export function createQuestion(files, form, method) {
 
     var data = new FormData();
-    if (form.id != undefined) {
-        data.append("id", form.id);
+    if (method == "PUT") {
+        data.append("id", this.$route.params.id);
     }
 
     data.append("title", form.title);

@@ -1,19 +1,14 @@
 <template>
-    <div>
-        <span id="category_span">
-          <select class="form-select" id="main" @change="mainCategory">
-            <option :value="index" v-for="(item, index) in items" :key="item" :selected="index == 0">
-              {{item.val}}
-            </option>
-          </select>
-        </span>
-        <span id="category_span">
-            <select class="form-select" id="sub" @change="subCategory">
-                <option :value="item.num" v-for="item in items[mainNum].sub" v-bind:key="item" :selected="index == 0">
-                    {{ item.val }}
-                </option>
-            </select>
-        </span>
+    <div t>
+        <button class="btn btn-outline-secondary dropdown-toggle select-option" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{main}}</button>
+        <ul class="dropdown-menu">
+            <li v-for="(item, index) in items" :key="item" ><a @click="main=item.val; mainNum=index" class="dropdown-item">{{item.val}}</a></li>
+        </ul>
+
+        <button class="btn btn-outline-secondary dropdown-toggle select-option" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{sub}}</button>
+        <ul class="dropdown-menu">
+            <li v-for="item in items[mainNum].sub" :key="item" ><a @click="sub = item.val; $emit('save', mainNum, item.num)" class="dropdown-item">{{item.val}}</a></li>
+        </ul>
     </div>
 </template>
 
@@ -25,27 +20,14 @@ export default {
   data() {
     return {
       mainNum: 0,
-      main : 0,
-      sub : 0
+      main : "선택",
+      sub : "선택",
     };
   },
   props : {
     items: Array,
     index : Number
   },
-  methods : {
-    mainCategory () {
-      this.mainNum = document.getElementById("main").value;
-      this.main = this.items[this.mainNum].num;
-      console.log(this.mainNum);
-      console.log(this.main);
-    },
-    subCategory () {
-      this.sub = document.getElementById("sub").value;
-      this.$emit('save', this.main, this.sub);
-      console.log(this.sub);
-    }
-  }
 }
 </script>
 
@@ -59,7 +41,8 @@ export default {
   float: right;
 }
 
-.form-select {
+
+.select-option {
   display: inline-block;
   font-size: 14px;
   width: 0px;
@@ -67,10 +50,15 @@ export default {
   width: 100px;
   height: 35px;
   text-align: center;
+  margin-left: 5px;
 }
 
 option {
   font-size: 14px;
+}
+
+ul {
+  cursor: pointer;
 }
 
 </style>

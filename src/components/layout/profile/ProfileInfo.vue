@@ -6,19 +6,26 @@
                 <form>
                     <div class="form-data">
                         <label for="f-title" class="form-head">학과</label>
-                        <input type="text" id="f-title" v-model="form.major" :placeholder="info.major" class="form-control form-content"/><br>
+                        <input type="text" id="f-title" @input="major = $event.target.value" :value="major" class="form-control form-content"/><br>
                     </div>
 
                     <div class="form-data">
                         <label for="content" class="form-head">재학 여부</label>
-                        <input type="text" id="content" v-model="form.graduate" :placeholder="info.graduate" class="form-control form-content"/><br>
+                        <div class="input-group" style="height:35px;">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{graduate}}</button>
+                            <ul class="dropdown-menu">
+                                <li v-for="item in isGraduateList" :key="item" ><a @click="graduate=item" class="dropdown-item">{{item}}</a></li>
+                            </ul>
+                        </div>
                     </div>
 
-                    <div v-for="(item,index) in count+1" :key="item" :id="'div-'+index" class="form-data">
+                    <div v-for="(item, index) in count" :key="item" class="form-data">
                         <div v-if="item==1" class="form-head">sns</div>
                         <div v-else class="form-head"></div>
-                        <AddSNS style="height:35px;"></AddSNS>
+                        <AddSNS style="height:35px;" :countVal="item" @save="updateSns" :data="snsList[item-1]"></AddSNS>
+                        
                         <div type="button" class="minus_btn" @click="minusBtn(index)"><i class="bi bi-dash"></i></div>
+
                     </div>
                     
                     <div class="form" style="margin:10px;">
@@ -36,11 +43,11 @@
                         <InterlockBtn style="display:inline-block; float:right;"></InterlockBtn>
                     </div>
                     <div >
-                        <MainRepos id="mainRepos-selection"></MainRepos>
+                        <MainRepos id="mainRepos-selection" :repos = info.repos @save="updateMainRepos"></MainRepos>
                     </div>
                     <div class="form-button">
                         <button class="form-control" id="custom-bnt" @click="$emit('close')">취소</button>
-                        <button class="form-control" id="custom-bnt" @click="$emit('save', form)">작성</button>
+                        <button type="button" class="form-control" id="custom-bnt" @click="updateProfile">작성</button>
                     </div>
                 </form>
             </div>
@@ -66,8 +73,11 @@ export default {
   },
   data() {
       return {
-          form : {},
-          count:0
+          count:1,
+          isGraduateList : ['재학', '졸업'],
+          graduate : "재학",
+          snsList : [],
+          mainRepos: []
       }
   },
   methods: {
@@ -76,13 +86,36 @@ export default {
             this.count+=1;
             console.log(this.count);
             console.log(button);
-
       },
       minusBtn(idx) {
             document.getElementById('div-'+idx).style.display="none";
             // this.count-=1;
             console.log(this.count);
       }
+      },
+      updateSns(cnt, category, value) {
+          if(this.snsList.length < cnt) {
+                this.snsList.push({category : category.toUpperCase(), url : value});
+          } else {
+              this.snsList[cnt] = {category : category.toUpperCase(), url : value};
+          }
+      },
+      updateMainRepos(list) {
+          this.mainRepos = list;
+      },
+      updateProfile() {
+          this.$emit('save', this.major, this.graduate, this.snsList, this.mainRepos);
+      }
+  },
+  created() {
+      if (this.info != undefined) {
+          this.major = this.info.major;
+          this.graduate = (this.info.graduate)?'졸업':'재학';
+          this.snsList = this.info.sns;
+          this.count = this.snsList.length;
+      }
+  },
+  mounted() {
 
   }
 };
