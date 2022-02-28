@@ -99,7 +99,7 @@ export default {
             document.getElementById('div-'+idx).style.display="none";
             // this.count-=1;
             console.log(this.count);
-      }
+      
       },
       updateSns(cnt, category, value) {
           if(this.snsList.length < cnt) {

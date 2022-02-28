@@ -39,7 +39,7 @@
                     </div>
                 </div>
             </div>
-            <template  v-for="item in mainRepos" v-bind:key="item">
+            <template v-for="item in mainRepos" v-bind:key="item">
                 <a :href="item.url" target="_blank">
                     <div class="box">
                         <div class="repo_title">{{item.name}}</div>

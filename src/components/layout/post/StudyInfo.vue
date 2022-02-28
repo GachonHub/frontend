@@ -6,23 +6,23 @@
                 <form>
                     <div class="form-data">
                         <label for="title" class="form-head">그룹 이름</label>
-                        <input type="text" id="title" v-model="form.name" class="form-control form-content" @blur="isValid($event.target.value, 'title')"/><br>
+                        <input type="text" id="title" class="form-control form-content" @blur="isValid($event.target.value, 'title')"/><br>
                     </div>
                     <div class="form-data">
                         <label for="field" class="form-head">공부 분야</label>
-                        <input type="text" id="field" v-model="form.field" class="form-control form-content" @blur="isValid($event.target.value, 'field')"/><br>
+                        <input type="text" id="field" class="form-control form-content" @blur="isValid($event.target.value, 'field')"/><br>
                     </div>
                     <div class="form-data">
                         <label for="people" class="form-head">인원</label>
-                        <input type="text" id="people" v-model="form.people" class="form-control form-content"  style="width: 70px;" @blur="isValid($event.target.value, 'people')"/><br>
+                        <input type="text" id="people" class="form-control form-content"  style="width: 70px;" @blur="isValid($event.target.value, 'people')"/><br>
                     </div>
                     <div class="form-data">
-                        <label for="addr" class="form-head">대표 레포지토리 주소</label>
-                        <input type="text" id="addr" v-model="form.repos" class="form-control form-content"  placeholder="master 브랜치의 READMD.md와 연동됩니다." @blur="isValid($event.target.value, 'addr')"/><br>
+                        <label for="addr" class="form-head">Github Organization 이름</label>
+                        <input type="text" id="addr" class="form-control form-content"  placeholder="레포지토리, 커밋 등이 연동됩니다." @blur="isValid($event.target.value, 'addr')"/><br>
                     </div>                   
                     <div class="form-data">
                         <label for="description" class="form-head">설명</label>
-                        <input type="text" id="description" v-model="form.description" class="form-control form-content"  style="height : 150px;" @blur="isValid($event.target.value, 'description')"/><br>
+                        <textarea type="text" id="description" class="form-control form-content"  style="height : 150px;" @blur="isValid($event.target.value, 'description')"/><br>
                     </div>
                 </form>
                 <div class="form-button">
@@ -39,10 +39,6 @@
 export default {
   name: "post-creation",
   methods: {
-      makeFormData: function () {
-          const image = document.getElementById("image").files;
-          this.$emit("save", this.form, image);
-      },
       isValid(value, id) {
           console.log(value.trim());
         var element = document.getElementById(id);
@@ -57,22 +53,22 @@ export default {
       write() { 
           //제약조건 함수
         if(document.getElementById('title').classList.contains('is-valid')){
-            if(document.getElementById('field').classList.contains('is-invalid')) {
-                if(document.getElementById('people').classList.contains('is-invalid')) {
-                    if(document.getElementById('addr').classList.contains('is-invalid')) {
-                        if(document.getElementById('description').classList.contains('is-invalid')) {
-                            this.$router.go();
+            if(document.getElementById('field').classList.contains('is-valid')) {
+                if(document.getElementById('people').classList.contains('is-valid')) {
+                    if(document.getElementById('addr').classList.contains('is-valid')) {
+                        if(document.getElementById('description').classList.contains('is-valid')) {
+                            var title = document.getElementById('title').value;
+                            var field = document.getElementById('field').value;
+                            var people = document.getElementById('people').value;
+                            var orgName = document.getElementById('addr').value;
+                            var description = document.getElementById('description').value;
+                            this.$emit("save", title, field, people, orgName, description);
                         }
                     }
                 }
             }
         }
       }
-  },
-  data() {
-    return {
-      form: {}
-    };
   },
   props : {
       title: String,      

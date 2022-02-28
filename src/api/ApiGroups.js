@@ -1,25 +1,47 @@
 import {apiDataRequest, apiRequest} from "./ApiCommon.js"
 
 
-export function createGroup(form, image, type) {
-    var data = new FormData();
-    console.log(image);
-    if (image.length > 0) {
-        data.append('image', image[0]);
-    }
-    data.append('name', form.name);
-    data.append('field', form.field);
-    data.append('people', form.people);
-    data.append('repos', form.repos);
-    if (form.recruit != undefined) {
-        data.append("recruiting", form.recruit);
-    } else {
-        data.append("recruiting", "false");
-    }
-    data.append('description', form.description);
-    data.append('type', type.toUpperCase());
+export function createGroup(method, title, field, people, orgName, description, type) {
+    var data = {
+        name : title,
+        field : field,
+        people : people,
+        orgName : orgName,
+        description : description,
+        type : type.toUpperCase(),
+        recruiting : false
+    };
 
-    return apiDataRequest("POST", "/api/groups", data, "form")
+    return apiDataRequest(method, "/api/groups", data)
+    .then(res => {
+        return res.data;
+    })
+    .catch(err => {
+        console.log(err.message);
+    })
+    
+}
+
+export function updateGroup(id, field, people, description, recruiting, recruitContent, mainRepos) {
+    
+    var data = {
+        teamId : id,
+        field : field,
+        people : people,
+        description : description,
+        recruiting : recruiting,
+        recruitContent : recruitContent,
+        repos : mainRepos
+    };
+
+    return apiDataRequest("PUT", "/api/groups", data)
+    .then(res => {
+        return res.data;
+    })
+    .catch(err => {
+        console.log(err.message);
+    })
+    
 }
 
 export function getGroupList(type, page) {

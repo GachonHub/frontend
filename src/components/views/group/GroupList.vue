@@ -75,14 +75,11 @@ export default {
         }
     },
     methods : {
-        createGroup(form, image) {
-            createGroup(form, image, this.type)
+        createGroup(title, field, people, orgName, description) {
+            createGroup("POST", title, field, people, orgName, description, this.type)
             .then(res => {
                 console.log(res);
                 this.$router.go();
-            })
-            .catch(() => {
-                alert("err");
             })
         },
         get() {
