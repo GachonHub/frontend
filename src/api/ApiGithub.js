@@ -9,3 +9,13 @@ export function getCommitRank() {
         console.log(err);
     })
 }
+
+export function getUserCommits() {
+    apiRequest("GET", "/api/github/repos")
+    .then(res => {
+        return res.data;
+    })
+    .catch(err => {
+        console.log(err.message);
+    })
+}

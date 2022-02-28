@@ -5,19 +5,18 @@
             <button @click="add()">입력</button>
         </div>
 
-        <div v-for="(item,index) in reply" :key="item" class="form-control" :id="(item.author === author) ? 'reply1' : 'reply'">
+        <div v-for="item in reply" :key="item" class="form-control" :id="(item.author === author) ? 'reply1' : 'reply'">
             <div id="reply-title">
-                {{item.author}}&nbsp;&nbsp;&nbsp;{{item.date}}
-                <button :id="'update-'+index" @click="update(index)"><i class="bi bi-pencil-square"></i></button>
-                <button :id="'save-'+index" @click="save(index)" style="display:none;"><i class="bi bi-check-square"></i></button>
-                <button :id="'delte_reply'+index" @click="delete_reply()"><i class="bi bi-x-square"></i></button>
-                
+                {{item.userId}}&nbsp;&nbsp;&nbsp;{{item.writeAt}}
+                <button :id="'update-'+item.id" @click="update(item.id)"><i class="bi bi-pencil-square"></i></button>
+                <button :id="'save-'+item.id" @click="save(item.id)" style="display:none;"><i class="bi bi-check-square"></i></button>
+                <button :id="'delte_reply'+item.id" @click="delete_reply(item.id)"><i class="bi bi-x-square"></i></button>
             </div>
-            <div class="R_C" :id="'reply_content-'+index">
+            <div class="R_C" :id="'reply_content-'+item.id">
                 {{item.content}}
             </div>
-            <div :id="'reply_update_div-'+index" style="display:none;">
-                <input class="R_U" :id="'reply_update-'+index" type="text" :value="item.content">
+            <div :id="'reply_update_div-'+item.id" style="display:none;">
+                <input class="R_U" :id="'reply_update-'+item.id" type="text" :value="item.content">
             </div>
         </div>
     </div>
@@ -32,7 +31,7 @@ export default {
     methods: {
         add() {
             var word = document.getElementById('comment').value;
-            console.log(word);
+            this.$emit('save', 'POST', word);
             document.getElementById('comment').value="";
         },
         update(idx) {
@@ -51,9 +50,10 @@ export default {
             
             document.getElementById('save-'+idx).style.display="none";
             document.getElementById('reply_update_div-'+idx).style.display="none";
+            this.$emit('save', 'PUT', word, idx);
         },
-        delete_reply() {
-
+        delete_reply(id) {
+            this.$emit('delete', id);
         }
     },
 }
