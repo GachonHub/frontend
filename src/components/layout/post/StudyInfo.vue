@@ -5,33 +5,29 @@
                 <div class="title">{{title}}</div>
                 <form>
                     <div class="form-data">
-                        <label for="f-title" class="form-head">그룹 이름</label>
-                        <input type="text" id="f-title" v-model="form.name" class="form-control form-content"/><br>
+                        <label for="title" class="form-head">그룹 이름</label>
+                        <input type="text" id="title" v-model="form.name" class="form-control form-content" @blur="isValid($event.target.value, 'title')"/><br>
                     </div>
                     <div class="form-data">
                         <label for="field" class="form-head">공부 분야</label>
-                        <input type="text" id="field" v-model="form.field" class="form-control form-content"/><br>
+                        <input type="text" id="field" v-model="form.field" class="form-control form-content" @blur="isValid($event.target.value, 'field')"/><br>
                     </div>
                     <div class="form-data">
                         <label for="people" class="form-head">인원</label>
-                        <input type="text" id="people" v-model="form.people" class="form-control form-content"  style="width: 50px;"/><br>
+                        <input type="text" id="people" v-model="form.people" class="form-control form-content"  style="width: 70px;" @blur="isValid($event.target.value, 'people')"/><br>
                     </div>
                     <div class="form-data">
                         <label for="addr" class="form-head">대표 레포지토리 주소</label>
-                        <input type="text" id="addr" v-model="form.repos" class="form-control form-content"  placeholder="master 브랜치의 READMD.md와 연동됩니다." /><br>
-                    </div>
-                    <div class="form-data">
-                        <label for="image" class="form-head">대표 이미지</label>
-                        <input type="file" id="image" class="form-control form-content"><br>
-                    </div>                    
+                        <input type="text" id="addr" v-model="form.repos" class="form-control form-content"  placeholder="master 브랜치의 READMD.md와 연동됩니다." @blur="isValid($event.target.value, 'addr')"/><br>
+                    </div>                   
                     <div class="form-data">
                         <label for="description" class="form-head">설명</label>
-                        <input type="text" id="description" v-model="form.description" class="form-control form-content"  style="height : 150px;"/><br>
+                        <input type="text" id="description" v-model="form.description" class="form-control form-content"  style="height : 150px;" @blur="isValid($event.target.value, 'description')"/><br>
                     </div>
                 </form>
                 <div class="form-button">
                     <button class="form-control" id="custom-bnt" @click="$emit('close')">취소</button>
-                    <button class="form-control" id="custom-bnt" @click="makeFormData">작성</button>
+                    <button class="form-control" id="custom-bnt" @click="write()">작성</button>
                 </div>
             </div>
 
@@ -46,6 +42,31 @@ export default {
       makeFormData: function () {
           const image = document.getElementById("image").files;
           this.$emit("save", this.form, image);
+      },
+      isValid(value, id) {
+          console.log(value.trim());
+        var element = document.getElementById(id);
+        if (value.trim().length == 0) {
+            element.classList.remove('is-valid');
+            element.classList.add('is-invalid');
+        } else{
+            element.classList.remove('is-invalid');
+            element.classList.add('is-valid');
+        }
+      },
+      write() { 
+          //제약조건 함수
+        if(document.getElementById('title').classList.contains('is-valid')){
+            if(document.getElementById('field').classList.contains('is-invalid')) {
+                if(document.getElementById('people').classList.contains('is-invalid')) {
+                    if(document.getElementById('addr').classList.contains('is-invalid')) {
+                        if(document.getElementById('description').classList.contains('is-invalid')) {
+                            this.$router.go();
+                        }
+                    }
+                }
+            }
+        }
       }
   },
   data() {

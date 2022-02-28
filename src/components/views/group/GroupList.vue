@@ -13,7 +13,6 @@
         <hr>
         <ListComponent :items="apiRes.data" :baseUri="type"></ListComponent>
         <StudyInfo id = "modal" v-if="this.modal" @close="modal = false" :title="korType + '추가'" isCategory="true" @save="createGroup"></StudyInfo>
-        
         <PageButton id="pg_bnt" :page="currentPage" :lastPage="apiRes.currentPage" :baseUri="'/' + type"></PageButton>
     </div>
 </template>

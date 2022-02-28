@@ -5,14 +5,14 @@
                 <div class="title">{{title}}</div>
                 <form>
                     <div class="form-data">
-                        <label for="f-title" class="form-head">제목</label>
-                        <input type="text" id="f-title" v-model="form.title" class="form-control form-content"/><br>
+                        <label for="title" class="form-head">제목</label>
+                        <input type="text" id="title" v-model="form.title" class="form-control form-content" @blur="isValid($event.target.value, 'title')"/><br>
                         
                     </div>
 
                     <div class="form-data">
-                        <label for="content" class="form-head" style="height: 200px">내용</label>
-                        <input type="text" id="content" v-model="form.content" class="form-control form-content"/><br>
+                        <label for="cnt" class="form-head" style="height: 200px">내용</label>
+                        <input type="text" id="cnt" v-model="form.content" class="form-control form-content" @blur="isValid($event.target.value, 'cnt')"/><br>
                         
                     </div>
                     <div class="form-data">
@@ -28,7 +28,7 @@
                     </div>
                     <div class="form-data">
                         <label for="password" class="form-head">비밀번호</label>
-                        <input type="text" id="password" v-model="form.password" class="form-control form-content"/><br>
+                        <input type="text" id="password" v-model="form.password" class="form-control form-content" @blur="isValid($event.target.value, 'password')"/><br>
                     </div>
                 </form>
                 <div class="form-button">
@@ -75,8 +75,29 @@ export default {
       checkSecret(bool) {
           this.secret = (bool) ? true : false;
           document.getElementById('password').readOnly = !(this.secret);
+          if (!this.secret) {
+            document.getElementById('password').classList.remove('is-invalid');
+            document.getElementById('password').classList.remove('is-valid');
+          }
+          
           console.log(this.secret);
-      }
+          this.isValid(this.$event.target.value, 'password');
+      },
+      isValid(value, id) {
+          console.log(value.trim());
+        var element = document.getElementById(id);
+
+
+        if (!element.readOnly) {
+            if (value.trim().length == 0) {
+                element.classList.remove('is-valid');
+                element.classList.add('is-invalid');
+            } else{
+                element.classList.remove('is-invalid');
+                element.classList.add('is-valid');
+            }
+        }
+      },
   }
 };
 
