@@ -8,7 +8,7 @@
 <script>
 
 // import {API_BASE_URL} from "../../constants.js"
-import {FRONT_BASE_URL} from "../../constants.js"
+// import {FRONT_BASE_URL} from "../../constants.js"
 import {AUTHORIZATION} from "../../constants.js"
 import {REFRESH} from "../../constants.js"
 
@@ -26,7 +26,7 @@ export default {
         // localStorage.clear();
         // this.test();
         // this.role_test();
-        window.location.href = FRONT_BASE_URL;
+        // window.location.href = FRONT_BASE_URL;
     },
     // TEST
     methods: {

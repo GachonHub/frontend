@@ -51,12 +51,11 @@
                             <div class="others_id_title">아이디</div>
                             <div class="others_commitsNprevious_title">누적 커밋 수 (전일대비)</div>
                         </div>
-                        <div v-for="(item,index) in apiRes.splice(6, 15)" v-bind:key="index">
-                            <div v-if="item.rank>=6"
-                                class="others_table_items">
+                        <div v-for="(item,index) in apiRes.slice(5, 20)" v-bind:key="index">
+                            <div class="others_table_items">
                                 <div class="others_rank_items">{{item.rank}}</div>
                                 <div class="others_id_items">{{item.id}}</div>
-                                <div class="others_commitsNprevious_items">{{item.commits}} (+{{item.previous}})</div>
+                                <div class="others_commitsNprevious_items">{{item.commits}} (+5)</div>
                             </div>
                         </div>
                     </div>
@@ -78,28 +77,6 @@ export default {
             first:{},
             apiRes : [],
             mainList : [],
-            personal: [
-                    {rank:1,id:'jaeesu',commits:1234,previous:234},
-                    {rank:2,id:'tearofglass',commits:1234,previous:234},
-                    {rank:3,id:'tearofglass',commits:1234,previous:234},
-                    {rank:4,id:'tearofglass',commits:1234,previous:234},
-                    {rank:5,id:'tearofglass',commits:1234,previous:234},
-                    {rank:6,id:'tearofglass',commits:1234,previous:234},
-                    {rank:7,id:'tearofglass',commits:1234,previous:234},
-                    {rank:8,id:'tearofglass',commits:1234,previous:234},
-                    {rank:9,id:'tearofglass',commits:1234,previous:234},
-                    {rank:10,id:'tearofglass',commits:1234,previous:234},
-                    {rank:11,id:'tearofglass',commits:1234,previous:234},
-                    {rank:12,id:'tearofglass',commits:1234,previous:234},
-                    {rank:13,id:'tearofglass',commits:1234,previous:234},
-                    {rank:14,id:'tearofglass',commits:1234,previous:234},
-                    {rank:15,id:'tearofglass',commits:1234,previous:234},
-                    {rank:16,id:'tearofglass',commits:1234,previous:234},
-                    {rank:17,id:'tearofglass',commits:1234,previous:234},
-                    {rank:18,id:'tearofglass',commits:1234,previous:234},
-                    {rank:19,id:'tearofglass',commits:1234,previous:234},
-                    {rank:20,id:'tearofglass',commits:1234,previous:234}
-                ],
                 group:[
                     {rank:1,id:'Pay1oad',commits:1234,previous:234},
                     {rank:2,id:'Pay1oad',commits:1234,previous:234},
@@ -127,7 +104,6 @@ export default {
     }, 
     methods: {
         personalR() {
-            this.mainList = this.personal;
             document.getElementById("personal_btn").style.background = "#717171";
             document.getElementById("personal_btn").style.color = "white";
             document.getElementById("group_btn").style.background = "white";
