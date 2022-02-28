@@ -1,7 +1,7 @@
 import {apiRequest} from "./ApiCommon.js"
 
-export function getCommitRank() {
-    return apiRequest("GET", "/api/github/rank")
+export function getCommitRank(type) {
+    return apiRequest("GET", "/api/github/rank/" + type)
     .then(res => {
         return res.data;
     })

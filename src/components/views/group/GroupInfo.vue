@@ -11,12 +11,12 @@
             <div id="member-bnt">
                 <button @click="modalshow=true" id="member-button">
                     <div class="memberChange" v-for="(index) in (memberLength>5 ? 5 : memberLength)" :key="index">
-                        <img class="m-eclipse" :src="members[index-1].img">
+                        <img class="m-eclipse" :src="apiRes.users[index-1].avatarUrl">
                     </div>
                 </button>
             </div>
 
-            <MemberChange v-if="modalshow" @close="modalshow=false" class="modal-member" :authorId="apiRes.authorId" :members="apiRes.users" :allMembers="allMembers" ></MemberChange>
+            <MemberChange v-if="modalshow" @close="modalshow=false" class="modal-member" :authorId="apiRes.authorId" :members="apiRes.users" ></MemberChange>
 
             <div id="modal_background" v-if="groupinfoModal">
                 <GroupUpdate id="update-modal" :groupinfoModal="groupinfoModal" :data="apiRes" @save="updateInfo" @close="groupinfoModal=false"></GroupUpdate>
@@ -97,7 +97,7 @@ export default {
                     console.log("main!!");
                     console.log(this.mainRepos);
                 }
-                // this.memberLength = this.apiRes.members.length;
+                this.memberLength = this.apiRes.users.length;
             })
     },
     methods: {
