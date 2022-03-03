@@ -5,7 +5,18 @@
             <div class="user-img">
                 <img class="profile_image" :src="this.data.avatarUrl" alt="">
             </div>
+            
             <div class="user-info">
+                <div style="margin-left:-30px; margin-right:30px;">
+                    <div style="background:white; width:80px; height: 80px; margin:10px; text-align:center; border-radius:10px; opacity:70%; color: #595959; font-size: 16px; font-weight: 800;">
+                        <p style="line-height:40px;" class="profile_rank">rank</p>
+                        <p style="line-height:30px;" class="profile_rank">{{rank}}</p>
+                    </div>
+                    <div style="background:white; width:80px; height: 80px; margin:10px; text-align:center; border-radius:10px; opacity:70%; color: #595959; font-size: 16px; font-weight: 800;">
+                        <p style="line-height:40px;"  class="profile_commits">commits</p>
+                        <p style="line-height:30px;" class="profile_commits">{{commits}}</p>
+                    </div>
+                </div>
                 <div>
                     <p class="profile_name">{{this.data.nickname}}
                         <button class="profile-bnt" @click="modal = true"></button>
@@ -13,6 +24,7 @@
                     <p class="profile-etc" v-if="this.data.major"><i class="bi bi-book"></i>{{this.data.major}}</p>
                     <p class="profile-etc" v-if="this.data.company"><i class="bi bi-building"></i>{{this.data.company}}</p>
                     <p class="profile-etc" v-if="this.data.graduate"><i class="bi bi-mortarboard"></i>{{(this.data.graduate) ? "졸업" : "재학"}}</p>
+                    
                 </div>
             </div>
             <div  v-if="modal" id="modal_background">
@@ -79,7 +91,9 @@ export default {
             mainRepos : [],
             modal : false,
             back : "https://images.unsplash.com/photo-1622547748225-3fc4abd2cca0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2532&q=80",
-            data : {}
+            data : {},
+            commits:1234,
+            rank: 1,
         }
     },
     methods : {

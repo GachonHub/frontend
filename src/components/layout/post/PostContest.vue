@@ -6,16 +6,16 @@
                 <form>
                     <div class="form-data">
                         <label for="title" class="form-head">제목</label>
-                        <input type="text" id="title" v-model="form.title" class="form-control form-content"/><br>
+                        <input type="text" id="title" v-model="form.title" class="form-control form-content" @blur="isValid($event.target.value,'title')"/><br>
                     </div>
                     <div class="form-data">
-                        <label for="" class="form-head">카테고리</label>
-                        <Category class="form-content" :items = "items" @save="getCategory"></Category>
+                        <label for="category" class="form-head">카테고리</label>
+                        <Category id="category" class="form-content" :items = "items" @save="getCategory" @blur="isCategoryValid('category')"></Category>
                     </div>
 
                     <div class="form-data">
-                        <label for="content" class="form-head" style="height: 200px">내용</label>
-                        <input type="text" id="content" v-model="form.content" class="form-control form-content"/><br>
+                        <label for="cnt" class="form-head" style="height: 200px">내용</label>
+                        <input type="text" id="cnt" v-model="form.content" class="form-control form-content" @blur="isValid($event.target.value,'cnt')"/><br>
                     </div>
                     <div class="form-data">
                         <label for="image" class="form-head">첨부파일</label>
@@ -24,7 +24,7 @@
                 </form>
                 <div class="form-button">
                     <button class="form-control" id="custom-bnt" @click="$emit('close')">취소</button>
-                    <button class="form-control" id="custom-bnt" @click="create">작성</button>
+                    <button class="form-control" id="custom-bnt" @click="write()">작성</button>
                 </div>
             </div>
         </div>
@@ -84,7 +84,43 @@ export default {
             this.form.category = this.sub;
             const files = document.getElementById("image").files;
             this.$emit('save', this.form, files);
+        },
+      isValid(value, id) {
+          console.log(value.trim());
+        var element = document.getElementById(id);
+        if (value.trim().length == 0) {
+            element.classList.remove('is-valid');
+            element.classList.add('is-invalid');
+        } else{
+            element.classList.remove('is-invalid');
+            element.classList.add('is-valid');
         }
+      },
+      isCategoryValid(id) {
+          var element = document.getElementById(id);
+          var mainC = this.main;
+          var subC = this.sub;
+          console.log(mainC,subC);
+          if (this.main != 0 && this.sub != 1) {
+            element.classList.remove('is-invalid');
+            element.classList.add('is-valid');
+          }
+          else {
+            element.classList.remove('is-valid');
+            element.classList.add('is-invalid');
+          }
+      },
+      write() { 
+          //제약조건 함수
+        if(document.getElementById('title').classList.contains('is-valid')){
+            if(document.getElementById('cnt').classList.contains('is-valid')) {
+                if(this.main != 0 && this.sub != 1){
+                    console.log(this.main + " " + this.sub);
+                    this.$router.go();
+                }
+            }
+        }
+      }
     }
 }
 </script>

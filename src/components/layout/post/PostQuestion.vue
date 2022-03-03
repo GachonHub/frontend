@@ -47,6 +47,8 @@ export default {
   },
   data() {
     return {
+        main : 0,
+        sub : 1,
         title : "",
         form : {},
         items: [
@@ -108,7 +110,7 @@ export default {
           var mainC = this.main;
           var subC = this.sub;
           console.log(mainC,subC);
-          if (mainC != 0 && subC != 1) {
+          if (this.main != 0 && this.sub != 1) {
             element.classList.remove('is-invalid');
             element.classList.add('is-valid');
           }
@@ -121,7 +123,8 @@ export default {
           //제약조건 함수
         if(document.getElementById('title').classList.contains('is-valid')){
             if(document.getElementById('cnt').classList.contains('is-valid')) {
-                if(document.getElementById('category').classList.contains('is-valid')){
+                if(this.main != 0 && this.sub != 1){
+                    console.log(this.main + " " + this.sub);
                     this.$router.go();
                 }
             }
