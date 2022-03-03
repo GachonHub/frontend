@@ -23,7 +23,6 @@ export default {
     props: {
         authorId:String,
         members:Array,
-        allMembers:Array
     },
     data() {
         return {

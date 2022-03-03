@@ -1,7 +1,7 @@
 import {apiRequest} from "./ApiCommon.js"
 
-export function getCommitRank() {
-    return apiRequest("GET", "/api/github/rank")
+export function getCommitRank(type) {
+    return apiRequest("GET", "/api/github/rank/" + type)
     .then(res => {
         return res.data;
     })
@@ -11,7 +11,17 @@ export function getCommitRank() {
 }
 
 export function getUserCommits() {
-    apiRequest("GET", "/api/github/repos")
+    return apiRequest("GET", "/api/github/repos")
+    .then(res => {
+        return res.data;
+    })
+    .catch(err => {
+        console.log(err.message);
+    })
+}
+
+export function getGroupCommits(id) {
+    return apiRequest("GET", "/api/github/team/repos?team=" + id)
     .then(res => {
         return res.data;
     })

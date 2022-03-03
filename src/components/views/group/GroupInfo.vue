@@ -2,7 +2,7 @@
     <div class="container" style="padding-top: 32px;">
         <div class="profile" >
             <div style="line-height : 180px; text-align : center;">
-                <img class="profile-img" :src="apiRes.mainImage">
+                <img class="profile-img" :src="apiRes.avatarUrl">
             </div>
             <div class="profile-name">
                 {{apiRes.name}}
@@ -10,16 +10,16 @@
             </div>
             <div id="member-bnt">
                 <button @click="modalshow=true" id="member-button">
-                    <div class="memberChange" v-for="(index) in (members.length>5 ? 5 : members.length)" :key="index">
-                        <img class="m-eclipse" :src="members[index-1].img">
+                    <div class="memberChange" v-for="(index) in (memberLength>5 ? 5 : memberLength)" :key="index">
+                        <img class="m-eclipse" :src="apiRes.users[index-1].avatarUrl">
                     </div>
                 </button>
             </div>
 
-            <MemberChange v-if="modalshow" @close="modalshow=false" class="modal-member" :authorId="apiRes.authorId" :members="apiRes.users" :allMembers="allMembers" ></MemberChange>
+            <MemberChange v-if="modalshow" @close="modalshow=false" class="modal-member" :authorId="apiRes.authorId" :members="apiRes.users" ></MemberChange>
 
             <div id="modal_background" v-if="groupinfoModal">
-                <GroupUpdate id="update-modal" :groupinfoModal="groupinfoModal" :data="apiRes" @close="groupinfoModal=false"></GroupUpdate>
+                <GroupUpdate id="update-modal" :groupinfoModal="groupinfoModal" :data="apiRes" @save="updateInfo" @close="groupinfoModal=false"></GroupUpdate>
             </div>
         </div>
 
@@ -37,7 +37,7 @@
                 <div class="sub-title green ib">대표 레포지토리</div>
             </div>
 
-            <div v-if="repos.length == 0" style="padding-left:40px; padding-top:50px;">
+            <div v-if="mainRepos.length == 0" style="padding-left:40px; padding-top:50px;">
                 <div id="repo-blank">
                     <div>
                         등록할 레포지토리가 없습니다.<br>
@@ -45,12 +45,16 @@
                     </div>
                 </div>
             </div>
-            <div v-for="item in repos" v-bind:key="item" class="box">
-                <div class="repo_title">{{item.title}}</div>
-                <div class="repo_content">{{item.content}}</div>
-                <div class="repo_lan"><div class="eclipse"></div>{{item.lan}}</div>
-                <div class="repo_public">Public</div>
-            </div>
+            <template v-for="item in mainRepos" :key="item">
+                <a :href="item.url" target="_blank">
+                    <div class="box">
+                        <div class="repo_title">{{item.name}}</div>
+                        <div class="repo_content">{{(item.description == undefined) ? "github에서 레포지토리 설명을 추가해보세요." :item.description}}</div>
+                        <div class="repo_lan"><div class="eclipse"></div>{{item.lang}}</div>
+                        <div class="repo_public">Public</div>
+                    </div>
+                </a>
+            </template>
             
             <div v-if="reposModal" id="modal_background"></div>
         </div>
@@ -62,7 +66,7 @@
 import MemberChange from "../../layout/post/MemberChange.vue"
 import GroupUpdate from "../../layout/GroupUpdate.vue"
 
-import {getGroup} from "../../../api/ApiGroups.js"
+import {getGroup, updateGroup} from "../../../api/ApiGroups.js"
 
 export default {
     components: {
@@ -77,65 +81,33 @@ export default {
             modal: false,
             userId: localStorage.getItem("user"),
             reposModal : false,
-            repos: [
-                {
-                    title: "everything",
-                    content: "테스트 코드 저장을 위한 저장소",
-                    lan: "HTML"
-                },
-                {
-                    title: "anything",
-                    content: "데모 코드 저장을 위한 저장소",
-                    lan:"HTML, CSS"
-                },
-                {
-                    title: "something",
-                    content: "테스트, 데모버전",
-                    lan:"C"
-                }
-            ],
-            members : [
-                {id : "50683915", name : "jiiunlee19", img: "https://avatars.githubusercontent.com/u/50683915?s=400&v=4"},
-                {id : "50683914", name : "jaeesu", img: "https://avatars.githubusercontent.com/u/50989437?v=4"},
-                {id : "50683915", name : "jiiunlee19", img: "https://avatars.githubusercontent.com/u/50683915?s=400&v=4"},
-                {id : "50683914", name : "jaeesu", img: "https://avatars.githubusercontent.com/u/50989437?v=4"},
-                {id : "50683915", name : "jiiunlee19", img: "https://avatars.githubusercontent.com/u/50683915?s=400&v=4"},
-                {id : "50683914", name : "jaeesu", img: "https://avatars.githubusercontent.com/u/50989437?v=4"},
-                {id : "50683915", name : "jiiunlee19", img: "https://avatars.githubusercontent.com/u/50683915?s=400&v=4"},
-                {id : "50683914", name : "jaeesu", img: "https://avatars.githubusercontent.com/u/50989437?v=4"},
-                {id : "50683915", name : "jiiunlee19", img: "https://avatars.githubusercontent.com/u/50683915?s=400&v=4"},
-                {id : "50683914", name : "jaeesu", img: "https://avatars.githubusercontent.com/u/50989437?v=4"},
-                {id : "50683915", name : "jiiunlee19", img: "https://avatars.githubusercontent.com/u/50683915?s=400&v=4"},
-                {id : "50683914", name : "jaeesu", img: "https://avatars.githubusercontent.com/u/50989437?v=4"},
-            ],
-            allMembers : [
-                {id : "50683915", name : "jiiunlee19", img: "https://avatars.githubusercontent.com/u/50683915?s=400&v=4"},
-                {id : "50683914", name : "jaeesu", img: "https://avatars.githubusercontent.com/u/50989437?v=4"},
-                {id : "50683915", name : "jiiunlee19", img: "https://avatars.githubusercontent.com/u/50683915?s=400&v=4"},
-                {id : "50683914", name : "jaeesu", img: "https://avatars.githubusercontent.com/u/50989437?v=4"},
-                {id : "50683915", name : "jiiunlee19", img: "https://avatars.githubusercontent.com/u/50683915?s=400&v=4"},
-                {id : "50683914", name : "jaeesu", img: "https://avatars.githubusercontent.com/u/50989437?v=4"},
-                {id : "50683915", name : "jiiunlee19", img: "https://avatars.githubusercontent.com/u/50683915?s=400&v=4"},
-                {id : "50683914", name : "jaeesu", img: "https://avatars.githubusercontent.com/u/50989437?v=4"},
-                {id : "50683915", name : "jiiunlee19", img: "https://avatars.githubusercontent.com/u/50683915?s=400&v=4"},
-                {id : "50683914", name : "jaeesu", img: "https://avatars.githubusercontent.com/u/50989437?v=4"},
-                {id : "50683915", name : "jiiunlee19", img: "https://avatars.githubusercontent.com/u/50683915?s=400&v=4"},
-                {id : "50683914", name : "jaeesu", img: "https://avatars.githubusercontent.com/u/50989437?v=4"},
-                {id : "50683914", name : "hello", img: "https://avatars.githubusercontent.com/u/50989437?v=4"},
-            ],
-            
+            repos : [],
+            mainRepos : [],
+            memberLength : 0
         }
     },
     created() {
         getGroup(this.$route.params.id)
             .then(res => {
                 this.apiRes = res.data;
+                console.log(this.apiRes.reposList);
+                if (this.apiRes.reposList != undefined) {
+                    this.repos = this.apiRes.reposList;
+                    this.mainRepos = this.repos.filter(x => x.main == true);
+                    console.log("main!!");
+                    console.log(this.mainRepos);
+                }
+                this.memberLength = this.apiRes.users.length;
             })
     },
     methods: {
-        memberModal() {
-            
-        },
+        updateInfo(field, people, description, recruiting, recruitContent, list) {
+            updateGroup(this.$route.params.id, field, people, description, recruiting, recruitContent, list)
+            .then(res => {
+                this.$router.go();
+                return res.data;
+            })
+        }
     },
     mounted() {
         this.apiRes.description = String(this.apiRes.description).replaceAll("\n", "<br/>");
@@ -158,6 +130,10 @@ export default {
 }
 .green {
     color: #8EB094;
+}
+a {
+    text-decoration: none;
+    color: black;
 }
 
 #modal_background {

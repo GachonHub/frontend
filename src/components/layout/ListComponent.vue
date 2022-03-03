@@ -7,7 +7,7 @@
             <div class="study_content">{{(baseUri == 'contest') ? item.content : item.description}}</div>
             <a class="writer">작성자 - </a><div class="writer">{{item.authorId}}</div>
             <div class="study_image" :src='item.mainImage' >
-                <img :src="item.mainImage" alt="" style="width:100%; height:100%;">
+                <img :src="(baseUri == 'contest') ? item.mainImage : item.avatarUrl" alt="" style="width:100%; height:100%;">
             </div>
             </router-link>
         </div>

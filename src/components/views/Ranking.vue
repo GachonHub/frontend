@@ -11,7 +11,7 @@
                         <!-- 1위 -->
                         <div class="first">
                             <h1 class="first_rank_area">1위</h1>
-                            <h1 class="first_id_area">{{first.nickname}}</h1>
+                            <h1 class="first_id_area">{{first.name}}</h1>
                         </div>
                         <hr class="line01">
                         <div class="first_info">
@@ -29,7 +29,7 @@
                         <div v-for="(item, index) in mainList" :key="item">
                             <div class="second">
                                 <div  class="second_rank_area">{{index+2}}위</div>
-                                <div class="second_id_area">{{item.nickname}}</div>
+                                <div class="second_id_area">{{item.name}}</div>
                                 <div class="second_info">
                                     <div class="accumulate_commits">
                                         <div class="second_accumulate_title">누적 커밋 수</div>
@@ -53,9 +53,9 @@
                         </div>
                         <div v-for="(item,index) in apiRes.slice(5, 20)" v-bind:key="index">
                             <div class="others_table_items">
-                                <div class="others_rank_items">{{item.rank}}</div>
-                                <div class="others_id_items">{{item.id}}</div>
-                                <div class="others_commitsNprevious_items">{{item.commits}} (+5)</div>
+                                <div class="others_rank_items">{{index+5}}</div>
+                                <div class="others_id_items">{{item.name}}</div>
+                                <div class="others_commitsNprevious_items">{{item.commits}} (+{{item.lastCommit}})</div>
                             </div>
                         </div>
                     </div>
@@ -76,6 +76,8 @@ export default {
         return {
             first:{},
             apiRes : [],
+            personalRanking : [],
+            groupRanking : [],
             mainList : [],
                 group:[
                     {rank:1,id:'Pay1oad',commits:1234,previous:234},
@@ -108,35 +110,62 @@ export default {
             document.getElementById("personal_btn").style.color = "white";
             document.getElementById("group_btn").style.background = "white";
             document.getElementById("group_btn").style.color = "#717171";
+            this.personalMain();
         },
         groupR() {
-            this.mainList = this.group;
             document.getElementById("group_btn").style.background = "#717171";
             document.getElementById("group_btn").style.color = "white";
             document.getElementById("personal_btn").style.background = "white";
             document.getElementById("personal_btn").style.color = "#717171";
-        }
-    },
-    created() {
-        getCommitRank()
-        .then(res => {
-            this.apiRes = res;
-            if(this.apiRes[0] != undefined) {
-                this.first = this.apiRes[0];
-            }
+            this.groupMain();
+        },
+        personalMain() {
             this.mainList = [];
             for (var i = 1; i < 5; i++) {
-                if (i < this.apiRes.length) {
-                    this.mainList.push(this.apiRes[i]);
+                if(this.personalRanking[0] != undefined) {
+                    this.first = this.personalRanking[0];
+                }
+                if (i < this.personalRanking.length) {
+                    this.mainList.push(this.personalRanking[i]);
                 } else{
                     this.mainList.push({
                         id : "",
-                        nickname : "",
+                        name : "",
                         commit : "",
                         lastCommit : ""
                     })
                 }
             }
+        },
+        groupMain() {
+            this.mainList = [];
+            for (var i = 1; i < 5; i++) {
+                if(this.groupRanking[0] != undefined) {
+                    this.first = this.groupRanking[0];
+                }
+                if (i < this.groupRanking.length) {
+                    this.mainList.push(this.groupRanking[i]);
+                } else{
+                    this.mainList.push({
+                        id : "",
+                        name : "",
+                        commit : "",
+                        lastCommit : ""
+                    })
+                }
+            }
+        }
+    },
+    created() {
+        getCommitRank("personal")
+        .then(res => {
+            this.personalRanking = res;
+            this.personalMain();
+        })
+        
+        getCommitRank("groups")
+        .then(res => {
+            this.groupRanking = res;
         })
         
     },
