@@ -11,7 +11,7 @@
             <button type="button" @click="modal = true" class="form-control">공모전 추가</button>
         </div>
         <hr>
-        <ListComponent :items="apiRes.data" baseUri="contest" />
+        <ListComponent baseUri="contest" />
         <PostContest id="modal" v-if="modal" @close="modal = false" @save="create"></PostContest>
         <PageButton id="pg_bnt" :page="currentPage" :lastPage="currentPage" :baseUri="'/contest' + type"></PageButton>
     </div>

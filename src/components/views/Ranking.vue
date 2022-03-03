@@ -31,12 +31,12 @@
                                 <div  class="second_rank_area">{{index+2}}위</div>
                                 <div class="second_id_area">{{item.name}}</div>
                                 <div class="second_info">
-                                    <div class="accumulate_commits">
+                                    <div class="second_accumulate_commits">
                                         <div class="second_accumulate_title">누적 커밋 수</div>
                                         <div class="second_accumulate_data">{{(item.commit == undefined) ? 0 : item.commit}}</div>
                                     </div>
                                     <hr class="line03">
-                                    <div class="previous_commits">
+                                    <div class="second_previous_commits">
                                         <div class="second_previous_title">전일 커밋 수</div>
                                         <div class="second_previous_data">{{(item.lastCommit == undefined) ? 0 : item.lastCommit}}</div>
                                     </div>
@@ -79,6 +79,28 @@ export default {
             personalRanking : [],
             groupRanking : [],
             mainList : [],
+            personal: [
+                    {rank:1,id:'jaeesu',commits:1234,previous:234},
+                    {rank:2,id:'tearofglass',commits:1234,previous:234},
+                    {rank:3,id:'tearofglass',commits:1234,previous:234},
+                    {rank:4,id:'tearofglass',commits:1234,previous:234},
+                    {rank:5,id:'tearofglass',commits:1234,previous:234},
+                    {rank:6,id:'tearofglass',commits:1234,previous:234},
+                    {rank:7,id:'tearofglass',commits:1234,previous:234},
+                    {rank:8,id:'tearofglass',commits:1234,previous:234},
+                    {rank:9,id:'tearofglass',commits:1234,previous:234},
+                    {rank:10,id:'tearofglass',commits:1234,previous:234},
+                    {rank:11,id:'tearofglass',commits:1234,previous:234},
+                    {rank:12,id:'tearofglass',commits:1234,previous:234},
+                    {rank:13,id:'tearofglass',commits:1234,previous:234},
+                    {rank:14,id:'tearofglass',commits:1234,previous:234},
+                    {rank:15,id:'tearofglass',commits:1234,previous:234},
+                    {rank:16,id:'tearofglass',commits:1234,previous:234},
+                    {rank:17,id:'tearofglass',commits:1234,previous:234},
+                    {rank:18,id:'tearofglass',commits:1234,previous:234},
+                    {rank:19,id:'tearofglass',commits:1234,previous:234},
+                    {rank:20,id:'tearofglass',commits:1234,previous:234}
+                ],
                 group:[
                     {rank:1,id:'Pay1oad',commits:1234,previous:234},
                     {rank:2,id:'Pay1oad',commits:1234,previous:234},
@@ -201,9 +223,9 @@ export default {
     box-sizing: border-box;
     border-radius: 5px 0px 0px 5px;
 }
-#personal_btn > div {
-    /* line-height: 23px; */
-}
+/* #personal_btn > div {
+    line-height: 23px;
+} */
 #group_btn {
     position: relative;
     top:-143px;
@@ -314,7 +336,12 @@ export default {
 }
 
 .second {
-    display: inline-block;
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr 2fr;
+    grid-template-areas: 
+    "rank id . info";
+    margin-bottom: 5px;
+
     width: 537px;
     height: 46px;
     background-color: #569A8E;
@@ -330,6 +357,7 @@ export default {
     position: absolute;
     top: 8px;
     background-color: #4B7479;
+    grid-area: rank;
 
     font-size: 17px;
     font-weight: 800;
@@ -342,45 +370,44 @@ export default {
     font-weight: 800;
     color: white;
     line-height: 46px;
-
-    position: absolute;
-    left: 79px;
+    grid-area: id;
+}
+.second_info {
+    grid-area: info;
+}
+.second_accumulate_commits {
+    display: inline-block;
+    margin: 5px 15px;
+    text-align: center;
+}
+.second_previous_commits {
+    display: inline-block;
+    margin: 5px 15px;
+    text-align: center;
 }
 .second_accumulate_title {
     font-size: 10px;
     font-weight: 700;
     color: #CCE8DF;
-
-    position: absolute;
-    top: 11px;
-    left: 335px;
+    text-align: center;
 }
 .second_accumulate_data {
     font-size: 14px;
     font-weight: 800;
     color: white;
-    
-    position: absolute;
-    top: 25px;
-    left: 344px;
+    text-align: center;
 }
 .second_previous_title {
     font-size: 10px;
     font-weight: 700;
     color: #CCE8DF;
-
-    position: absolute;
-    top: 11px;
-    left: 435px;
+    text-align: center;
 }
 .second_previous_data {
     font-size: 14px;
     font-weight: 800;
     color: white;
-
-    position: absolute;
-    top: 25px;
-    left: 446px;
+    text-align: center;
 }
 
 /* others */
@@ -451,7 +478,7 @@ export default {
     border: 0;
 
     position: absolute;
-    left: 444px;
+    left: 377px;
     top: 195px;
     z-index: 10;
 }.line02 {
@@ -474,7 +501,7 @@ export default {
 
     position: absolute;
     top: -8px;
-    left: 411px;
+    left: 440px;
 }
 /* font size */
 h1 {
